@@ -1,0 +1,39 @@
+
+#Ignore thumbnails created by Windows
+Thumbs.db
+#Ignore files built by Visual Studio
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.lib
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+.vs/
+.idea
+#Nuget packages folder
+#packages/
+#/sources/Aviales.Web/Aviales.Web/FileCache/*.*
+#!/sources/Aviales.Web/Aviales.Web/FileCache/readme.txt
+#/sources/Aviales.Web/Aviales.Web/Web.config
+#/sources/Aviales3/Aviales.Regional/Aviales.Regional.Server2/Configs/Regional/System/DatabaseProviderService.Npg.service.config
+#FileCache/
+#/sources/Aviales3/Aviales.Regional/Aviales.Regional.Server2/Configs/Regional/System/DatabaseProviderService.service.config
