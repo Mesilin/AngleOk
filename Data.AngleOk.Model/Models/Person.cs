@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.AngleOk.Model.Models
 {
     /// <summary>
     /// Таблица Люди
     /// </summary>
+    [Table("Person")]
     public class Person
     {
         /// <summary>
@@ -20,7 +22,7 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Отчество
         /// </summary>
-        public string Patronymic { get; set; } = string.Empty;
+        public string? Patronymic { get; set; }
 
         /// <summary>
         /// Фамилия
@@ -30,11 +32,11 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Адрес электронной почты
         /// </summary>
-        public string Email { get; set; } = string.Empty;
+        public string? Email { get; set; }
 
         /// <summary>
         /// Номер телефона
         /// </summary>
-        public string PhoneNumber { get; set; }= string.Empty;
+        public required string PhoneNumber { get; set; }
     }
 }

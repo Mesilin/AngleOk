@@ -8,7 +8,8 @@ namespace ConsoleApp1
         {
             using (AngleOkContext db = new AngleOkContext())
             {
-                Person user1 = new Person { 
+                Person user1 = new Person {
+                    PhoneNumber = "123456789",
                     PersonId=Guid.NewGuid(),
                     FirstName = "Евгений", 
                     Patronymic = "Владимирович", 
@@ -24,7 +25,7 @@ namespace ConsoleApp1
                 Console.WriteLine("Users list:");
                 foreach (Person p in users)
                 {
-                    Console.WriteLine($"{p.FirstName.Substring(0,1)}.{p.Patronymic.Substring(0, 1)}. {p.LastName}");
+                    Console.WriteLine($"{p.FirstName.Substring(0,1)}.{p.Patronymic?.Substring(0, 1)}. {p.LastName}");
                 }
             }
         }

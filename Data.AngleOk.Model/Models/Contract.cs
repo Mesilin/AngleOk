@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.AngleOk.Model.Models
 {
+    /// <summary>
+    /// Договоры с клиентами агентства
+    /// </summary>
+    [Table("Contract")]
     public class Contract
     {
         /// <summary>
@@ -26,6 +30,11 @@ namespace Data.AngleOk.Model.Models
         public Guid? RealtyObjectId { get; set; }
 
         /// <summary>
+        /// Целевая цена
+        /// </summary>
+        public int TargetPrice { get; set; }
+
+        /// <summary>
         /// Минимальная цена
         /// </summary>
         public int MinPrice {  get; set; }
@@ -36,12 +45,12 @@ namespace Data.AngleOk.Model.Models
         public int MaxPrice { get; set; }
 
         [ForeignKey("ClientId")]
-        public Person Client {  get; set; }
+        public Person Client {  get; set; } = null!;
 
         [ForeignKey("DealTypeId")]
-        public virtual DealType DealType { get; set; }
+        public virtual DealType DealType { get; set; } = null!;
 
         [ForeignKey("RealtyObjectId")]
-        public virtual RealtyObject RealtyObject { get; set; }
+        public virtual RealtyObject RealtyObject { get; set; } = null!;
     }
 }

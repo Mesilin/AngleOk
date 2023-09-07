@@ -8,6 +8,7 @@ namespace Data.AngleOk.Model.Models
     /// Объявления
     /// </summary>
     [DisplayName("Объявления")]
+    [Table("Advertisement")]
     public class Advertisement
     {
         /// <summary>
@@ -19,11 +20,6 @@ namespace Data.AngleOk.Model.Models
         /// Идентификатор договора
         /// </summary>
         public Guid ContractId { get; set; }
-
-        /// <summary>
-        /// Цена
-        /// </summary>
-        public int Price {  get; set; }
 
         /// <summary>
         /// Идентификатор объекта недвижимости
@@ -46,14 +42,12 @@ namespace Data.AngleOk.Model.Models
         public string Description { get; set; } = string.Empty;
 
         [ForeignKey("ContractId")]
-        public Contract Contract { get; set; }
+        public Contract Contract { get; set; } = null!;
 
         [ForeignKey("RealtyObjectId")]
-        public RealtyObject RealtyObject { get; set; }
+        public RealtyObject RealtyObject { get; set; } = null!;
 
         [ForeignKey("ManagerId")]
-        public Person Manager { get; set; }
-
-
+        public Person Manager { get; set; } = null!;
     }
 }

@@ -1,0 +1,352 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace Data.AngleOk.Model.Migrations
+{
+    /// <inheritdoc />
+    public partial class Initial : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "DealType",
+                columns: table => new
+                {
+                    DealTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DealType", x => x.DealTypeId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Person",
+                columns: table => new
+                {
+                    PersonId = table.Column<Guid>(type: "uuid", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: false),
+                    Patronymic = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Person", x => x.PersonId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RealtyObjectType",
+                columns: table => new
+                {
+                    RealtyObjectTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RealtyObjectType", x => x.RealtyObjectTypeId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SteadKind",
+                columns: table => new
+                {
+                    SteadKindId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SteadKind", x => x.SteadKindId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employee",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PersonId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PublicPhone = table.Column<string>(type: "text", nullable: true),
+                    Position = table.Column<string>(type: "text", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employee", x => x.EmployeeId);
+                    table.ForeignKey(
+                        name: "FK_Employee_Person_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Person",
+                        principalColumn: "PersonId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RealtyObject",
+                columns: table => new
+                {
+                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RealtyObjectTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CadastralNumber = table.Column<string>(type: "text", nullable: true),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    Latitude = table.Column<decimal>(type: "numeric", nullable: true),
+                    Longitude = table.Column<decimal>(type: "numeric", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RealtyObject", x => x.RealtyObjectId);
+                    table.ForeignKey(
+                        name: "FK_RealtyObject_RealtyObjectType_RealtyObjectTypeId",
+                        column: x => x.RealtyObjectTypeId,
+                        principalTable: "RealtyObjectType",
+                        principalColumn: "RealtyObjectTypeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contract",
+                columns: table => new
+                {
+                    ContractId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClientId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DealTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TargetPrice = table.Column<int>(type: "integer", nullable: false),
+                    MinPrice = table.Column<int>(type: "integer", nullable: false),
+                    MaxPrice = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contract", x => x.ContractId);
+                    table.ForeignKey(
+                        name: "FK_Contract_DealType_DealTypeId",
+                        column: x => x.DealTypeId,
+                        principalTable: "DealType",
+                        principalColumn: "DealTypeId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Contract_Person_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Person",
+                        principalColumn: "PersonId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Contract_RealtyObject_RealtyObjectId",
+                        column: x => x.RealtyObjectId,
+                        principalTable: "RealtyObject",
+                        principalColumn: "RealtyObjectId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Flat",
+                columns: table => new
+                {
+                    FlatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TotalArea = table.Column<decimal>(type: "numeric", nullable: false),
+                    LiveArea = table.Column<decimal>(type: "numeric", nullable: false),
+                    RoomCount = table.Column<int>(type: "integer", nullable: false),
+                    CeilingHeight = table.Column<decimal>(type: "numeric", nullable: false),
+                    Floor = table.Column<int>(type: "integer", nullable: false),
+                    YearOfBuild = table.Column<int>(type: "integer", nullable: false),
+                    MaterialName = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Flat", x => x.FlatId);
+                    table.ForeignKey(
+                        name: "FK_Flat_RealtyObject_RealtyObjectId",
+                        column: x => x.RealtyObjectId,
+                        principalTable: "RealtyObject",
+                        principalColumn: "RealtyObjectId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Media",
+                columns: table => new
+                {
+                    MediaId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Data = table.Column<byte[]>(type: "bytea", nullable: true),
+                    Path = table.Column<string>(type: "text", nullable: true),
+                    FileName = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Extension = table.Column<string>(type: "text", nullable: false),
+                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Media", x => x.MediaId);
+                    table.ForeignKey(
+                        name: "FK_Media_RealtyObject_RealtyObjectId",
+                        column: x => x.RealtyObjectId,
+                        principalTable: "RealtyObject",
+                        principalColumn: "RealtyObjectId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Stead",
+                columns: table => new
+                {
+                    SteadId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Area = table.Column<decimal>(type: "numeric", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    SteadKindId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stead", x => x.SteadId);
+                    table.ForeignKey(
+                        name: "FK_Stead_RealtyObject_RealtyObjectId",
+                        column: x => x.RealtyObjectId,
+                        principalTable: "RealtyObject",
+                        principalColumn: "RealtyObjectId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Stead_SteadKind_SteadKindId",
+                        column: x => x.SteadKindId,
+                        principalTable: "SteadKind",
+                        principalColumn: "SteadKindId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Advertisement",
+                columns: table => new
+                {
+                    AdvertisementId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ContractId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ManagerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Advertisement", x => x.AdvertisementId);
+                    table.ForeignKey(
+                        name: "FK_Advertisement_Contract_ContractId",
+                        column: x => x.ContractId,
+                        principalTable: "Contract",
+                        principalColumn: "ContractId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Advertisement_Person_ManagerId",
+                        column: x => x.ManagerId,
+                        principalTable: "Person",
+                        principalColumn: "PersonId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Advertisement_RealtyObject_RealtyObjectId",
+                        column: x => x.RealtyObjectId,
+                        principalTable: "RealtyObject",
+                        principalColumn: "RealtyObjectId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Advertisement_ContractId",
+                table: "Advertisement",
+                column: "ContractId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Advertisement_ManagerId",
+                table: "Advertisement",
+                column: "ManagerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Advertisement_RealtyObjectId",
+                table: "Advertisement",
+                column: "RealtyObjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contract_ClientId",
+                table: "Contract",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contract_DealTypeId",
+                table: "Contract",
+                column: "DealTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contract_RealtyObjectId",
+                table: "Contract",
+                column: "RealtyObjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employee_PersonId",
+                table: "Employee",
+                column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Flat_RealtyObjectId",
+                table: "Flat",
+                column: "RealtyObjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Media_RealtyObjectId",
+                table: "Media",
+                column: "RealtyObjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RealtyObject_RealtyObjectTypeId",
+                table: "RealtyObject",
+                column: "RealtyObjectTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stead_RealtyObjectId",
+                table: "Stead",
+                column: "RealtyObjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stead_SteadKindId",
+                table: "Stead",
+                column: "SteadKindId");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "Advertisement");
+
+            migrationBuilder.DropTable(
+                name: "Employee");
+
+            migrationBuilder.DropTable(
+                name: "Flat");
+
+            migrationBuilder.DropTable(
+                name: "Media");
+
+            migrationBuilder.DropTable(
+                name: "Stead");
+
+            migrationBuilder.DropTable(
+                name: "Contract");
+
+            migrationBuilder.DropTable(
+                name: "SteadKind");
+
+            migrationBuilder.DropTable(
+                name: "DealType");
+
+            migrationBuilder.DropTable(
+                name: "Person");
+
+            migrationBuilder.DropTable(
+                name: "RealtyObject");
+
+            migrationBuilder.DropTable(
+                name: "RealtyObjectType");
+        }
+    }
+}
