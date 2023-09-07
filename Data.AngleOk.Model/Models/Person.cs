@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.AngleOk.Model.Models
 {
     /// <summary>
-    /// Люди
+    /// Таблица Люди
     /// </summary>
     public class Person
     {
@@ -15,15 +11,30 @@ namespace Data.AngleOk.Model.Models
         /// Идентификатор
         /// </summary>
         public Guid PersonId { get; set; }
+        
         /// <summary>
-        /// 
+        /// Имя
         /// </summary>
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public required string FirstName { get; set; }
+        
+        /// <summary>
+        /// Отчество
+        /// </summary>
+        public string Patronymic { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Фамилия
+        /// </summary>
+        public required string LastName { get; set; }
+
+        /// <summary>
+        /// Адрес электронной почты
+        /// </summary>
         public string Email { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Номер телефона
+        /// </summary>
         public string PhoneNumber { get; set; }= string.Empty;
     }
 }
