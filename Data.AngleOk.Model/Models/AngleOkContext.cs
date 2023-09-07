@@ -8,9 +8,14 @@ namespace Data.AngleOk.Model.Models
         {
             //Database.EnsureCreated(); //Создать БД если такой нет
         }
+        public AngleOkContext(DbContextOptions<AngleOkContext> options) : base(options)
+        {
+            Database.EnsureCreated();   // создаем базу данных при первом обращении
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=AngleOk;Username=postgres;Password=123456");
+            //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=AngleOk;Username=postgres;Password=123456");
         }
         public DbSet<Person> Persons { get; set; }
         public DbSet<Contract> Contracts { get; set; }

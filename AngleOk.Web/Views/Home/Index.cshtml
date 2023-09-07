@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Data.AngleOk.Model.Models.Person>
+
+<h2>Список пользователей</h2>
+<p><a asp-action="Create">Добавить пользователя</a></p>
+<table class="table">
+    <tr><th>Имя</th><th>Отчество</th><th>Фамилия</th><th>электропочта</th><th>Телефон</th></tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.FirstName</td>
+            <td>@item.Patronymic</td>
+            <td>@item.LastName</td>
+            <td>@item.Email</td>
+            <td>@item.PhoneNumber</td>
+        </tr>
+    }
+</table>

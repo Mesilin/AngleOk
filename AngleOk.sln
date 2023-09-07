@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.AngleOk.Model", "Data.AngleOk.Model\Data.AngleOk.Model.csproj", "{1DD6173F-6A81-4578-A7F9-CB32F437D751}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{0F62DEFB-2961-49D1-957B-5BDB82F86E72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleOk.Web", "AngleOk.Web\AngleOk.Web.csproj", "{B372921B-3083-4E80-BEA1-7A2AD1DBC5DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{1DD6173F-6A81-4578-A7F9-CB32F437D751}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DD6173F-6A81-4578-A7F9-CB32F437D751}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DD6173F-6A81-4578-A7F9-CB32F437D751}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F62DEFB-2961-49D1-957B-5BDB82F86E72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F62DEFB-2961-49D1-957B-5BDB82F86E72}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F62DEFB-2961-49D1-957B-5BDB82F86E72}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F62DEFB-2961-49D1-957B-5BDB82F86E72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B372921B-3083-4E80-BEA1-7A2AD1DBC5DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B372921B-3083-4E80-BEA1-7A2AD1DBC5DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B372921B-3083-4E80-BEA1-7A2AD1DBC5DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B372921B-3083-4E80-BEA1-7A2AD1DBC5DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
