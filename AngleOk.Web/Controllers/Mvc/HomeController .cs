@@ -19,7 +19,11 @@ namespace AngleOk.Web.Controllers.Mvc
 
         public async Task<IActionResult> Index()
         {
-            return View(await db.Persons.ToListAsync());
+            var p = await db.Persons.ToListAsync();
+            p=p.Where(q=>q.PhoneNumber.Contains("-")).ToList();
+
+
+            return View(p);
         }
 
         public IActionResult Create()

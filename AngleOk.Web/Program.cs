@@ -15,7 +15,7 @@ builder.Services.AddDbContext<AngleOkContext>(options => options.UseNpgsql(conne
 //а всю дополнительную функциональность, типа аутентификацией и авторизацией, валидацией и т.д.,
 //необходимо добавлять самостоятельно
 
-builder.Services.AddControllersWithViews();//: добавляет только те сервисы фреймворка MVC,
+builder.Services.AddControllersWithViews().AddSessionStateTempDataProvider();//: добавляет только те сервисы фреймворка MVC,
                                            //которые позволяют использовать контроллеры и представления и связанную функциональность.
                                            //При создании проекта по типу ASP.NET Core Web App (Model-View-Controller) используется именно этот метод
 
@@ -23,9 +23,9 @@ builder.Services.AddControllersWithViews();//: добавляет только те сервисы фрейм
 
 var app = builder.Build();
 
-// устанавливаем сопоставление маршрутов с контроллерами
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseRouting();
+app.UseStaticFiles();
 
+// устанавливаем сопоставление маршрутов с контроллерами
+app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 app.Run();
