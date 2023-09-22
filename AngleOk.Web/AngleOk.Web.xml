@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AngleOk.Web</name>
+    </assembly>
+    <members>
+        <member name="T:AngleOk.Web.Controllers.Api.PersonController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.Api.PersonController.#ctor(Data.AngleOk.Model.Models.AngleOkContext,Microsoft.Extensions.Logging.ILogger{AngleOk.Web.Controllers.Api.PersonController})">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="db"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.Api.PersonController.Get">
+            <summary>
+            Получить все записи из таблицы "Люди"
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.Api.PersonController.Get(System.Guid)">
+            <summary>
+            Получить из таблицы "Люди" запись с идентификатором id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.Api.PersonController.Post(Data.AngleOk.Model.Models.Person)">
+            <summary>
+            Добавить в таблицу "Люди" новую запись
+            </summary>
+            <param name="person"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.Api.PersonController.Put(Data.AngleOk.Model.Models.Person)">
+            <summary>
+            Изменить запись с идентификатором "id" в таблице "Люди" 
+            </summary>
+            <param name="person"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.Api.PersonController.Delete(System.Guid)">
+            <summary>
+            Удалить из таблицы "Люди" запись с идентификатором "id"
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AngleOk.Web.Controllers.HomeController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.HomeController.#ctor(Data.AngleOk.Model.Models.AngleOkContext)">
+            <summary>
+            
+            </summary>
+            <param name="db"></param>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.HomeController.Index">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.HomeController.Index(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.HomeController.About">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.HomeController.Index2(ITimeService)">
+            <summary>
+            
+            </summary>
+            <param name="timeService"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.HomeController.AllUsers">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.HomeController.Create">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.HomeController.Create(Data.AngleOk.Model.Models.Person)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngleOk.Web.Controllers.HomeController.License">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITimeService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ITimeService.Time">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SimpleTimeService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SimpleTimeService.Time">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

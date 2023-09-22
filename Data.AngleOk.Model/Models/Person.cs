@@ -9,10 +9,11 @@ namespace Data.AngleOk.Model.Models
     [Table("Person")]
     public class Person
     {
+        
         /// <summary>
         /// Идентификатор
         /// </summary>
-        public Guid PersonId { get; set; }
+        public required Guid PersonId { get; set; }
         
         /// <summary>
         /// Имя

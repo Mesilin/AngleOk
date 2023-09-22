@@ -1,17 +1,96 @@
-﻿@model IEnumerable<Data.AngleOk.Model.Models.Person>
+﻿@{
+    ViewBag.Title = "Index";
+    Person tom = new Person() { PersonId = Guid.NewGuid(), FirstName = "Evgeny", LastName = "qwe", PhoneNumber = "913813714" };
+}
+<h3>Index Content</h3>
+<h2>Person Data</h2>
+<h3>Name: @tom.FirstName</h3>
+<h3>PhoneNumber: @tom.PhoneNumber</h3>
+   ****************
 
-<h2>Список пользователей</h2>
-<p><a asp-action="Create">Добавить пользователя</a></p>
-<table class="table">
-    <tr><th>Имя</th><th>Отчество</th><th>Фамилия</th><th>электропочта</th><th>Телефон</th></tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.FirstName</td>
-            <td>@item.Patronymic</td>
-            <td>@item.LastName</td>
-            <td>@item.Email</td>
-            <td>@item.PhoneNumber</td>
-        </tr>
-    }
-</table>
+@inject ITimeService timeService
+<h2>Current Time: @timeService.Time</h2>
+
+<h3>    ****************</h3>
+
+<h2>User Name Form</h2>
+<form method="post">
+    <label>User Name:</label><br />
+    <input type="text" name="username" /><br />
+    <input type="submit" value="Send" />
+</form>
+
+<h3>    ****************</h3>
+
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/themes/6.7.0/default/default-main.css" />
+
+<script src="https://kendo.cdn.telerik.com/2023.2.829/js/jquery.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2023.2.829/js/kendo.all.min.js"></script>
+<div id="ordersGrid"></div>
+
+<script>
+    $(function () {
+        var orderData = [
+            { OrderID: 1, OrderDate: "2017-11-06T12:00:00", Freight: 12.34, ShipCity: "Antwerp", ShipCountry: "Belgium" },
+            { OrderID: 2, OrderDate: "2019-03-02T12:00:00", Freight: 23.45, ShipCity: "Singapore", ShipCountry: "Singapore" },
+            { OrderID: 3, OrderDate: "2019-06-26T12:00:00", Freight: 34.56, ShipCity: "Shanghai", ShipCountry: "China" },
+            { OrderID: 4, OrderDate: "2017-09-20T12:00:00", Freight: 45.67, ShipCity: "Hamburg", ShipCountry: "Germany" },
+            { OrderID: 5, OrderDate: "2017-12-12T12:00:00", Freight: 56.78, ShipCity: "Mumbai", ShipCountry: "India" },
+            { OrderID: 6, OrderDate: "2018-02-08T12:00:00", Freight: 67.89, ShipCity: "Shanghai", ShipCountry: "China" },
+            { OrderID: 7, OrderDate: "2018-05-05T12:00:00", Freight: 78.90, ShipCity: "Tokyo", ShipCountry: "Japan" },
+            { OrderID: 8, OrderDate: "2019-08-03T12:00:00", Freight: 89.01, ShipCity: "Port Klang", ShipCountry: "Malaysia" }
+        ];
+
+        var gridDataSource = new kendo.data.DataSource({
+            data: orderData,
+            schema: {
+                model: {
+                    fields: {
+                        OrderID: { type: "number" },
+                        Freight: { type: "number" },
+                        OrderDate: { type: "date" },
+                        ShipCountry: { type: "string" },
+                        ShipCity: { type: "string" }
+                    }
+                }
+            },
+            pageSize: 10,
+            sort: {
+                field: "OrderDate",
+                dir: "desc"
+            }
+        });
+
+
+        $("#ordersGrid").kendoGrid({
+            dataSource: gridDataSource,
+            height: 400,
+            pageable: true,
+            sortable: true,
+            filterable: true,
+            columns: [{
+                field: "OrderID",
+                title: "Order ID",
+                width: 160
+            }, {
+                field: "OrderDate",
+                title: "Order Date",
+                width: 200,
+                format: "{0:dd MMMM yyyy}"
+            }, {
+                field: "ShipCountry",
+                title: "Ship Country"
+            }, {
+                field: "ShipCity",
+                title: "Ship City"
+            }]
+        });
+
+    });
+
+</script>
+
+
+@section Footer {
+       Copyright© E.Mesilin, @DateTime.Now.Year. All rights reserved
+}

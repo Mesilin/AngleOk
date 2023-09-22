@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.AngleOk.Model", "Data.AngleOk.Model\Data.AngleOk.Model.csproj", "{1DD6173F-6A81-4578-A7F9-CB32F437D751}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleOk.Web", "AngleOk.Web\AngleOk.Web.csproj", "{B372921B-3083-4E80-BEA1-7A2AD1DBC5DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AngleOk.Web", "AngleOk.Web\AngleOk.Web.csproj", "{B372921B-3083-4E80-BEA1-7A2AD1DBC5DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
