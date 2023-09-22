@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Catalogs\**" />
+    <Content Remove="Controllers\Catalogs\**" />
+    <EmbeddedResource Remove="Controllers\Catalogs\**" />
+    <None Remove="Controllers\Catalogs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Home\_ViewImports.cshtml" />
   </ItemGroup>
 
@@ -15,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Catalogs\" />
+    <Folder Include="Controllers\Api\Catalogs\" />
     <Folder Include="Scripts\" />
   </ItemGroup>
 

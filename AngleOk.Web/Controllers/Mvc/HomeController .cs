@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace AngleOk.Web.Controllers
+namespace AngleOk.Web.Controllers.Mvc
 {
     public class HomeController : Controller
     {
