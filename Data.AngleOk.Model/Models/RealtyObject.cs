@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.AngleOk.Model.Models
@@ -23,7 +25,7 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Кадастровый номер
         /// </summary>
-        public string? CadastralNumber { get; set;}
+        public string CadastralNumber { get; set;} = null!;
 
         /// <summary>
         /// Адрес

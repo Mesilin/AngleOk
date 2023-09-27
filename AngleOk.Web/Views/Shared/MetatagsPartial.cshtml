@@ -1,4 +1,5 @@
-﻿<meta charset="utf-8" />
+﻿@using AngleOk.Web.Service
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 @if (ViewBag.Title != null)
 {
@@ -6,7 +7,8 @@
 }
 else
 {
-    <title>AngleOk | Агентство недвижимости "Уголок"</title>
+    //<title>AngleOk | Агентство недвижимости "Уголок"</title>
+    <title>@Config.CompanyName</title>
 }
 @if (ViewBag.Description != null)
 {
