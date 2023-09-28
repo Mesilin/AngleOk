@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -20,14 +20,11 @@
   <ItemGroup>
     <Content Remove="bundleconfig.json" />
     <Content Remove="compilerconfig.json" />
-    <Content Remove="Views\Home\_ViewImports.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Views\Home\_ViewImports.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Controllers\Api\Catalogs\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.AngleOk.Model.Models
@@ -7,7 +8,7 @@ namespace Data.AngleOk.Model.Models
     /// Таблица Люди
     /// </summary>
     [Table("Person")]
-    public class Person
+    public class Person: IdentityUser
     {
         /// <summary>
         /// Идентификатор

@@ -31,7 +31,7 @@ builder.Services.AddTransient<IPersonsRepository, EFPersonsRepository>(); // доб
 builder.Services.AddTransient<DataManager>();
 
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.AddIdentity<Person, IdentityRole>(options =>
 { options.User.RequireUniqueEmail = true;
 options.Password.RequiredLength=6;
 options.Password.RequireNonAlphanumeric=false;
@@ -49,15 +49,17 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-//builder.Services.AddMvc();//: добавляет все сервисы фреймворка MVC (в том числе сервисы для работы с аутентификацией и авторизацией, валидацией и т.д.)
-//builder.Services.AddMvcCore();//: добавляет только основные сервисы фреймворка MVC,
-//  а всю дополнительную функциональность, типа аутентификацией и авторизацией, валидацией и т.д., необходимо добавлять самостоятельно
-//builder.Services.AddMvcCore();//: добавляет только основные сервисы фреймворка MVC,
-//  а всю дополнительную функциональность, типа аутентификацией и авторизацией, валидацией и т.д., необходимо добавлять самостоятельно
+//Политика авторизации для AdminArea
+builder.Services.AddAuthorization(a =>
+    {
+        a.AddPolicy("AdminArea", pol => { pol.RequireRole("admin"); });
+    });
 
-builder.Services.AddControllersWithViews().AddSessionStateTempDataProvider();//: добавляет только те сервисы фреймворка MVC,
-                                                                             //которые позволяют использовать контроллеры и представления и связанную функциональность.
-                                                                             //При создании проекта по типу ASP.NET Core Web App (Model-View-Controller) используется именно этот метод
+//Контроллеры и представления
+builder.Services.AddControllersWithViews(c =>
+{
+    c.Conventions.Add(new AdminAreaAuthorization("Admin", "AdminArea"));
+}).AddSessionStateTempDataProvider();
 
 //builder.Services.AddControllers();//: позволяет использовать контроллеры, но без представлений.
 builder.Services.AddEndpointsApiExplorer();
@@ -114,6 +116,14 @@ app.UseAuthorization();
 
 
 // устанавливаем сопоставление маршрутов с контроллерами
+app.MapControllerRoute(name: "admin", pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllerRoute(
+//      name: "areas",
+//      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+//    );
+//});
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 app.Run();
 /// <summary>

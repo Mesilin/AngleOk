@@ -10,7 +10,6 @@ namespace AngleOk.Web.Repositories.EntityFramework
         public IQueryable<Person> GetAll() {return context.Persons;}
         public Person GetPersonById(Guid id)
         {
-            //return context.Persons.SingleOrDefault(x => x.PersonId == id);
             return context.Persons.FirstOrDefault(x => x.PersonId == id);
         }
         public void SavePerson(Person person)
