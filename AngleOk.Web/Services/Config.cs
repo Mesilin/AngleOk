@@ -1,4 +1,4 @@
-﻿namespace AngleOk.Web.Service
+﻿namespace AngleOk.Web.Services
 {
     public class Config
     {

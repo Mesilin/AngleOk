@@ -1,29 +1,36 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Data.AngleOk.Model.Models
 {
-    //public class AngleOkContext : DbContext
-    public class AngleOkContext : IdentityDbContext<Person>
+    public class AngleOkContextFactory : IDesignTimeDbContextFactory<AngleOkContext>
     {
-        //public static IDatabaseInitializer<AngleOkContext> DatabaseInitializer = new MigrateDatabaseToLatestVersion<AngleOkContext, Configuration>(true);
-
-        
-        public AngleOkContext()
+        public AngleOkContext CreateDbContext(string[] args)
         {
-            //Database.EnsureCreated(); //Создать БД если такой нет
+            var optionsBuilder = new DbContextOptionsBuilder<AngleOkContext>();
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=AngleOk;Username=postgres;Password=123456");
+
+            return new AngleOkContext(optionsBuilder.Options);
         }
+    }
+
+    //public class AngleOkContext : DbContext
+    public class AngleOkContext : IdentityDbContext
+    {
         public AngleOkContext(DbContextOptions<AngleOkContext> options) : base(options)
         {
-            //Database.EnsureCreated();   // создаем базу данных при первом обращении
 
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=AngleOk;Username=postgres;Password=123456");
+            base.OnConfiguring(optionsBuilder);
+            //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=AngleOk;Username=postgres;Password=123456");
+
         }
 
+        ////public static IDatabaseInitializer<AngleOkContext> DatabaseInitializer = new MigrateDatabaseToLatestVersion<AngleOkContext, Configuration>(true);
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<Contract> Contracts { get; set; }

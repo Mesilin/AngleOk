@@ -8,7 +8,7 @@ namespace Data.AngleOk.Model.Models
     /// Таблица Люди
     /// </summary>
     [Table("Person")]
-    public class Person: IdentityUser
+    public class Person
     {
         /// <summary>
         /// Идентификатор

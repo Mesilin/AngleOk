@@ -4,15 +4,20 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <NeutralLanguage>ru</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Api\Catalogs\**" />
     <Compile Remove="Controllers\Catalogs\**" />
     <Compile Remove="Scripts\**" />
+    <Content Remove="Controllers\Api\Catalogs\**" />
     <Content Remove="Controllers\Catalogs\**" />
     <Content Remove="Scripts\**" />
+    <EmbeddedResource Remove="Controllers\Api\Catalogs\**" />
     <EmbeddedResource Remove="Controllers\Catalogs\**" />
     <EmbeddedResource Remove="Scripts\**" />
+    <None Remove="Controllers\Api\Catalogs\**" />
     <None Remove="Controllers\Catalogs\**" />
     <None Remove="Scripts\**" />
   </ItemGroup>
@@ -23,9 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Controllers\Api\Catalogs\" />
+    <Folder Include="Resources\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -46,6 +49,24 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data.AngleOk.Model\Data.AngleOk.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\LocalizedIdentityErrorMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LocalizedIdentityErrorMessages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\LocalizedIdentityErrorMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalizedIdentityErrorMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\LocalizedIdentityErrorMessages.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

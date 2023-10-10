@@ -1,16 +1,27 @@
 using AngleOk.Web.Repositories.Abstract;
 using AngleOk.Web.Repositories.EntityFramework;
-using AngleOk.Web.Service;
+using AngleOk.Web.Services;
 using Data.AngleOk.Model.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+//using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System.Configuration;
 using System.Diagnostics;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//    .AddCookie(options =>
+//    {
+//        options.LoginPath = "/account/login";
+//        options.AccessDeniedPath = "/accessdenied";
+//    });
 
+//builder.Services.AddAuthorization();
 //var confBuilder = new ConfigurationBuilder(); confBuilder.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", false);
 //IConfigurationRoot configuration = builder.Build();
 
@@ -21,49 +32,34 @@ IConfigurationSection section = builder.Configuration.GetSection("Project");
 section.Bind(config);
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+var ob = new DbContextOptionsBuilder<AngleOkContext>().UseNpgsql(connection);
 
 //builder.Services.AddTransient<ITimeService, SimpleTimeService>();
 
 builder.Services.AddDbContext<AngleOkContext>(options => options.UseNpgsql(connection));
-AngleOkContext context=new AngleOkContext();
-context.Database.Migrate();
-builder.Services.AddTransient<IPersonsRepository, EFPersonsRepository>(); // добавляем сервис ITimeService
-builder.Services.AddTransient<DataManager>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+            // localize identity error messages
+            .AddErrorDescriber<LocalizedIdentityErrorDescriber>()
+            .AddEntityFrameworkStores<AngleOkContext>();
 
-
-builder.Services.AddIdentity<Person, IdentityRole>(options =>
-{ options.User.RequireUniqueEmail = true;
-options.Password.RequiredLength=6;
-options.Password.RequireNonAlphanumeric=false;
-options.Password.RequireLowercase=false;
-options.Password.RequireUppercase=false;
-options.Password.RequireDigit=false;
-}).AddEntityFrameworkStores<AngleOkContext>().AddDefaultTokenProviders();
-
-builder.Services.ConfigureApplicationCookie(options =>
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    options.Cookie.Name = "AngleOkAuth";
-    options.Cookie.HttpOnly = true;
-    options.LoginPath = "/account/login";
-    options.AccessDeniedPath = "/account/accessdenied";
-    options.SlidingExpiration = true;
+    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("ru-RU");
+    options.SupportedCultures = new List<CultureInfo> { new CultureInfo("en-US"), new CultureInfo("ru-RU") };
+    options.SupportedUICultures = new List<CultureInfo> { new CultureInfo("en-US"), new CultureInfo("ru-RU") };
 });
 
-//Политика авторизации для AdminArea
-builder.Services.AddAuthorization(a =>
-    {
-        a.AddPolicy("AdminArea", pol => { pol.RequireRole("admin"); });
-    });
+builder.Services.AddScoped<AuthenticationService>();
 
-//Контроллеры и представления
-builder.Services.AddControllersWithViews(c =>
-{
-    c.Conventions.Add(new AdminAreaAuthorization("Admin", "AdminArea"));
-}).AddSessionStateTempDataProvider();
+AngleOkContext context = new AngleOkContext(ob.Options);
+context.Database.Migrate();
 
-//builder.Services.AddControllers();//: позволяет использовать контроллеры, но без представлений.
+builder.Services.AddTransient<IPersonsRepository, EFPersonsRepository>();
+builder.Services.AddTransient<DataManager>();
+
+builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -110,25 +106,26 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseCookiePolicy();
-app.UseAuthentication();
+//app.UseAuthentication();
 app.UseAuthorization();
-//app.MapRazorPages();
 
-
-// устанавливаем сопоставление маршрутов с контроллерами
-app.MapControllerRoute(name: "admin", pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-//app.UseEndpoints(endpoints =>
+//app.MapGet("/accessdenied", async (HttpContext context) =>
 //{
-//    endpoints.MapControllerRoute(
-//      name: "areas",
-//      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-//    );
+//    context.Response.StatusCode = 403;
+//    await context.Response.WriteAsync("Access Denied");
 //});
+
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllers();
 app.Run();
-/// <summary>
-/// 
-/// </summary>
+
+
+
+
+
+
+
 public interface ITimeService
 {
     /// <summary>
@@ -136,13 +133,7 @@ public interface ITimeService
     /// </summary>
     string Time { get; }
 }
-/// <summary>
-/// 
-/// </summary>
 public class SimpleTimeService : ITimeService
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public string Time => DateTime.Now.ToShortTimeString();
 }

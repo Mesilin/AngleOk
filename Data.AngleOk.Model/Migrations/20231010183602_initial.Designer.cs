@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.AngleOk.Model.Migrations
 {
     [DbContext(typeof(AngleOkContext))]
-    [Migration("20230924203804_addIdentity")]
-    partial class addIdentity
+    [Migration("20231010183602_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,7 +234,12 @@ namespace Data.AngleOk.Model.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("RoleId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("PersonId");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Person");
                 });
@@ -282,6 +287,21 @@ namespace Data.AngleOk.Model.Migrations
                     b.HasKey("RealtyObjectTypeId");
 
                     b.ToTable("RealtyObjectType");
+                });
+
+            modelBuilder.Entity("Data.AngleOk.Model.Models.Role", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.Stead", b =>
@@ -607,6 +627,15 @@ namespace Data.AngleOk.Model.Migrations
                         .IsRequired();
 
                     b.Navigation("RealtyObject");
+                });
+
+            modelBuilder.Entity("Data.AngleOk.Model.Models.Person", b =>
+                {
+                    b.HasOne("Data.AngleOk.Model.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.RealtyObject", b =>
