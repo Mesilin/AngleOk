@@ -25,16 +25,9 @@ namespace AngleOk.Web.Services
 
         }
 
-        public async Task<bool> Authenticate(LoginUser user)
+        public async Task<SignInResult> Authenticate(LoginUser user)
         {
-
-            var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, false, true);
-
-            if (result.Succeeded)
-            {
-                return true;
-            }
-            return false;
+            return await _signInManager.PasswordSignInAsync(user.Email, user.Password, false, true);
         }
     }
 }

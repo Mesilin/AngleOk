@@ -1,6 +1,5 @@
 ﻿using AngleOk.Web.Services;
 using Data.AngleOk.Model.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AngleOk.Web.Controllers.Api
@@ -21,15 +20,14 @@ namespace AngleOk.Web.Controllers.Api
         {
             try
             {
-                
                 var response = await authService.RegisterNewUser(user);
 
                 if (response.Succeeded)
                 {
-                    return Ok($"User {user.Email} is register successfully");
+                    return Ok($"Новый пользователь {user.Email} успешно зарегистирован");
                 }
 
-                var errs = "При попытке регистрации нового пользователя возникла ошибка: "+string.Join(',', response.Errors.Select(s=>s.Description));
+                var errs = "При попытке регистрации нового пользователя возникла ошибка: " + string.Join(',', response.Errors.Select(s => s.Description));
 
                 return BadRequest(errs);
             }
@@ -46,9 +44,22 @@ namespace AngleOk.Web.Controllers.Api
             try
             {
                 var response = await authService.Authenticate(user);
-                if (response)
-                    return Ok($"User {user.Email} is authenticated successfully");
-                return BadRequest(response);
+
+                if (response.Succeeded)
+                {
+                    return Ok($"Пользователь {user.Email} успешно вошел в систему");
+                }
+
+                if (response.IsNotAllowed) 
+                { 
+                    return BadRequest("Пользователю запрещен вход в систему");
+                }
+
+                if (response.IsLockedOut)
+                {
+                    return BadRequest("Пользователь заблокирован");
+                }
+                return BadRequest("Не удалось выполнить вход. Неверный логин или пароль");
             }
             catch (Exception ex)
             {

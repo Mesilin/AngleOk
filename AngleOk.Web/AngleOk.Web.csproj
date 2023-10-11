@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -49,24 +48,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data.AngleOk.Model\Data.AngleOk.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Properties\LocalizedIdentityErrorMessages.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>LocalizedIdentityErrorMessages.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\LocalizedIdentityErrorMessages.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>LocalizedIdentityErrorMessages.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\LocalizedIdentityErrorMessages.ru-RU.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

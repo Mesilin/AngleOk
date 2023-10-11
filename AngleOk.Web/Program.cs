@@ -38,8 +38,8 @@ var ob = new DbContextOptionsBuilder<AngleOkContext>().UseNpgsql(connection);
 
 builder.Services.AddDbContext<AngleOkContext>(options => options.UseNpgsql(connection));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-            // localize identity error messages
-            .AddErrorDescriber<LocalizedIdentityErrorDescriber>()
+            // Перевод ошибок валидации identity на русский язык
+            .AddErrorDescriber<RussianIdentityErrorDescriber>()
             .AddEntityFrameworkStores<AngleOkContext>();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
