@@ -1,0 +1,23 @@
+﻿@model AngleOk.Web.Models.RegisterViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<div>
+    <h1>Регистрация нового пользователя</h1>
+    <div class="div-box">
+        <form asp-area="" asp-controller="Account" asp-action="Register" method="post">
+            <div asp-validation-summary="All"></div>
+            <div>
+                <label asp-for="Email"></label>
+                <input asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div>
+                <label asp-for="Password"></label>
+                <input asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div>
+                <input type="submit" value="Зарегистрироваться" />
+            </div>
+        </form>
+    </div>
+</div>

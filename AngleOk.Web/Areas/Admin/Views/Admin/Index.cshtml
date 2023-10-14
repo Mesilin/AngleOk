@@ -1,0 +1,43 @@
+﻿@model IQueryable<Advertisement>
+@{
+    string title = "Панель администратора";
+    ViewBag.Title = title;
+}
+<div>
+    <h2>Список объявлений</h2>
+    <div class="div-box">
+        <a asp-area="Admin" asp-controller="Advertisements" asp-action="Edit" asp-route-id="">Добавить объявление</a>
+    </div>
+    @if (Model.Any())
+    {
+        <div>
+            @foreach (Advertisement item in Model)
+            {
+                <div>
+                    <a asp-area="Admin" asp-controller="Advertisements" asp-action="Edit" asp-route-id="@item.AdvertisementId">редактировать</a>
+                    <form style="display: inline-block;" id="form-@item.AdvertisementId" asp-area="Admin" asp-controller="Advertisements" asp-action="Delete" method="post">
+                        <input type="hidden" name="AdvertisementId" value="@item.AdvertisementId">
+                        <a href="#" onclick="document.getElementById('form-@item.AdvertisementId').submit();">удалить</a>
+                    </form>
+                    <a asp-area="" asp-controller="Services" asp-action="Index" asp-route-id="@item.AdvertisementId">
+                        @($"{item.Description}")
+                    </a>
+
+                </div>
+            }
+        </div>
+    }
+    <div class="div-box">
+        <h3>Редактировать разделы</h3>
+        <a asp-area="Admin" asp-controller="TextFields" asp-action="Edit" asp-route-codeWord="PageIndex">Главная</a>
+        <a asp-area="Admin" asp-controller="TextFields" asp-action="Edit" asp-route-codeWord="PageObjects">Объекты</a>
+        <a asp-area="Admin" asp-controller="TextFields" asp-action="Edit" asp-route-codeWord="PageContacts">Контакты</a>
+    </div>
+    <div class="div-box">
+        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+            <input type="submit" value="Выйти" />
+        </form>
+
+    </div>
+
+</div>

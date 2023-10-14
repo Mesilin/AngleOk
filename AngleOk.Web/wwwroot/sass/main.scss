@@ -122,9 +122,9 @@
 		font-weight: normal;
 	}
 
-	h1 {
+	/*h1 {
 		text-transform: lowercase;
-	}
+	}*/
 
 	h2 {
 		text-transform: lowercase;
@@ -799,6 +799,9 @@
 	.div-box{
 		padding:15px 0;
 		label {
+			display:block;
+		}
+		a{
 			display:block;
 		}
 	}

@@ -11,18 +11,10 @@ namespace AngleOk.Web.Controllers.Mvc
         {
             this.db = db;
         }
-
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public async Task<IActionResult> Index()
         {
             var p = await db.Persons.ToListAsync();
-            p=p.Where(q=>q.PhoneNumber.Contains("-")).ToList();
-
-
+            p = p.Where(q => q.PhoneNumber.Contains("-")).ToList();
             return View(p);
         }
 
@@ -38,7 +30,5 @@ namespace AngleOk.Web.Controllers.Mvc
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
-
     }
 }
