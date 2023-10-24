@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.AngleOk.Model.Models
@@ -40,6 +41,12 @@ namespace Data.AngleOk.Model.Models
         /// Описание
         /// </summary>
         public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Краткое описание
+        /// </summary>
+        [MaxLength(50)]
+        public string ShortDescription { get; set; } = string.Empty;
 
         [ForeignKey("ContractId")]
         public Contract Contract { get; set; } = null!;

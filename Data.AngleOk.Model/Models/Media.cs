@@ -44,6 +44,8 @@ namespace Data.AngleOk.Model.Models
         /// </summary>
         public Guid RealtyObjectId { get; set; }
 
+        public bool IsTitleImage { get; set; } = false;
+
         [ForeignKey("RealtyObjectId")]
         public RealtyObject RealtyObject { get; set; } = null!;
     }

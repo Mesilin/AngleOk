@@ -4,6 +4,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+//в коре 
+// cd.\Data.AngleOk.Model\
+// dotnet ef migrations add CreateTableTextField
+
+//dotnet ef database update
+//или
+//    dotnet ef database update -c Data.AngleOk.Model.Models.AngleOkContext
+
 namespace Data.AngleOk.Model.Migrations
 {
     /// <inheritdoc />

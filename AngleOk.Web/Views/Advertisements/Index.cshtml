@@ -1,0 +1,26 @@
+﻿@model IQueryable<Advertisement>
+@{
+    TextField textField = ViewBag.TextField;
+
+    ViewBag.Title = textField.MetaTitle;
+    ViewBag.Description = textField.MetaDescription;
+    ViewBag.Keywords = textField.MetaKeywords;
+}
+
+<div>
+    @if (Model.Any())
+    {
+        <ul class="big-image-list">
+            @foreach (var entity in Model)
+            {
+                <li>
+                    <a asp-area="" asp-controller="Advertisements" asp-action="Index" asp-route-id="@entity.AdvertisementId">
+                        @* <img src="~/images/@entity.RealtyObject.RealtyObjectType.Name" alt="" class="left" /> *@
+
+                        <h4>@entity.RealtyObject.RealtyObjectType.Name. </h4>@entity.Description
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+</div>

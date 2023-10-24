@@ -6,10 +6,10 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize]
-    public class AdminController : Controller
+    public class HomeController : Controller
     {
         private readonly DataManager _dataManager;
-        public AdminController(DataManager dataManager) 
+        public HomeController(DataManager dataManager) 
         {
             this._dataManager = dataManager;
         }

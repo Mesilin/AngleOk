@@ -43,5 +43,6 @@ namespace Data.AngleOk.Model.Models
         public DbSet<Stead> Steads { get; set; }
         public DbSet<SteadKind> SteadKinds { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<TextField> TextFields { get; set; }
     }
 }

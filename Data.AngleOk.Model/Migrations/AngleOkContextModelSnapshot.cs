@@ -44,6 +44,11 @@ namespace Data.AngleOk.Model.Migrations
                     b.Property<Guid>("RealtyObjectId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.HasKey("AdvertisementId");
 
                     b.HasIndex("ContractId");
@@ -194,6 +199,9 @@ namespace Data.AngleOk.Model.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsTitleImage")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Path")
                         .HasColumnType("text");
 
@@ -231,12 +239,7 @@ namespace Data.AngleOk.Model.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("RoleId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("PersonId");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Person");
                 });
@@ -286,21 +289,6 @@ namespace Data.AngleOk.Model.Migrations
                     b.ToTable("RealtyObjectType");
                 });
 
-            modelBuilder.Entity("Data.AngleOk.Model.Models.Role", b =>
-                {
-                    b.Property<Guid>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("RoleId");
-
-                    b.ToTable("Role");
-                });
-
             modelBuilder.Entity("Data.AngleOk.Model.Models.Stead", b =>
                 {
                     b.Property<Guid>("SteadId")
@@ -341,6 +329,47 @@ namespace Data.AngleOk.Model.Migrations
                     b.HasKey("SteadKindId");
 
                     b.ToTable("SteadKind");
+                });
+
+            modelBuilder.Entity("Data.AngleOk.Model.Models.TextField", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CodeWord")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("MetaDescription")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MetaKeywords")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MetaTitle")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Subtitle")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TitleImagePath")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TextField");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -624,15 +653,6 @@ namespace Data.AngleOk.Model.Migrations
                         .IsRequired();
 
                     b.Navigation("RealtyObject");
-                });
-
-            modelBuilder.Entity("Data.AngleOk.Model.Models.Person", b =>
-                {
-                    b.HasOne("Data.AngleOk.Model.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.RealtyObject", b =>

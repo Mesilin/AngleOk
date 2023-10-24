@@ -4,15 +4,17 @@ namespace AngleOk.Web.Repositories.Abstract
 {
     public class DataManager
     {
-        //public IPersonsRepository Persons { get;set; }
         public IAdvertisementRepository Advertisements { get;set; }
+        public ITextFieldsRepository TextFields { get; set; }
 
         //public DataManager(IPersonsRepository persons) {
         //    Persons = persons;
         //}
-        public DataManager(IAdvertisementRepository adv)
+        public DataManager(ITextFieldsRepository textFieldsRepository, IAdvertisementRepository adv)
         {
+            TextFields = textFieldsRepository;
             Advertisements = adv;
+
         }
     }
 }

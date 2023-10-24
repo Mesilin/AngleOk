@@ -19,7 +19,7 @@
                         <input type="hidden" name="AdvertisementId" value="@item.AdvertisementId">
                         <a href="#" onclick="document.getElementById('form-@item.AdvertisementId').submit();">удалить</a>
                     </form>
-                    <a asp-area="" asp-controller="Services" asp-action="Index" asp-route-id="@item.AdvertisementId">
+                    <a asp-area="" asp-controller="Advertisements" asp-action="Index" asp-route-id="@item.AdvertisementId">
                         @($"{item.Description}")
                     </a>
 
@@ -30,7 +30,7 @@
     <div class="div-box">
         <h3>Редактировать разделы</h3>
         <a asp-area="Admin" asp-controller="TextFields" asp-action="Edit" asp-route-codeWord="PageIndex">Главная</a>
-        <a asp-area="Admin" asp-controller="TextFields" asp-action="Edit" asp-route-codeWord="PageObjects">Объекты</a>
+        <a asp-area="Admin" asp-controller="TextFields" asp-action="Edit" asp-route-codeWord="PageAdvertisements">Объявления</a>
         <a asp-area="Admin" asp-controller="TextFields" asp-action="Edit" asp-route-codeWord="PageContacts">Контакты</a>
     </div>
     <div class="div-box">

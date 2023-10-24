@@ -1,6 +1,18 @@
-﻿@model IEnumerable<Data.AngleOk.Model.Models.Person>
+﻿@model TextField
+@{
+    ViewBag.Title = Model.MetaTitle;
+    ViewBag.Description = Model.MetaDescription;
+    ViewBag.Keywords = Model.MetaKeywords;
+}
+<div>
+    @Html.Raw(Model.Text)
 
-<h2>Список пользователей</h2>
+</div>
+
+
+@*
+    @model IEnumerable<Data.AngleOk.Model.Models.Person>
+        <h2>Список пользователей</h2>
 <p><a asp-action="Create">Добавить пользователя</a></p>
 <table class="table">
     <tr><th>Имя</th><th>Отчество</th><th>Фамилия</th><th>электропочта</th><th>Телефон</th></tr>
@@ -14,4 +26,4 @@
             <td>@item.PhoneNumber</td>
         </tr>
     }
-</table>
+</table> *@

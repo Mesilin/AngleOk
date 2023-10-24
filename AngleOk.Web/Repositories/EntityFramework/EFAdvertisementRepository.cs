@@ -1,5 +1,6 @@
 ﻿using AngleOk.Web.Repositories.Abstract;
 using Data.AngleOk.Model.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AngleOk.Web.Repositories.EntityFramework
 {
@@ -8,12 +9,15 @@ namespace AngleOk.Web.Repositories.EntityFramework
         private readonly AngleOkContext context;
         public EFAdvertisementRepository(AngleOkContext context) { this.context = context; }
         public IQueryable<Advertisement> GetAll() 
-        { 
-            return context.Advertisements; 
+        {
+            return context.Advertisements.Include(i=>i.RealtyObject.RealtyObjectType); 
         }
         public Advertisement? GetAdvertisementById(Guid id)
         {
-            return context.Advertisements.FirstOrDefault(x => x.AdvertisementId == id);
+            return context.Advertisements
+                .Include(i => i.RealtyObject.RealtyObjectType)
+                .Include(i=>i.Manager)
+                .FirstOrDefault(x => x.AdvertisementId == id);
         }
         public void SaveAdvertisement(Advertisement advertisement)
         {
