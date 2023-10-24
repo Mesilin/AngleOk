@@ -13,10 +13,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         {
             this._dataManager = dataManager;
         }
-        //http://localhost:xxxx/Admin, http://localhost:xxxx/Admin/Home и http://localhost:xxxx/Admin/Home/Index
         [Route("{area}")]
-        [Route("{area}/{controller}")]
-        [Route("{area}/{controller}/{action}")]
         [HttpGet]
         public IActionResult Index()
         {

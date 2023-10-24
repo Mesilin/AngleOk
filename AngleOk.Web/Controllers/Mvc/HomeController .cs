@@ -16,10 +16,13 @@ namespace AngleOk.Web.Controllers.Mvc
             this.db = db;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View(dataManager.TextFields.GetTextFieldByCodeWord("PageIndex"));
         }
+
+        [HttpGet]
         public IActionResult Contacts()
         {
             return View(dataManager.TextFields.GetTextFieldByCodeWord("PageContacts"));

@@ -22,6 +22,7 @@ namespace AngleOk.Web.Controllers.Mvc
         /// <param name="returnUrl"></param>
         /// <returns></returns>
         [AllowAnonymous]
+        [HttpGet]
         public IActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;

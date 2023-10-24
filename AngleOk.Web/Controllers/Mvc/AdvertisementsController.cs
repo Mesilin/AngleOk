@@ -11,6 +11,7 @@ namespace AngleOk.Web.Controllers.Mvc
             this.dataManager = dataManager;
         }
 
+        [HttpGet]
         public IActionResult Index(Guid id)
         {
             if (id != default)
