@@ -1,0 +1,52 @@
+﻿@model Advertisement
+@{
+    string strTitle = "Редактировать запись";
+    ViewBag.Title = strTitle;
+}
+
+<script src="~/js/ckeditor/ckeditor.js"></script>
+
+<div>
+    <h2>@strTitle</h2>
+    <div>
+        <form asp-area="Admin" asp-controller="AdvertisementItems" asp-action="Save" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="AdvertisementId" />
+
+            <div asp-validation-summary="All"></div>
+            <div class="div-box">
+                <label asp-for="IsActive"></label>
+                <input asp-for="IsActive" />
+                <span asp-validation-for="IsActive"></span>
+            </div>
+            
+            <div class="div-box">
+                <label asp-for="ShortDescription"></label>
+                <textarea asp-for="ShortDescription"></textarea>
+                <span asp-validation-for="ShortDescription"></span>
+            </div>
+            <div class="div-box">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description"></textarea>
+                <span asp-validation-for="Description"></span>
+            </div>
+            @* <div class="div-box">
+                <label asp-for="TitleImagePath"></label>
+                <input type="file" name="titleImageFile" id="titleImageFile" />
+                <div>
+                    <img class="img-block" src="~/images/@Model.TitleImagePath" />
+                </div>
+            </div> *@
+            
+            <input type="submit" value="Сохранить" />
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+    window.onload = function() {
+        var newCKEdit = CKEDITOR.replace('@Html.IdFor(x=>x.Description)');
+        newCKEdit.updateElement();
+    }
+</script>

@@ -19,6 +19,19 @@ namespace AngleOk.Web.Repositories.EntityFramework
                 .Include(i=>i.Manager)
                 .FirstOrDefault(x => x.AdvertisementId == id);
         }
+
+        public Guid CreateAdvertisement(Advertisement advertisement)
+        {
+            if (advertisement.AdvertisementId == default)
+            {
+                advertisement.AdvertisementId = Guid.NewGuid();
+            }
+
+            context.Entry(advertisement).State = Microsoft.EntityFrameworkCore.EntityState.Added;
+            context.SaveChanges();
+            return advertisement.AdvertisementId;
+        }
+
         public void SaveAdvertisement(Advertisement advertisement)
         {
             if (advertisement.AdvertisementId == default)

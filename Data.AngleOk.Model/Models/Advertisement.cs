@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -49,12 +50,14 @@ namespace Data.AngleOk.Model.Models
         public string ShortDescription { get; set; } = string.Empty;
 
         [ForeignKey("ContractId")]
-        public Contract Contract { get; set; } = null!;
+        public Contract? Contract { get; set; }
 
         [ForeignKey("RealtyObjectId")]
-        public RealtyObject RealtyObject { get; set; } = null!;
+        public RealtyObject? RealtyObject { get; set; }
 
         [ForeignKey("ManagerId")]
-        public Person Manager { get; set; } = null!;
+        public Person? Manager { get; set; }
+
+        public ICollection<Media>? MediaCollection { get; set; }
     }
 }

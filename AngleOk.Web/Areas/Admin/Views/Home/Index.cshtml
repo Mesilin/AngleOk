@@ -6,7 +6,7 @@
 <div>
     <h2>Список объявлений</h2>
     <div class="div-box">
-        <a asp-area="Admin" asp-controller="Advertisements" asp-action="Edit" asp-route-id="">Добавить объявление</a>
+        <a asp-area="Admin" asp-controller="AdvertisementItems" asp-action="Edit" asp-route-id="">Добавить объявление</a>
     </div>
     @if (Model.Any())
     {
@@ -14,7 +14,7 @@
             @foreach (Advertisement item in Model)
             {
                 <div>
-                    <a asp-area="Admin" asp-controller="Advertisements" asp-action="Edit" asp-route-id="@item.AdvertisementId">редактировать</a>
+                    <a asp-area="Admin" asp-controller="AdvertisementItems" asp-action="Edit" asp-route-id="@item.AdvertisementId">редактировать</a>
                     <form style="display: inline-block;" id="form-@item.AdvertisementId" asp-area="Admin" asp-controller="Advertisements" asp-action="Delete" method="post">
                         <input type="hidden" name="AdvertisementId" value="@item.AdvertisementId">
                         <a href="#" onclick="document.getElementById('form-@item.AdvertisementId').submit();">удалить</a>
