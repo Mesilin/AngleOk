@@ -54,12 +54,6 @@ namespace Data.AngleOk.Model.Models
         /// </summary>
         public string MaterialName { get; set; } = string.Empty;
         
-        /// <summary>
-        /// Описание
-        /// </summary>
-        public string Description { get; set; } = string.Empty;
-
-        [ForeignKey("RealtyObjectId")]
-        public RealtyObject RealtyObject { get; set; } = null!;
+        public virtual RealtyObject RealtyObject { get; set; } = null!;
     }
 }

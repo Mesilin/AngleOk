@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data.AngleOk.Model.Enums;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.AngleOk.Model.Models
@@ -24,20 +25,9 @@ namespace Data.AngleOk.Model.Models
         /// </summary>
         public decimal Area { get; set; }
         
-        /// <summary>
-        /// Описание
-        /// </summary>
-        public string? Description { get; set; }
-        
-        /// <summary>
-        /// Идентификатор назначения земель
-        /// </summary>
-        public Guid SteadKindId { get; set; }
+        public virtual RealtyObject RealtyObject { get; set; } = null!;
 
-        [ForeignKey("RealtyObjectId")]
-        public RealtyObject RealtyObject { get; set; } = null!;
+        public SteadUseKind SteadUseKind { get; set; }
 
-        [ForeignKey("SteadKindId")]
-        public SteadKind SteadKind { get; set; } = null!;
      }
 }

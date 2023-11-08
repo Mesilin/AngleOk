@@ -26,7 +26,9 @@ IConfigurationSection section = builder.Configuration.GetSection("Project");
 section.Bind(config);
 
 string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
-var ob = new DbContextOptionsBuilder<AngleOkContext>().UseNpgsql(connection);
+var ob = new DbContextOptionsBuilder<AngleOkContext>()
+    .UseLazyLoadingProxies()
+    .UseNpgsql(connection);
 
 builder.Services.AddDbContext<AngleOkContext>(options => options.UseNpgsql(connection));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
@@ -48,6 +50,8 @@ context.Database.Migrate();
 
 builder.Services.AddTransient<ITextFieldsRepository, EFTextFieldsRepository>();
 builder.Services.AddTransient<IAdvertisementRepository, EFAdvertisementRepository>();
+builder.Services.AddTransient<IPersonsRepository, EFPersonsRepository>();
+builder.Services.AddTransient<IEmployeeRepository, EFEmployeeRepository>();
 builder.Services.AddTransient<DataManager>();
 
 builder.Services.AddControllersWithViews();

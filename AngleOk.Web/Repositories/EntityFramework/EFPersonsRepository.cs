@@ -8,7 +8,13 @@ namespace AngleOk.Web.Repositories.EntityFramework
         private readonly AngleOkContext context;
         public EFPersonsRepository(AngleOkContext context) { this.context = context; }
         public IQueryable<Person> GetAll() {return context.Persons;}
-        public Person GetPersonById(Guid id)
+        
+        public Person? GetPersonByName(string name)
+        {
+            return context.Persons.FirstOrDefault(x => x.Email == name);
+        }
+
+        public Person? GetPersonById(Guid id)
         {
             return context.Persons.FirstOrDefault(x => x.PersonId == id);
         }

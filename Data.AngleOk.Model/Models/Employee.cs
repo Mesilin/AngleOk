@@ -34,7 +34,6 @@ namespace Data.AngleOk.Model.Models
         /// </summary>
         public bool IsActive {  get; set; }
 
-        [ForeignKey("PersonId")]
-        public Person Person { get; set; }=null!;
+        public virtual required Person Person { get; set; }
     }
 }

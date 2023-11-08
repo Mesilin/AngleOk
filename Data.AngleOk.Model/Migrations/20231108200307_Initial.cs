@@ -4,24 +4,34 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-//в коре 
-// cd.\Data.AngleOk.Model\
-// dotnet ef migrations add CreateTableTextField
-
-//dotnet ef database update
-//или
-//    dotnet ef database update -c Data.AngleOk.Model.Models.AngleOkContext
-
 namespace Data.AngleOk.Model.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "public");
+
+            migrationBuilder.CreateTable(
+                name: "Юридические лица",
+                schema: "public",
+                columns: table => new
+                {
+                    CompanyId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CompanyName = table.Column<string>(type: "text", nullable: false),
+                    ContactPerson = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Юридические лица", x => x.CompanyId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
+                schema: "public",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -36,6 +46,7 @@ namespace Data.AngleOk.Model.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
+                schema: "public",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -60,55 +71,65 @@ namespace Data.AngleOk.Model.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DealType",
+                name: "Person",
+                schema: "public",
                 columns: table => new
                 {
-                    DealTypeId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    PersonId = table.Column<Guid>(type: "uuid", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: false),
+                    Patronymic = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DealType", x => x.DealTypeId);
+                    table.PrimaryKey("PK_Person", x => x.PersonId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RealtyObjectType",
+                name: "RealtyObject",
+                schema: "public",
                 columns: table => new
                 {
-                    RealtyObjectTypeId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RealtyObjectKind = table.Column<int>(type: "integer", nullable: false),
+                    CadastralNumber = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    Latitude = table.Column<decimal>(type: "numeric", nullable: true),
+                    Longitude = table.Column<decimal>(type: "numeric", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    TitleImageId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RealtyObjectType", x => x.RealtyObjectTypeId);
+                    table.PrimaryKey("PK_RealtyObject", x => x.RealtyObjectId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Role",
+                name: "TextField",
+                schema: "public",
                 columns: table => new
                 {
-                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CodeWord = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Text = table.Column<string>(type: "text", nullable: false),
+                    Subtitle = table.Column<string>(type: "text", nullable: true),
+                    TitleImagePath = table.Column<string>(type: "text", nullable: true),
+                    MetaTitle = table.Column<string>(type: "text", nullable: true),
+                    MetaDescription = table.Column<string>(type: "text", nullable: true),
+                    MetaKeywords = table.Column<string>(type: "text", nullable: true),
+                    DateAdded = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Role", x => x.RoleId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SteadKind",
-                columns: table => new
-                {
-                    SteadKindId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SteadKind", x => x.SteadKindId);
+                    table.PrimaryKey("PK_TextField", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
+                schema: "public",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -123,6 +144,7 @@ namespace Data.AngleOk.Model.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "public",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -130,6 +152,7 @@ namespace Data.AngleOk.Model.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
+                schema: "public",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -144,6 +167,7 @@ namespace Data.AngleOk.Model.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "public",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -151,6 +175,7 @@ namespace Data.AngleOk.Model.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
+                schema: "public",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(type: "text", nullable: false),
@@ -164,6 +189,7 @@ namespace Data.AngleOk.Model.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "public",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -171,6 +197,7 @@ namespace Data.AngleOk.Model.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
+                schema: "public",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "text", nullable: false),
@@ -182,12 +209,14 @@ namespace Data.AngleOk.Model.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "public",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "public",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -195,6 +224,7 @@ namespace Data.AngleOk.Model.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
+                schema: "public",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "text", nullable: false),
@@ -208,168 +238,15 @@ namespace Data.AngleOk.Model.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "public",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RealtyObject",
-                columns: table => new
-                {
-                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RealtyObjectTypeId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CadastralNumber = table.Column<string>(type: "text", nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: false),
-                    Latitude = table.Column<decimal>(type: "numeric", nullable: true),
-                    Longitude = table.Column<decimal>(type: "numeric", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RealtyObject", x => x.RealtyObjectId);
-                    table.ForeignKey(
-                        name: "FK_RealtyObject_RealtyObjectType_RealtyObjectTypeId",
-                        column: x => x.RealtyObjectTypeId,
-                        principalTable: "RealtyObjectType",
-                        principalColumn: "RealtyObjectTypeId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Person",
-                columns: table => new
-                {
-                    PersonId = table.Column<Guid>(type: "uuid", nullable: false),
-                    FirstName = table.Column<string>(type: "text", nullable: false),
-                    Patronymic = table.Column<string>(type: "text", nullable: true),
-                    LastName = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uuid", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Person", x => x.PersonId);
-                    table.ForeignKey(
-                        name: "FK_Person_Role_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Role",
-                        principalColumn: "RoleId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Flat",
-                columns: table => new
-                {
-                    FlatId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TotalArea = table.Column<decimal>(type: "numeric", nullable: false),
-                    LiveArea = table.Column<decimal>(type: "numeric", nullable: false),
-                    RoomCount = table.Column<int>(type: "integer", nullable: false),
-                    CeilingHeight = table.Column<decimal>(type: "numeric", nullable: false),
-                    Floor = table.Column<int>(type: "integer", nullable: false),
-                    YearOfBuild = table.Column<int>(type: "integer", nullable: false),
-                    MaterialName = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Flat", x => x.FlatId);
-                    table.ForeignKey(
-                        name: "FK_Flat_RealtyObject_RealtyObjectId",
-                        column: x => x.RealtyObjectId,
-                        principalTable: "RealtyObject",
-                        principalColumn: "RealtyObjectId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Media",
-                columns: table => new
-                {
-                    MediaId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Data = table.Column<byte[]>(type: "bytea", nullable: true),
-                    Path = table.Column<string>(type: "text", nullable: true),
-                    FileName = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    Extension = table.Column<string>(type: "text", nullable: false),
-                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Media", x => x.MediaId);
-                    table.ForeignKey(
-                        name: "FK_Media_RealtyObject_RealtyObjectId",
-                        column: x => x.RealtyObjectId,
-                        principalTable: "RealtyObject",
-                        principalColumn: "RealtyObjectId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Stead",
-                columns: table => new
-                {
-                    SteadId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Area = table.Column<decimal>(type: "numeric", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    SteadKindId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stead", x => x.SteadId);
-                    table.ForeignKey(
-                        name: "FK_Stead_RealtyObject_RealtyObjectId",
-                        column: x => x.RealtyObjectId,
-                        principalTable: "RealtyObject",
-                        principalColumn: "RealtyObjectId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Stead_SteadKind_SteadKindId",
-                        column: x => x.SteadKindId,
-                        principalTable: "SteadKind",
-                        principalColumn: "SteadKindId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Contract",
-                columns: table => new
-                {
-                    ContractId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClientId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DealTypeId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TargetPrice = table.Column<int>(type: "integer", nullable: false),
-                    MinPrice = table.Column<int>(type: "integer", nullable: false),
-                    MaxPrice = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Contract", x => x.ContractId);
-                    table.ForeignKey(
-                        name: "FK_Contract_DealType_DealTypeId",
-                        column: x => x.DealTypeId,
-                        principalTable: "DealType",
-                        principalColumn: "DealTypeId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Contract_Person_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Person",
-                        principalColumn: "PersonId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Contract_RealtyObject_RealtyObjectId",
-                        column: x => x.RealtyObjectId,
-                        principalTable: "RealtyObject",
-                        principalColumn: "RealtyObjectId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Employee",
+                schema: "public",
                 columns: table => new
                 {
                     EmployeeId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -384,207 +261,326 @@ namespace Data.AngleOk.Model.Migrations
                     table.ForeignKey(
                         name: "FK_Employee_Person_PersonId",
                         column: x => x.PersonId,
+                        principalSchema: "public",
                         principalTable: "Person",
                         principalColumn: "PersonId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
+                name: "Flat",
+                schema: "public",
+                columns: table => new
+                {
+                    FlatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TotalArea = table.Column<decimal>(type: "numeric", nullable: false),
+                    LiveArea = table.Column<decimal>(type: "numeric", nullable: false),
+                    RoomCount = table.Column<int>(type: "integer", nullable: false),
+                    CeilingHeight = table.Column<decimal>(type: "numeric", nullable: false),
+                    Floor = table.Column<int>(type: "integer", nullable: false),
+                    YearOfBuild = table.Column<int>(type: "integer", nullable: false),
+                    MaterialName = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Flat", x => x.FlatId);
+                    table.ForeignKey(
+                        name: "FK_Flat_RealtyObject_RealtyObjectId",
+                        column: x => x.RealtyObjectId,
+                        principalSchema: "public",
+                        principalTable: "RealtyObject",
+                        principalColumn: "RealtyObjectId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RealtyObjectOwner",
+                schema: "public",
+                columns: table => new
+                {
+                    RealtyObjectOwnerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PersonId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CompanyId = table.Column<Guid>(type: "uuid", nullable: true),
+                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PartPercent = table.Column<decimal>(type: "numeric", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RealtyObjectOwner", x => x.RealtyObjectOwnerId);
+                    table.ForeignKey(
+                        name: "FK_RealtyObjectOwner_RealtyObject_RealtyObjectId",
+                        column: x => x.RealtyObjectId,
+                        principalSchema: "public",
+                        principalTable: "RealtyObject",
+                        principalColumn: "RealtyObjectId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Stead",
+                schema: "public",
+                columns: table => new
+                {
+                    SteadId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Area = table.Column<decimal>(type: "numeric", nullable: false),
+                    SteadUseKind = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stead", x => x.SteadId);
+                    table.ForeignKey(
+                        name: "FK_Stead_RealtyObject_RealtyObjectId",
+                        column: x => x.RealtyObjectId,
+                        principalSchema: "public",
+                        principalTable: "RealtyObject",
+                        principalColumn: "RealtyObjectId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Advertisement",
+                schema: "public",
                 columns: table => new
                 {
                     AdvertisementId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ContractId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClientId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DealType = table.Column<int>(type: "integer", nullable: false),
+                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: true),
+                    TargetPrice = table.Column<int>(type: "integer", nullable: false),
+                    MinPrice = table.Column<int>(type: "integer", nullable: false),
+                    MaxPrice = table.Column<int>(type: "integer", nullable: false),
                     ManagerId = table.Column<Guid>(type: "uuid", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false)
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    ShortDescription = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Advertisement", x => x.AdvertisementId);
                     table.ForeignKey(
-                        name: "FK_Advertisement_Contract_ContractId",
-                        column: x => x.ContractId,
-                        principalTable: "Contract",
-                        principalColumn: "ContractId",
+                        name: "FK_Advertisement_Employee_ManagerId",
+                        column: x => x.ManagerId,
+                        principalSchema: "public",
+                        principalTable: "Employee",
+                        principalColumn: "EmployeeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Advertisement_Person_ManagerId",
-                        column: x => x.ManagerId,
+                        name: "FK_Advertisement_Person_ClientId",
+                        column: x => x.ClientId,
+                        principalSchema: "public",
                         principalTable: "Person",
                         principalColumn: "PersonId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Advertisement_RealtyObject_RealtyObjectId",
                         column: x => x.RealtyObjectId,
+                        principalSchema: "public",
                         principalTable: "RealtyObject",
-                        principalColumn: "RealtyObjectId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "RealtyObjectId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Media",
+                schema: "public",
+                columns: table => new
+                {
+                    MediaId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Data = table.Column<byte[]>(type: "bytea", nullable: true),
+                    Path = table.Column<string>(type: "text", nullable: true),
+                    FileName = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Extension = table.Column<string>(type: "text", nullable: false),
+                    RealtyObjectId = table.Column<Guid>(type: "uuid", nullable: true),
+                    AdvertisementId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Media", x => x.MediaId);
+                    table.ForeignKey(
+                        name: "FK_Media_Advertisement_AdvertisementId",
+                        column: x => x.AdvertisementId,
+                        principalSchema: "public",
+                        principalTable: "Advertisement",
+                        principalColumn: "AdvertisementId");
+                    table.ForeignKey(
+                        name: "FK_Media_RealtyObject_RealtyObjectId",
+                        column: x => x.RealtyObjectId,
+                        principalSchema: "public",
+                        principalTable: "RealtyObject",
+                        principalColumn: "RealtyObjectId");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Advertisement_ContractId",
+                name: "IX_Advertisement_ClientId",
+                schema: "public",
                 table: "Advertisement",
-                column: "ContractId");
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Advertisement_ManagerId",
+                schema: "public",
                 table: "Advertisement",
                 column: "ManagerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Advertisement_RealtyObjectId",
+                schema: "public",
                 table: "Advertisement",
                 column: "RealtyObjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
+                schema: "public",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
+                schema: "public",
                 table: "AspNetRoles",
                 column: "NormalizedName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
+                schema: "public",
                 table: "AspNetUserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
+                schema: "public",
                 table: "AspNetUserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_RoleId",
+                schema: "public",
                 table: "AspNetUserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
+                schema: "public",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
+                schema: "public",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Contract_ClientId",
-                table: "Contract",
-                column: "ClientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Contract_DealTypeId",
-                table: "Contract",
-                column: "DealTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Contract_RealtyObjectId",
-                table: "Contract",
-                column: "RealtyObjectId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Employee_PersonId",
+                schema: "public",
                 table: "Employee",
                 column: "PersonId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Flat_RealtyObjectId",
+                schema: "public",
                 table: "Flat",
                 column: "RealtyObjectId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Media_AdvertisementId",
+                schema: "public",
+                table: "Media",
+                column: "AdvertisementId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Media_RealtyObjectId",
+                schema: "public",
                 table: "Media",
                 column: "RealtyObjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Person_RoleId",
-                table: "Person",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RealtyObject_RealtyObjectTypeId",
-                table: "RealtyObject",
-                column: "RealtyObjectTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Stead_RealtyObjectId",
-                table: "Stead",
+                name: "IX_RealtyObjectOwner_RealtyObjectId",
+                schema: "public",
+                table: "RealtyObjectOwner",
                 column: "RealtyObjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Stead_SteadKindId",
+                name: "IX_Stead_RealtyObjectId",
+                schema: "public",
                 table: "Stead",
-                column: "SteadKindId");
+                column: "RealtyObjectId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Advertisement");
+                name: "Юридические лица",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
+                name: "AspNetRoleClaims",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserClaims");
+                name: "AspNetUserClaims",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserLogins");
+                name: "AspNetUserLogins",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserRoles");
+                name: "AspNetUserRoles",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserTokens");
+                name: "AspNetUserTokens",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "Employee");
+                name: "Flat",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "Flat");
+                name: "Media",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "Media");
+                name: "RealtyObjectOwner",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "Stead");
+                name: "Stead",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "Contract");
+                name: "TextField",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "AspNetRoles",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "AspNetUsers",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "SteadKind");
+                name: "Advertisement",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "DealType");
+                name: "Employee",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "Person");
+                name: "RealtyObject",
+                schema: "public");
 
             migrationBuilder.DropTable(
-                name: "RealtyObject");
-
-            migrationBuilder.DropTable(
-                name: "Role");
-
-            migrationBuilder.DropTable(
-                name: "RealtyObjectType");
+                name: "Person",
+                schema: "public");
         }
     }
 }

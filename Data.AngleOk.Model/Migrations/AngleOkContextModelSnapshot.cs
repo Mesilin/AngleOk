@@ -17,7 +17,8 @@ namespace Data.AngleOk.Model.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasDefaultSchema("public")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -28,8 +29,11 @@ namespace Data.AngleOk.Model.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ContractId")
+                    b.Property<Guid>("ClientId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("DealType")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -41,37 +45,6 @@ namespace Data.AngleOk.Model.Migrations
                     b.Property<Guid>("ManagerId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("RealtyObjectId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("ShortDescription")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.HasKey("AdvertisementId");
-
-                    b.HasIndex("ContractId");
-
-                    b.HasIndex("ManagerId");
-
-                    b.HasIndex("RealtyObjectId");
-
-                    b.ToTable("Advertisement");
-                });
-
-            modelBuilder.Entity("Data.AngleOk.Model.Models.Contract", b =>
-                {
-                    b.Property<Guid>("ContractId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("DealTypeId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("MaxPrice")
                         .HasColumnType("integer");
 
@@ -79,36 +52,43 @@ namespace Data.AngleOk.Model.Migrations
                         .HasColumnType("integer");
 
                     b.Property<Guid?>("RealtyObjectId")
-                        .IsRequired()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<int>("TargetPrice")
                         .HasColumnType("integer");
 
-                    b.HasKey("ContractId");
+                    b.HasKey("AdvertisementId");
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("DealTypeId");
+                    b.HasIndex("ManagerId");
 
                     b.HasIndex("RealtyObjectId");
 
-                    b.ToTable("Contract");
+                    b.ToTable("Advertisement", "public");
                 });
 
-            modelBuilder.Entity("Data.AngleOk.Model.Models.DealType", b =>
+            modelBuilder.Entity("Data.AngleOk.Model.Models.Company", b =>
                 {
-                    b.Property<Guid>("DealTypeId")
+                    b.Property<Guid>("CompanyId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("CompanyName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("DealTypeId");
+                    b.Property<Guid>("ContactPerson")
+                        .HasColumnType("uuid");
 
-                    b.ToTable("DealType");
+                    b.HasKey("CompanyId");
+
+                    b.ToTable("Юридические лица", "public");
                 });
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.Employee", b =>
@@ -134,7 +114,7 @@ namespace Data.AngleOk.Model.Migrations
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employee", "public");
                 });
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.Flat", b =>
@@ -145,10 +125,6 @@ namespace Data.AngleOk.Model.Migrations
 
                     b.Property<decimal>("CeilingHeight")
                         .HasColumnType("numeric");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<int>("Floor")
                         .HasColumnType("integer");
@@ -176,13 +152,16 @@ namespace Data.AngleOk.Model.Migrations
 
                     b.HasIndex("RealtyObjectId");
 
-                    b.ToTable("Flat");
+                    b.ToTable("Flat", "public");
                 });
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.Media", b =>
                 {
                     b.Property<Guid>("MediaId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AdvertisementId")
                         .HasColumnType("uuid");
 
                     b.Property<byte[]>("Data")
@@ -199,20 +178,19 @@ namespace Data.AngleOk.Model.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsTitleImage")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Path")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("RealtyObjectId")
+                    b.Property<Guid?>("RealtyObjectId")
                         .HasColumnType("uuid");
 
                     b.HasKey("MediaId");
 
+                    b.HasIndex("AdvertisementId");
+
                     b.HasIndex("RealtyObjectId");
 
-                    b.ToTable("Media");
+                    b.ToTable("Media", "public");
                 });
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.Person", b =>
@@ -241,7 +219,7 @@ namespace Data.AngleOk.Model.Migrations
 
                     b.HasKey("PersonId");
 
-                    b.ToTable("Person");
+                    b.ToTable("Person", "public");
                 });
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.RealtyObject", b =>
@@ -258,35 +236,49 @@ namespace Data.AngleOk.Model.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
                     b.Property<decimal?>("Latitude")
                         .HasColumnType("numeric");
 
                     b.Property<decimal?>("Longitude")
                         .HasColumnType("numeric");
 
-                    b.Property<Guid>("RealtyObjectTypeId")
+                    b.Property<int>("RealtyObjectKind")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid?>("TitleImageId")
                         .HasColumnType("uuid");
 
                     b.HasKey("RealtyObjectId");
 
-                    b.HasIndex("RealtyObjectTypeId");
-
-                    b.ToTable("RealtyObject");
+                    b.ToTable("RealtyObject", "public");
                 });
 
-            modelBuilder.Entity("Data.AngleOk.Model.Models.RealtyObjectType", b =>
+            modelBuilder.Entity("Data.AngleOk.Model.Models.RealtyObjectOwner", b =>
                 {
-                    b.Property<Guid>("RealtyObjectTypeId")
+                    b.Property<Guid>("RealtyObjectOwnerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid?>("CompanyId")
+                        .HasColumnType("uuid");
 
-                    b.HasKey("RealtyObjectTypeId");
+                    b.Property<decimal>("PartPercent")
+                        .HasColumnType("numeric");
 
-                    b.ToTable("RealtyObjectType");
+                    b.Property<Guid?>("PersonId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RealtyObjectId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("RealtyObjectOwnerId");
+
+                    b.HasIndex("RealtyObjectId");
+
+                    b.ToTable("RealtyObjectOwner", "public");
                 });
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.Stead", b =>
@@ -298,37 +290,17 @@ namespace Data.AngleOk.Model.Migrations
                     b.Property<decimal>("Area")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
                     b.Property<Guid>("RealtyObjectId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("SteadKindId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("SteadUseKind")
+                        .HasColumnType("integer");
 
                     b.HasKey("SteadId");
 
                     b.HasIndex("RealtyObjectId");
 
-                    b.HasIndex("SteadKindId");
-
-                    b.ToTable("Stead");
-                });
-
-            modelBuilder.Entity("Data.AngleOk.Model.Models.SteadKind", b =>
-                {
-                    b.Property<Guid>("SteadKindId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("SteadKindId");
-
-                    b.ToTable("SteadKind");
+                    b.ToTable("Stead", "public");
                 });
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.TextField", b =>
@@ -369,7 +341,7 @@ namespace Data.AngleOk.Model.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TextField");
+                    b.ToTable("TextField", "public");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -395,7 +367,7 @@ namespace Data.AngleOk.Model.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("AspNetRoles", "public");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -420,7 +392,7 @@ namespace Data.AngleOk.Model.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("AspNetRoleClaims", "public");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
@@ -484,7 +456,7 @@ namespace Data.AngleOk.Model.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("AspNetUsers", "public");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -509,7 +481,7 @@ namespace Data.AngleOk.Model.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("AspNetUserClaims", "public");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -531,7 +503,7 @@ namespace Data.AngleOk.Model.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("AspNetUserLogins", "public");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -546,7 +518,7 @@ namespace Data.AngleOk.Model.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("AspNetUserRoles", "public");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -565,37 +537,10 @@ namespace Data.AngleOk.Model.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("AspNetUserTokens", "public");
                 });
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.Advertisement", b =>
-                {
-                    b.HasOne("Data.AngleOk.Model.Models.Contract", "Contract")
-                        .WithMany()
-                        .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.AngleOk.Model.Models.Person", "Manager")
-                        .WithMany()
-                        .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.AngleOk.Model.Models.RealtyObject", "RealtyObject")
-                        .WithMany()
-                        .HasForeignKey("RealtyObjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Contract");
-
-                    b.Navigation("Manager");
-
-                    b.Navigation("RealtyObject");
-                });
-
-            modelBuilder.Entity("Data.AngleOk.Model.Models.Contract", b =>
                 {
                     b.HasOne("Data.AngleOk.Model.Models.Person", "Client")
                         .WithMany()
@@ -603,21 +548,19 @@ namespace Data.AngleOk.Model.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.AngleOk.Model.Models.DealType", "DealType")
+                    b.HasOne("Data.AngleOk.Model.Models.Employee", "Manager")
                         .WithMany()
-                        .HasForeignKey("DealTypeId")
+                        .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.AngleOk.Model.Models.RealtyObject", "RealtyObject")
                         .WithMany()
-                        .HasForeignKey("RealtyObjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RealtyObjectId");
 
                     b.Navigation("Client");
 
-                    b.Navigation("DealType");
+                    b.Navigation("Manager");
 
                     b.Navigation("RealtyObject");
                 });
@@ -646,24 +589,22 @@ namespace Data.AngleOk.Model.Migrations
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.Media", b =>
                 {
-                    b.HasOne("Data.AngleOk.Model.Models.RealtyObject", "RealtyObject")
+                    b.HasOne("Data.AngleOk.Model.Models.Advertisement", null)
+                        .WithMany("MediaCollection")
+                        .HasForeignKey("AdvertisementId");
+
+                    b.HasOne("Data.AngleOk.Model.Models.RealtyObject", null)
                         .WithMany("MediaMaterials")
+                        .HasForeignKey("RealtyObjectId");
+                });
+
+            modelBuilder.Entity("Data.AngleOk.Model.Models.RealtyObjectOwner", b =>
+                {
+                    b.HasOne("Data.AngleOk.Model.Models.RealtyObject", null)
+                        .WithMany("RealtyObjectOwners")
                         .HasForeignKey("RealtyObjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("RealtyObject");
-                });
-
-            modelBuilder.Entity("Data.AngleOk.Model.Models.RealtyObject", b =>
-                {
-                    b.HasOne("Data.AngleOk.Model.Models.RealtyObjectType", "RealtyObjectType")
-                        .WithMany()
-                        .HasForeignKey("RealtyObjectTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("RealtyObjectType");
                 });
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.Stead", b =>
@@ -674,15 +615,7 @@ namespace Data.AngleOk.Model.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.AngleOk.Model.Models.SteadKind", "SteadKind")
-                        .WithMany()
-                        .HasForeignKey("SteadKindId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("RealtyObject");
-
-                    b.Navigation("SteadKind");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -736,9 +669,16 @@ namespace Data.AngleOk.Model.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Data.AngleOk.Model.Models.Advertisement", b =>
+                {
+                    b.Navigation("MediaCollection");
+                });
+
             modelBuilder.Entity("Data.AngleOk.Model.Models.RealtyObject", b =>
                 {
                     b.Navigation("MediaMaterials");
+
+                    b.Navigation("RealtyObjectOwners");
                 });
 #pragma warning restore 612, 618
         }

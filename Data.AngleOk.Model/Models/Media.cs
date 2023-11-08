@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.AngleOk.Model.Models
@@ -18,20 +19,16 @@ namespace Data.AngleOk.Model.Models
         /// Двоичные данные файла
         /// </summary>
         public byte[]? Data { get; set; }
-        
+
         /// <summary>
-        /// Путь к файлу на диске
+        /// Путь к файлу
         /// </summary>
         public string? Path { get; set; }
-        
-        /// <summary>
-        /// Имя файла
-        /// </summary>
+
+        [Display(Name = "Имя файла")]
         public string FileName { get; set; } = null!;
         
-        /// <summary>
-        /// Описание
-        /// </summary>
+        [Display(Name = "Описание")]
         public string? Description { get; set; }
         
         /// <summary>
@@ -42,11 +39,6 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Идентификатор объекта недвижимости
         /// </summary>
-        public Guid RealtyObjectId { get; set; }
-
-        public bool IsTitleImage { get; set; } = false;
-
-        [ForeignKey("RealtyObjectId")]
-        public RealtyObject RealtyObject { get; set; } = null!;
+        public Guid? RealtyObjectId { get; set; }
     }
 }

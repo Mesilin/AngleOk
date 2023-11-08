@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualBasic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.AngleOk.Model.Enums;
 
 namespace Data.AngleOk.Model.Models
 {
@@ -17,34 +17,39 @@ namespace Data.AngleOk.Model.Models
         /// </summary>
         public Guid RealtyObjectId {get; set;}
 
-        /// <summary>
-        /// Идентификатор типа
-        /// </summary>
-        public Guid RealtyObjectTypeId {get; set;}
+        public RealtyObjectKind RealtyObjectKind { get; set; }
 
-        /// <summary>
-        /// Кадастровый номер
-        /// </summary>
+        [Display(Name = "Кадастровый номер")]
         public string CadastralNumber { get; set;} = null!;
 
-        /// <summary>
-        /// Адрес
-        /// </summary>
+        [Display(Name = "Адрес")]
         public string Address { get; set; } = null!;
 
-        /// <summary>
-        /// Широта
-        /// </summary>
+        [Display(Name = "Широта")]
         public decimal? Latitude { get; set; }
 
-        /// <summary>
-        /// Долгота
-        /// </summary>
+        [Display(Name = "Долгота")]
         public decimal? Longitude { get; set; }
 
-        public ICollection<Media> MediaMaterials { get; set; }=null!;
+        /// <summary>
+        /// Описание
+        /// </summary>
+        public string? Description { get; set; }
 
-        [ForeignKey("RealtyObjectTypeId")]
-        public RealtyObjectType RealtyObjectType { get; set;} = null!;
+        /// <summary>
+        /// Титульное фото
+        /// </summary>
+        public Guid? TitleImageId { get; set; }
+        public virtual Media? TitleImage { get; set; }
+
+        /// <summary>
+        /// Список фотографий и пр медиаматериалов
+        /// </summary>
+        public virtual List<Media>? MediaMaterials { get; set; }
+
+        /// <summary>
+        /// Владельцы объектов недвижимости
+        /// </summary>
+        public virtual required List<RealtyObjectOwner> RealtyObjectOwners { get; set; }
     }
 }

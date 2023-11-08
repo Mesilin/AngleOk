@@ -26,21 +26,35 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         //[Route("{controller}/Edit")]
         public IActionResult Edit(Guid id)
         {
-            var entity = id == default ? new Advertisement() : dataManager.Advertisements.GetAdvertisementById(id);
+            var entity = id == default ? new Advertisement(){Manager = GetDefaultManager(), Client = EmptyPerson()} : dataManager.Advertisements.GetAdvertisementById(id);
             return View(entity);
+        }
+
+        private Person EmptyPerson()
+        {
+            return new Person()
+            {
+                PersonId = Guid.NewGuid(),
+                FirstName = "",
+                LastName = "",
+                PhoneNumber = "+7"
+            };
+        }
+
+        private Employee GetDefaultManager()
+        {
+            return dataManager.Employee.GetEmployeeByName(User.Identity.Name);
         }
 
         [HttpPost]
         [Route("Save")]
         public IActionResult Save(Advertisement model)
         {
-            //todo разобраться. вероятно есть цикличесткая зависимость между медиа и адв
             var newMedia = new Media();
             newMedia.MediaId = Guid.NewGuid();
             newMedia.Description = "Титульное фото";
             newMedia.RealtyObjectId = Guid.Parse("1beb19c2-afbd-47ea-b5d9-1376ab3c3918");
             newMedia.Extension = "png";
-            newMedia.IsTitleImage = true;
             newMedia.FileName = "asdasdfas";
 
             var adv = db.Advertisements.Find(model.AdvertisementId);

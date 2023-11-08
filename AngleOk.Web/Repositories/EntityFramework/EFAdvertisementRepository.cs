@@ -10,12 +10,11 @@ namespace AngleOk.Web.Repositories.EntityFramework
         public EFAdvertisementRepository(AngleOkContext context) { this.context = context; }
         public IQueryable<Advertisement> GetAll() 
         {
-            return context.Advertisements.Include(i=>i.RealtyObject.RealtyObjectType); 
+            return context.Advertisements; 
         }
         public Advertisement? GetAdvertisementById(Guid id)
         {
             return context.Advertisements
-                .Include(i => i.RealtyObject.RealtyObjectType)
                 .Include(i=>i.Manager)
                 .FirstOrDefault(x => x.AdvertisementId == id);
         }

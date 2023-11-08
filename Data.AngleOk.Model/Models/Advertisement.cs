@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.AngleOk.Model.Enums;
 
 namespace Data.AngleOk.Model.Models
 {
@@ -19,14 +20,34 @@ namespace Data.AngleOk.Model.Models
         public Guid AdvertisementId {  get; set; }
 
         /// <summary>
-        /// Идентификатор договора
+        /// Идентификатор клиента
         /// </summary>
-        public Guid ContractId { get; set; }
+        public Guid ClientId { get; set; }
+
+        /// <summary>
+        /// Тип(аренда, продажа, покупка)
+        /// </summary>
+        public DealType DealType { get; set; }
 
         /// <summary>
         /// Идентификатор объекта недвижимости
         /// </summary>
-        public Guid RealtyObjectId { get; set; }
+        public Guid? RealtyObjectId { get; set; }
+
+        /// <summary>
+        /// Целевая цена
+        /// </summary>
+        public int TargetPrice { get; set; }
+
+        /// <summary>
+        /// Минимальная цена
+        /// </summary>
+        public int MinPrice { get; set; }
+
+        /// <summary>
+        /// Максимальная цена
+        /// </summary>
+        public int MaxPrice { get; set; }
 
         /// <summary>
         /// Идентификатор контактного лица от агентства
@@ -49,15 +70,14 @@ namespace Data.AngleOk.Model.Models
         [MaxLength(50)]
         public string ShortDescription { get; set; } = string.Empty;
 
-        [ForeignKey("ContractId")]
-        public Contract? Contract { get; set; }
-
-        [ForeignKey("RealtyObjectId")]
-        public RealtyObject? RealtyObject { get; set; }
+        public virtual RealtyObject RealtyObject { get; set; } = null!;
 
         [ForeignKey("ManagerId")]
-        public Person? Manager { get; set; }
+        public virtual required Employee Manager { get; set; }
 
-        public ICollection<Media>? MediaCollection { get; set; }
+        [ForeignKey("ClientId")]
+        public virtual required Person Client{ get; set; }
+
+        public virtual List<Media>? MediaCollection { get; set; }
     }
 }
