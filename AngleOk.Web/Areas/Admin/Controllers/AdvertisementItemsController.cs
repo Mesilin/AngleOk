@@ -58,7 +58,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             newMedia.FileName = "asdasdfas";
 
             var adv = db.Advertisements.Find(model.AdvertisementId);
-            adv.ShortDescription = model.ShortDescription;
+            adv.ShortDescription = "asdas";//model.ShortDescription;
             dataManager.Advertisements.SaveAdvertisement(adv);
             return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).CutController());
 

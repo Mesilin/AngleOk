@@ -61,7 +61,7 @@ namespace AngleOk.Web.Controllers.Mvc
         /// </summary>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
-        [AllowAnonymous]
+        [AllowAnonymous]//TODO закрыть анонимный доступ для регистрации 
         public IActionResult Register(string returnUrl)
         {
             return View(new RegisterViewModel());
@@ -73,7 +73,7 @@ namespace AngleOk.Web.Controllers.Mvc
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        [AllowAnonymous]
+        [AllowAnonymous]//TODO закрыть анонимный доступ для регистрации 
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)

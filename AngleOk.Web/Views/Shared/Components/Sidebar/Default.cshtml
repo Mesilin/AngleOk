@@ -1,0 +1,31 @@
+﻿@model IQueryable<Advertisement>
+<section>
+    <ul class="small-image-list">
+        @if (Model?.Any() == true)
+        {
+            @foreach (Advertisement entity in Model)
+            {
+                <h2>Спецпредложения</h2>
+                <li>
+                    <a asp-area="" asp-controller="Advertisements" asp-action="Index" asp-route-id="@entity.AdvertisementId">
+                        <img src="~/images/@entity.RealtyObject.TitleImage.Path" alt="" class="left" />
+                    </a>
+                    <h4>
+                        @entity.ShortDescription
+                    </h4>
+                    <p>
+                        @entity.Description
+                    </p>
+                </li>
+            }   }
+        <li>
+            <p>Объявления на карте</p>
+        </li>
+        <li>
+            <p>Недавно дабавленные</p>
+        </li>
+        <li>
+            <p>Подать объявление</p>
+        </li>
+    </ul>
+</section>
