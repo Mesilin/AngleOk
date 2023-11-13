@@ -1,6 +1,4 @@
-﻿using Data.AngleOk.Model.Models;
-
-namespace AngleOk.Web.Repositories.Abstract
+﻿namespace AngleOk.Web.Repositories.Abstract
 {
     public class DataManager
     {

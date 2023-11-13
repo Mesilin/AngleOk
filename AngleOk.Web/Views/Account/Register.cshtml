@@ -1,4 +1,4 @@
-﻿@model AngleOk.Web.Models.RegisterViewModel
+﻿@model AngleOk.Web.Models.AccountViewModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <div>
     <h1>Регистрация нового пользователя</h1>
@@ -6,9 +6,44 @@
         <form asp-area="" asp-controller="Account" asp-action="Register" method="post">
             <div asp-validation-summary="All"></div>
             <div>
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" />
+                <span asp-validation-for="FirstName"></span>
+            </div>
+            <div>
+                <label asp-for="Patronymic"></label>
+                <input asp-for="Patronymic" />
+                <span asp-validation-for="Patronymic"></span>
+            </div>
+            <div>
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" />
+                <span asp-validation-for="LastName"></span>
+            </div>
+            <div>
+                <label asp-for="Position"></label>
+                <input asp-for="Position" />
+                <span asp-validation-for="Position"></span>
+            </div>
+            <div>
+                <label asp-for="PhoneNumber"></label>
+                <input asp-for="PhoneNumber" />
+                <span asp-validation-for="PhoneNumber"></span>
+            </div>
+            <div>
+                <label asp-for="PublicPhone"></label>
+                <input asp-for="PublicPhone" />
+                <span asp-validation-for="PublicPhone"></span>
+            </div>
+            <div>
                 <label asp-for="Email"></label>
                 <input asp-for="Email" />
                 <span asp-validation-for="Email"></span>
+            </div>
+            <div>
+                <label asp-for="UserName"></label>
+                <input asp-for="UserName" />
+                <span asp-validation-for="UserName"></span>
             </div>
             <div>
                 <label asp-for="Password"></label>
@@ -16,7 +51,12 @@
                 <span asp-validation-for="Password"></span>
             </div>
             <div>
-                <input type="submit" value="Зарегистрироваться" />
+                <label asp-for="IsActive"></label>
+                <input asp-for="IsActive" />
+                <span asp-validation-for="IsActive"></span>
+            </div>
+            <div>
+                <input type="submit" value="Зарегистрировать" />
             </div>
         </form>
     </div>

@@ -1,4 +1,5 @@
 ﻿using AngleOk.Web.Models;
+using Data.AngleOk.Model.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -61,10 +62,10 @@ namespace AngleOk.Web.Controllers.Mvc
         /// </summary>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
-        [AllowAnonymous]//TODO закрыть анонимный доступ для регистрации 
+        [Authorize]
         public IActionResult Register(string returnUrl)
         {
-            return View(new RegisterViewModel());
+            return View(new AccountViewModel());
         }
         
         /// <summary>
@@ -73,20 +74,31 @@ namespace AngleOk.Web.Controllers.Mvc
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        [AllowAnonymous]//TODO закрыть анонимный доступ для регистрации 
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        [Authorize]
+        public async Task<IActionResult> Register(AccountViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var identityUser = new IdentityUser()
                 {
                     Email = model.Email,
-                    UserName = model.Email
+                    UserName = model.UserName
                 };
                 var response = await _userManager.CreateAsync(identityUser, model.Password);
 
                 if (response.Succeeded)
                 {
+                    var person = new Person()
+                    {
+
+                    };
+                    var employee = new Employee()
+                    {
+
+                        Person = person,
+                    };
+
+
                     return Redirect("/");
                     //return Ok($"Новый пользователь {model.Email} успешно зарегистирован");
                 }
