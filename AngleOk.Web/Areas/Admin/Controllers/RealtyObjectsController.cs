@@ -6,7 +6,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize]
-    [Route("{area}/{controller}")]
+    [Route("{area}/RealtyObjects")]
     public class RealtyObjectsController : Controller
     {
         private readonly DataManager _dataManager;
@@ -15,6 +15,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             this._dataManager = dataManager;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var objects = _dataManager.RealtyObject.GetAll();

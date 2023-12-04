@@ -22,7 +22,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        //[Route("{controller}/Edit")]
+        [Route("Edit")]
         public IActionResult Edit(Guid id)
         {
             var entity = id == default ? new Advertisement(){Manager = GetDefaultManager(), Client = EmptyClient()} : dataManager.Advertisements.GetAdvertisementById(id);
@@ -88,6 +88,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Route("Edit")]
         public IActionResult Edit(Advertisement model, IFormFile titleImageFile)
         {
             if (ModelState.IsValid)
@@ -107,6 +108,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Route("Delete")]
         public IActionResult Delete(Guid id)
         {
             dataManager.Advertisements.DeleteAdvertisement(id);

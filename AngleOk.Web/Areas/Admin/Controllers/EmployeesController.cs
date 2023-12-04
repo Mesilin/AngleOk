@@ -7,7 +7,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 
     [Area("Admin")]
     [Authorize]
-    [Route("{area}/{controller}")]
+    [Route("{area}/Employees")]
     public class EmployeesController : Controller
     {
         private readonly DataManager _dataManager;
@@ -16,6 +16,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             this._dataManager = dataManager;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var empl = _dataManager.Employee.GetAll();
