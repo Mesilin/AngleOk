@@ -17,7 +17,7 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Идентификатор объявления
         /// </summary>
-        public Guid AdvertisementId {  get; set; }
+        public Guid Id {  get; set; }
 
         /// <summary>
         /// Идентификатор клиента
@@ -75,8 +75,8 @@ namespace Data.AngleOk.Model.Models
         [ForeignKey("ManagerId")]
         public virtual required Employee Manager { get; set; }
 
-        [ForeignKey("ClientId")]
-        public virtual required Person Client{ get; set; }
+        [ForeignKey("Id")]
+        public virtual required Client Client{ get; set; }
 
         public virtual List<Media>? MediaCollection { get; set; }
     }

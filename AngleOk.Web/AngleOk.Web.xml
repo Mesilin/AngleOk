@@ -29,18 +29,18 @@
 			<param name="id"></param>
 			<returns></returns>
 		</member>
-		<member name="M:AngleOk.Web.Controllers.Api.PersonController.Post(Data.AngleOk.Model.Models.Person)">
+		<member name="M:AngleOk.Web.Controllers.Api.PersonController.Post(Data.AngleOk.Model.Models.Client)">
 			<summary>
 				Добавить в таблицу "Люди" новую запись
 			</summary>
-			<param name="person"></param>
+			<param name="client"></param>
 			<returns></returns>
 		</member>
-		<member name="M:AngleOk.Web.Controllers.Api.PersonController.Put(Data.AngleOk.Model.Models.Person)">
+		<member name="M:AngleOk.Web.Controllers.Api.PersonController.Put(Data.AngleOk.Model.Models.Client)">
 			<summary>
 				Изменить запись с идентификатором "id" в таблице "Люди"
 			</summary>
-			<param name="person"></param>
+			<param name="client"></param>
 			<returns></returns>
 		</member>
 		<member name="M:AngleOk.Web.Controllers.Api.PersonController.Delete(System.Guid)">
@@ -99,7 +99,7 @@
 			</summary>
 			<returns></returns>
 		</member>
-		<member name="M:AngleOk.Web.Controllers.HomeController.Create(Data.AngleOk.Model.Models.Person)">
+		<member name="M:AngleOk.Web.Controllers.HomeController.Create(Data.AngleOk.Model.Models.Client)">
 			<summary>
 
 			</summary>

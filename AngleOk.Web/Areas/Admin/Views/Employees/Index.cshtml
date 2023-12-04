@@ -1,0 +1,31 @@
+﻿@* Employees *@
+@model IQueryable<Employee>
+@{
+    string title = "Сотрудники";
+    ViewBag.Title = title;
+}
+<div>
+    <div class="div-box">
+        <a asp-area="Admin" asp-controller="Employees" asp-action="Edit" asp-route-id="">Добавить сотрудника</a>
+    </div>
+    <h2>Список сотрудников</h2>
+    @if (Model.Any())
+    {
+        <div>
+            @foreach (Employee item in Model)
+            {
+                <div>
+                    <a asp-area="Admin" asp-controller="Employees" asp-action="Edit" asp-route-id="@item.Id">редактировать</a>
+                    <form style="display: inline-block;" id="form-@item.Id" asp-area="Admin" asp-controller="Employees" asp-action="Delete" method="post">
+                        <input type="hidden" name="Id" value="@item.Id">
+                        <a href="#" onclick="document.getElementById('form-@item.Id').submit();">удалить</a>
+                    </form>
+                    <a asp-area="" asp-controller="Advertisements" asp-action="Index" asp-route-id="@item.Id">
+                        @($"{item.FirstName} {item.LastName}")
+                    </a>
+
+                </div>
+            }
+        </div>
+    }
+</div>

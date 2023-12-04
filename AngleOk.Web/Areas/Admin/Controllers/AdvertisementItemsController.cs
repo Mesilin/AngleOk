@@ -3,7 +3,6 @@ using AngleOk.Web.Services;
 using Data.AngleOk.Model.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AngleOk.Web.Areas.Admin.Controllers
 {
@@ -26,15 +25,15 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         //[Route("{controller}/Edit")]
         public IActionResult Edit(Guid id)
         {
-            var entity = id == default ? new Advertisement(){Manager = GetDefaultManager(), Client = EmptyPerson()} : dataManager.Advertisements.GetAdvertisementById(id);
+            var entity = id == default ? new Advertisement(){Manager = GetDefaultManager(), Client = EmptyClient()} : dataManager.Advertisements.GetAdvertisementById(id);
             return View(entity);
         }
 
-        private Person EmptyPerson()
+        private Client EmptyClient()
         {
-            return new Person()
+            return new Client()
             {
-                PersonId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 FirstName = "",
                 LastName = "",
                 PhoneNumber = "+7"
@@ -51,22 +50,22 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         public IActionResult Save(Advertisement model)
         {
             var newMedia = new Media();
-            newMedia.MediaId = Guid.NewGuid();
+            newMedia.Id = Guid.NewGuid();
             newMedia.Description = "Титульное фото";
             newMedia.RealtyObjectId = Guid.Parse("1beb19c2-afbd-47ea-b5d9-1376ab3c3918");
             newMedia.Extension = "png";
             newMedia.FileName = "asdasdfas";
 
-            var adv = db.Advertisements.Find(model.AdvertisementId);
+            var adv = db.Advertisements.Find(model.Id);
             adv.ShortDescription = "asdas";//model.ShortDescription;
             dataManager.Advertisements.SaveAdvertisement(adv);
             return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).CutController());
 
 
             /*
-            //var ro = db.RealtyObjects.Find(newMedia.RealtyObjectId);
+            //var ro = db.RealtyObjects.Find(newMedia.Id);
             var ro = db.RealtyObjects
-                .Where(w=>w.RealtyObjectId==newMedia.RealtyObjectId)
+                .Where(w=>w.Id==newMedia.Id)
                 .Include(i=>i.RealtyObjectType)
                 .First();
 

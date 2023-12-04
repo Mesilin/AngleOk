@@ -13,7 +13,7 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Идентификатор медиаматериала
         /// </summary>
-        public Guid MediaId { get; set; }
+        public Guid Id { get; set; }
         
         /// <summary>
         /// Двоичные данные файла

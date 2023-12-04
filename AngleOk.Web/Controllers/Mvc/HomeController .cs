@@ -30,7 +30,7 @@ namespace AngleOk.Web.Controllers.Mvc
 
         //public async Task<IActionResult> Index()
         //{
-        //    var p = await db.Persons.ToListAsync();
+        //    var p = await db.Clients.ToListAsync();
         //    p = p.Where(q => q.PhoneNumber.Contains("-")).ToList();
         //    return View(p);
         //}
@@ -41,9 +41,9 @@ namespace AngleOk.Web.Controllers.Mvc
         //}
 
         //[HttpPost]
-        //public async Task<IActionResult> Create(Person user)
+        //public async Task<IActionResult> Create(Client user)
         //{
-        //    db.Persons.Add(user);
+        //    db.Clients.Add(user);
         //    await db.SaveChangesAsync();
         //    return RedirectToAction("Index");
         //}

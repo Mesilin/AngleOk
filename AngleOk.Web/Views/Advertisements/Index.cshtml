@@ -14,7 +14,7 @@
             @foreach (var entity in Model)
             {
                 <li>
-                    <a asp-area="" asp-controller="Advertisements" asp-action="Index" asp-route-id="@entity.AdvertisementId">
+                    <a asp-area="" asp-controller="Advertisements" asp-action="Index" asp-route-id="@entity.Id">
                         @* <img src="~/images/@entity.RealtyObject.RealtyObjectType.Name" alt="" class="left" /> *@
 
                         <h4>@entity.RealtyObject.RealtyObjectKind.ToString(). </h4>@entity.Description

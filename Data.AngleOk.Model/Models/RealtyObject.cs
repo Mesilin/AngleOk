@@ -15,7 +15,7 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Идентификатор
         /// </summary>
-        public Guid RealtyObjectId {get; set;}
+        public Guid Id {get; set;}
 
         public RealtyObjectKind RealtyObjectKind { get; set; }
 
@@ -40,6 +40,7 @@ namespace Data.AngleOk.Model.Models
         /// Титульное фото
         /// </summary>
         public Guid? TitleImageId { get; set; }
+        [ForeignKey("TitleImageId")]
         public virtual Media? TitleImage { get; set; }
 
         /// <summary>

@@ -4,22 +4,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AngleOk.Web.Areas.Admin.Controllers
 {
+
     [Area("Admin")]
     [Authorize]
-    public class HomeController : Controller
+    [Route("{area}/{controller}")]
+    public class EmployeesController : Controller
     {
         private readonly DataManager _dataManager;
-        public HomeController(DataManager dataManager) 
+        public EmployeesController(DataManager dataManager)
         {
             this._dataManager = dataManager;
         }
 
-        [Route("{area}")]
-        [HttpGet]
         public IActionResult Index()
         {
-            var ads = _dataManager.Advertisements.GetAll();
-            return View(ads);
+            var empl = _dataManager.Employee.GetAll();
+            return View(empl);
         }
     }
 }

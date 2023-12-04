@@ -13,7 +13,7 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Идентификатор
         /// </summary>
-        public Guid SteadId { get; set; }
+        public Guid Id { get; set; }
         
         /// <summary>
         /// Идентификатор объекта недвижимости

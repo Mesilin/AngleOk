@@ -4,21 +4,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Data.AngleOk.Model.Models
 {
     /// <summary>
-    /// Таблица Люди
+    /// Таблица Клиенты физлица
     /// </summary>
-    [Table("Person")]
-    public class Person
+    [Table("Client")]
+    public class Client
     {
         
         /// <summary>
         /// Идентификатор
         /// </summary>
-        public Guid PersonId { get; set; }
+        public Guid Id { get; set; }
         
         /// <summary>
         /// Имя
         /// </summary>
-        public required string FirstName { get; set; }
+        public string FirstName { get; set; }
         
         /// <summary>
         /// Отчество
@@ -28,7 +28,7 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Фамилия
         /// </summary>
-        public required string LastName { get; set; }
+        public string LastName { get; set; }
 
         /// <summary>
         /// Адрес электронной почты
@@ -38,6 +38,6 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Номер телефона
         /// </summary>
-        public required string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

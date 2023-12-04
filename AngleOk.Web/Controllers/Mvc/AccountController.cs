@@ -88,16 +88,7 @@ namespace AngleOk.Web.Controllers.Mvc
 
                 if (response.Succeeded)
                 {
-                    var person = new Person()
-                    {
-
-                    };
-                    var employee = new Employee()
-                    {
-
-                        Person = person,
-                    };
-
+                    var employee = new Employee();
 
                     return Redirect("/");
                     //return Ok($"Новый пользователь {model.Email} успешно зарегистирован");

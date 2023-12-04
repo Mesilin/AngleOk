@@ -50,8 +50,9 @@ context.Database.Migrate();
 
 builder.Services.AddTransient<ITextFieldsRepository, EFTextFieldsRepository>();
 builder.Services.AddTransient<IAdvertisementRepository, EFAdvertisementRepository>();
-builder.Services.AddTransient<IPersonsRepository, EFPersonsRepository>();
+builder.Services.AddTransient<IClientsRepository, EFClientsRepository>();
 builder.Services.AddTransient<IEmployeeRepository, EFEmployeeRepository>();
+builder.Services.AddTransient<IRealtyObjectsRepository, EFRealtyObjectRepository>();
 builder.Services.AddTransient<DataManager>();
 
 builder.Services.AddControllersWithViews();

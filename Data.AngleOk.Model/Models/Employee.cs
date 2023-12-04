@@ -12,13 +12,33 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Идентификатор сотрудника
         /// </summary>
-        public Guid EmployeeId { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
-        /// Идентификатор ФЛ
+        /// Имя
         /// </summary>
-        public Guid PersonId { get; set; }
+        public string FirstName { get; set; }
 
+        /// <summary>
+        /// Отчество
+        /// </summary>
+        public string? Patronymic { get; set; }
+
+        /// <summary>
+        /// Фамилия
+        /// </summary>
+        public string LastName { get; set; }
+
+        /// <summary>
+        /// Адрес электронной почты
+        /// </summary>
+        public string? Email { get; set; }
+
+        /// <summary>
+        /// Номер телефона
+        /// </summary>
+        public string PhoneNumber { get; set; }
+        
         /// <summary>
         /// Публичный номер телефона
         /// </summary>
@@ -33,7 +53,5 @@ namespace Data.AngleOk.Model.Models
         /// Признак действующего сотрудника
         /// </summary>
         public bool IsActive {  get; set; }
-
-        public virtual required Person Person { get; set; }
     }
 }

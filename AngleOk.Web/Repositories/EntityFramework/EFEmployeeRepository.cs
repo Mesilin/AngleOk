@@ -11,27 +11,27 @@ namespace AngleOk.Web.Repositories.EntityFramework
 
         public Employee? GetEmployeeByName(string name)
         {
-            return context.Employees.FirstOrDefault(x => x.Person.Email == name);
+            return context.Employees.FirstOrDefault(x => x.Email == name);
         }
 
         public Employee? GetEmployeeById(Guid id)
         {
-            return context.Employees.FirstOrDefault(x => x.PersonId == id);
+            return context.Employees.FirstOrDefault(x => x.Id == id);
         }
-        public void SaveEmployee(Employee person)
+        public void SaveEmployee(Employee employee)
         {
-            if (person.PersonId == null)
+            if (employee.Id == null)
             {
-                person.PersonId = Guid.NewGuid();
-                context.Entry(person).State = Microsoft.EntityFrameworkCore.EntityState.Added;
+                employee.Id = Guid.NewGuid();
+                context.Entry(employee).State = Microsoft.EntityFrameworkCore.EntityState.Added;
             }
             else
-                context.Entry(person).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                context.Entry(employee).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             context.SaveChanges();
         }
-        public void DeleteEmployee(Guid PersonId)
+        public void DeleteEmployee(Guid employeeId)
         {
-            context.Employees.Remove(GetEmployeeById(PersonId));
+            context.Employees.Remove(GetEmployeeById(employeeId));
         }
     }
 }

@@ -1,0 +1,31 @@
+﻿@* RealtyObjects *@
+@model IQueryable<RealtyObject>
+@{
+    string title = "Объекты недвижимости";
+    ViewBag.Title = title;
+}
+<div>
+    <div class="div-box">
+        <a asp-area="Admin" asp-controller="RealtyObjects" asp-action="Edit" asp-route-id="">Добавить объект</a>
+    </div>
+    <h2>Список объектов</h2>
+    @if (Model.Any())
+    {
+        <div>
+            @foreach (RealtyObject item in Model)
+            {
+                <div>
+                    <a asp-area="Admin" asp-controller="RealtyObjects" asp-action="Edit" asp-route-id="@item.Id">редактировать</a>
+                    <form style="display: inline-block;" id="form-@item.Id" asp-area="Admin" asp-controller="RealtyObjects" asp-action="Delete" method="post">
+                        <input type="hidden" name="Id" value="@item.Id">
+                        <a href="#" onclick="document.getElementById('form-@item.Id').submit();">удалить</a>
+                    </form>
+                    <a asp-area="" asp-controller="RealtyObjects" asp-action="Index" asp-route-id="@item.Id">
+                        @($"{item.RealtyObjectKind.ToString()} | {item.Address} | {item.CadastralNumber}")
+                    </a>
+
+                </div>
+            }
+        </div>
+    }
+</div>

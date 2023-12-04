@@ -12,12 +12,12 @@ namespace Data.AngleOk.Model.Models
     [Table("RealtyObjectOwner")]
     public class RealtyObjectOwner
     {
-        public Guid RealtyObjectOwnerId { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Владелец ФЛ
         /// </summary>
-        public Guid? PersonId { get; set; }
+        public Guid? ClientId { get; set; }
 
         /// <summary>
         /// Владелец ЮЛ

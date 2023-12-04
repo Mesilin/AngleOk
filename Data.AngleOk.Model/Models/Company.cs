@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Data.AngleOk.Model.Models
 {
-    [Table("Юридические лица")]
+    [Table("Company")]
     public class Company
     {
-        public Guid CompanyId { get; set; }
+        public Guid Id { get; set; }
         public string CompanyName { get; set;}
         public Guid ContactPerson { get; set; }
     }

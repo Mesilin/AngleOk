@@ -16,35 +16,35 @@ namespace AngleOk.Web.Repositories.EntityFramework
         {
             return context.Advertisements
                 .Include(i=>i.Manager)
-                .FirstOrDefault(x => x.AdvertisementId == id);
+                .FirstOrDefault(x => x.Id == id);
         }
 
         public Guid CreateAdvertisement(Advertisement advertisement)
         {
-            if (advertisement.AdvertisementId == default)
+            if (advertisement.Id == default)
             {
-                advertisement.AdvertisementId = Guid.NewGuid();
+                advertisement.Id = Guid.NewGuid();
             }
 
             context.Entry(advertisement).State = Microsoft.EntityFrameworkCore.EntityState.Added;
             context.SaveChanges();
-            return advertisement.AdvertisementId;
+            return advertisement.Id;
         }
 
         public void SaveAdvertisement(Advertisement advertisement)
         {
-            if (advertisement.AdvertisementId == default)
+            if (advertisement.Id == default)
             {
-                advertisement.AdvertisementId = Guid.NewGuid();
+                advertisement.Id = Guid.NewGuid();
                 context.Entry(advertisement).State = Microsoft.EntityFrameworkCore.EntityState.Added;
             }
             else
                 context.Entry(advertisement).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             context.SaveChanges();
         }
-        public void DeleteAdvertisement(Guid PersonId)
+        public void DeleteAdvertisement(Guid advertisementId)
         {
-            var adv = GetAdvertisementById(PersonId);
+            var adv = GetAdvertisementById(advertisementId);
             if (adv != null)
             {
                 context.Advertisements.Remove(adv);
