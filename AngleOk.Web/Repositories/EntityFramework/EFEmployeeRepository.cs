@@ -20,7 +20,7 @@ namespace AngleOk.Web.Repositories.EntityFramework
         }
         public void SaveEmployee(Employee employee)
         {
-            if (employee.Id == null)
+            if (employee.Id == null|| employee.Id == default)
             {
                 employee.Id = Guid.NewGuid();
                 context.Entry(employee).State = Microsoft.EntityFrameworkCore.EntityState.Added;

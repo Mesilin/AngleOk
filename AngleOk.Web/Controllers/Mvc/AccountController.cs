@@ -1,4 +1,5 @@
 ﻿using AngleOk.Web.Models;
+using AngleOk.Web.Repositories.Abstract;
 using Data.AngleOk.Model.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,11 +11,13 @@ namespace AngleOk.Web.Controllers.Mvc
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly DataManager _dataManager;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, DataManager dataManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _dataManager = dataManager;
         }
 
         /// <summary>
@@ -75,7 +78,7 @@ namespace AngleOk.Web.Controllers.Mvc
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Register(AccountViewModel model)
+        public async Task<IActionResult> Register(AccountViewModel model, string? returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -88,10 +91,18 @@ namespace AngleOk.Web.Controllers.Mvc
 
                 if (response.Succeeded)
                 {
-                    var employee = new Employee();
+                    var empl = new Employee();
+                    empl.LastName=model.LastName;
+                    empl.FirstName=model.FirstName;
+                    empl.Patronymic=model.Patronymic;
+                    empl.Email=model.Email;
+                    empl.IsActive=model.IsActive;
+                    empl.PhoneNumber = model.PhoneNumber;
+                    empl.PublicPhone=model.PublicPhone;
+                    empl.Position=model.Position;
 
-                    return Redirect("/");
-                    //return Ok($"Новый пользователь {model.Email} успешно зарегистирован");
+                    _dataManager.Employee.SaveEmployee(empl);
+                    return Redirect("/Admin/Employees");
                 }
 
                 var errs = "При попытке регистрации нового пользователя возникла ошибка: " + string.Join(',', response.Errors.Select(s => s.Description));
