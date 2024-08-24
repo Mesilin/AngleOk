@@ -12,7 +12,10 @@ public class ClientsController : Controller
         _context = context;
     }
 
-    // GET: Clients
+    /// <summary>
+    /// GET: Clients
+    /// </summary>
+    /// <returns></returns>
     public async Task<IActionResult> Index()
     {
         return View(await _context.Clients.ToListAsync());

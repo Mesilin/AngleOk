@@ -16,7 +16,12 @@ namespace AngleOk.Web.Controllers.Mvc
             _dataManager = dataManager;
         }
 
-        [HttpGet]
+		/// <summary>
+		/// GET: Advertisement by id
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[HttpGet]
         public IActionResult Index(Guid id)
         {
             if (id != default)
@@ -28,7 +33,10 @@ namespace AngleOk.Web.Controllers.Mvc
             return View(_dataManager.Advertisements.GetAll());
         }
         
-        // GET: Advertisements/Create
+        /// <summary>
+        /// GET: Advertisements/Create
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Create()
         {
             // Подготовка данных для выбора существующих объектов недвижимости
@@ -40,8 +48,12 @@ namespace AngleOk.Web.Controllers.Mvc
             return View(viewModel);
         }
 
-        // POST: Advertisements/Create
-        [HttpPost]
+		/// <summary>
+		/// POST: Advertisements/Create
+		/// </summary>
+		/// <param name="viewModel"></param>
+		/// <returns></returns>
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(AdvertisementCreateViewModel viewModel)
         {
@@ -105,7 +117,10 @@ namespace AngleOk.Web.Controllers.Mvc
             return View(viewModel);
         }
 
-        // Метод для отображения списка объявлений
+        /// <summary>
+        /// Метод для отображения списка объявлений
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             var advertisements = _context.Advertisements
