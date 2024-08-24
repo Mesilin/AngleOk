@@ -7,10 +7,10 @@ namespace Data.AngleOk.Model.Enums
     /// </summary>
     public enum RealtyObjectKind
     {
-        [Display(Name = "Квартира")] Flat = 0,
-        [Display(Name = "Дом")] Cottage = 1,
-        [Display(Name = "Дача")] SummerCottage = 2,
-        [Display(Name = "Земельный участок")] Stead = 3,
-        [Display(Name = "Гараж")] Garage = 4
+        [Display(Name = "Квартира")] Квартира = 0,
+        [Display(Name = "Дом")] Дом = 1,
+        [Display(Name = "Дача")] Дача = 2,
+        [Display(Name = "Земельный участок")] Земля = 3,
+        [Display(Name = "Гараж")] Гараж = 4
     }
 }

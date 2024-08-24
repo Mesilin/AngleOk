@@ -1,0 +1,31 @@
+﻿@model Data.AngleOk.Model.Models.Client
+@{
+	ViewData["Title"] = "Карточка клиента";
+}
+<h3>@Model.FirstName @Model.Patronymic @Model.LastName</h3>
+
+<div>Почта: @Model.Email, <br>Телефон: @Model.PhoneNumber</div>
+
+@* <div>
+	<dl class="row">
+		<dt class="col-sm-2">Имя</dt>
+		<dd class="col-sm-10">@Model.FirstName</dd>
+
+		<dt class="col-sm-2">Отчество</dt>
+		<dd class="col-sm-10">@Model.Patronymic</dd>
+
+		<dt class="col-sm-2">Фамилия</dt>
+		<dd class="col-sm-10">@Model.LastName</dd>
+
+		<dt class="col-sm-2">Email</dt>
+		<dd class="col-sm-10">@Model.Email</dd>
+
+		<dt class="col-sm-2">Телефон</dt>
+		<dd class="col-sm-10">@Model.PhoneNumber</dd>
+	</dl>
+</div> *@
+
+<p>
+	<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редактировать</a>
+	<a asp-action="Index" class="btn btn-secondary">Назад</a>
+</p>

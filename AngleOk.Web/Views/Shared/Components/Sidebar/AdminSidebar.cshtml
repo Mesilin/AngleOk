@@ -1,18 +1,23 @@
 ﻿<section>
     <ul class="small-image-list">
+	    <li>
+		    <h4>
+			    <a asp-area="Admin" asp-controller="Clients" asp-action="Create" asp-route-id="" asp-route-returnUrl="/Index">Новый клиент</a>
+		    </h4>
+	    </li>
+	    <li>
+		    <h4>
+                <a asp-area="Admin" asp-controller="RealtyObjects" asp-action="Create" asp-route-id="" asp-route-returnUrl="/Index">Новый объект</a>
+		    </h4>
+	    </li>
         <li>
             <h4>
-                Новый объект
+                <a asp-area="Admin" asp-controller="Advertisements" asp-action="Create" asp-route-id="" asp-route-returnUrl="/Index">Новое объявление</a>
             </h4>
         </li>
         <li>
             <h4>
-                Новое объявление
-            </h4>
-        </li>
-        <li>
-            <h4>
-                <a asp-area="Admin" asp-controller="Account" asp-action="Register" asp-route-id="" asp-route-returnUrl="/Admin">Добавить сотрудника </a>
+                <a asp-area="Admin" asp-controller="Account" asp-action="Register" asp-route-id="" asp-route-returnUrl="/Admin">Добавить сотрудника</a>
             </h4>
         </li>
     </ul>

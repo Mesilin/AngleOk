@@ -8,12 +8,12 @@ namespace Data.AngleOk.Model.Enums
     public enum DealType
     {
         [Display(Name = "Покупка")]
-        Buying = 0,
+        Покупка = 0,
         
         [Display(Name = "Продажа")]
-        Selling = 1,
+        Продажа = 1,
         
         [Display(Name = "Аренда")]
-        Renting=2
+        Аренда = 2
     }
 }

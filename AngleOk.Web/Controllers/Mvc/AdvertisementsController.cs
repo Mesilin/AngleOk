@@ -1,14 +1,19 @@
-﻿using AngleOk.Web.Repositories.Abstract;
+﻿using AngleOk.Web.Models;
+using AngleOk.Web.Repositories.Abstract;
+using Castle.Components.DictionaryAdapter;
+using Data.AngleOk.Model.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
 namespace AngleOk.Web.Controllers.Mvc
 {
     public class AdvertisementsController:Controller
     {
-        private readonly DataManager dataManager;
-        public AdvertisementsController(DataManager dataManager)
+        private readonly AngleOkContext _context;
+        private readonly DataManager _dataManager;
+        public AdvertisementsController(AngleOkContext context, DataManager dataManager)
         {
-            this.dataManager = dataManager;
+            _context = context;
+            _dataManager = dataManager;
         }
 
         [HttpGet]
@@ -16,11 +21,100 @@ namespace AngleOk.Web.Controllers.Mvc
         {
             if (id != default)
             {
-                return View("Show", dataManager.Advertisements.GetAdvertisementById(id));
+                return View("Show", _dataManager.Advertisements.GetAdvertisementById(id));
             }
 
-            ViewBag.TextField = dataManager.TextFields.GetTextFieldByCodeWord("PageAdvertisements");
-            return View(dataManager.Advertisements.GetAll());
+            ViewBag.TextField = _dataManager.TextFields.GetTextFieldByCodeWord("PageAdvertisements");
+            return View(_dataManager.Advertisements.GetAll());
         }
+        
+        // GET: Advertisements/Create
+        public IActionResult Create()
+        {
+            // Подготовка данных для выбора существующих объектов недвижимости
+            var viewModel = new AdvertisementCreateViewModel
+            {
+                RealtyObjects = _context.RealtyObjects.ToList()
+            };
+
+            return View(viewModel);
+        }
+
+        // POST: Advertisements/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(AdvertisementCreateViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // Создание или получение объекта недвижимости
+                RealtyObject realtyObject;
+                if (viewModel.NewRealtyObject)
+                {
+                    realtyObject = new RealtyObject
+                    {
+                        Id = Guid.NewGuid(),
+                        RealtyObjectKind = viewModel.RealtyObjectKind,
+                        CadastralNumber = viewModel.CadastralNumber,
+                        Address = viewModel.Address,
+                        Latitude = viewModel.Latitude,
+                        Longitude = viewModel.Longitude,
+                        Description = viewModel.Description,
+                        RealtyObjectOwners = new EditableList<RealtyObjectOwner>(){}
+
+                    };
+
+
+                    _context.RealtyObjects.Add(realtyObject);
+                }
+                else
+                {
+                    realtyObject = _context.RealtyObjects
+                        .FirstOrDefault(r => r.Id == viewModel.SelectedRealtyObjectId);
+                }
+
+                if (realtyObject != null)
+                {
+                    var advertisement = new Advertisement
+                    {
+                        Id = Guid.NewGuid(),
+                        ClientId = viewModel.ClientId,
+                        DealType = viewModel.DealType,
+                        RealtyObjectId = realtyObject.Id,
+                        TargetPrice = viewModel.TargetPrice,
+                        MinPrice = viewModel.MinPrice,
+                        MaxPrice = viewModel.MaxPrice,
+                        ManagerId = viewModel.ManagerId,
+                        IsActive = viewModel.IsActive,
+                        Description = viewModel.Description,
+                        ShortDescription = viewModel.ShortDescription,
+                        Client = null,
+                        Manager =null 
+                    };
+
+                    _context.Advertisements.Add(advertisement);
+                    _context.SaveChanges();
+
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
+            // Перезагрузка данных в случае ошибки
+            viewModel.RealtyObjects = _context.RealtyObjects.ToList();
+
+            return View(viewModel);
+        }
+
+        // Метод для отображения списка объявлений
+        public IActionResult Index()
+        {
+            var advertisements = _context.Advertisements
+                .Include(a => a.RealtyObject)
+                .Include(a => a.Manager)
+                .Include(a => a.Client)
+;//                .ToList();
+            return View(advertisements);
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.AngleOk.Model.Models
@@ -14,20 +15,23 @@ namespace Data.AngleOk.Model.Models
         /// Идентификатор
         /// </summary>
         public Guid Id { get; set; }
-        
+
         /// <summary>
         /// Имя
         /// </summary>
+        [DisplayName("Имя")]
         public string FirstName { get; set; }
         
         /// <summary>
         /// Отчество
         /// </summary>
+        [DisplayName("Отчество")]
         public string? Patronymic { get; set; }
 
         /// <summary>
         /// Фамилия
         /// </summary>
+        [DisplayName("Фамилия")]
         public string LastName { get; set; }
 
         /// <summary>
@@ -38,6 +42,7 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Номер телефона
         /// </summary>
+        [DisplayName("Номер телефона")]
         public string PhoneNumber { get; set; }
     }
 }

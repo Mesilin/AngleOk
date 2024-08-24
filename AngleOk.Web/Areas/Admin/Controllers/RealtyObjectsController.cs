@@ -21,5 +21,10 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             var objects = _dataManager.RealtyObject.GetAll();
             return View(objects);
         }
+
+        public IActionResult Create()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
