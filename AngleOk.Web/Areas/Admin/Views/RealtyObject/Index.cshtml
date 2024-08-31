@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Data.AngleOk.Model.Models.RealtyObject>
 
 @{
-	ViewData["Title"] = "Realty Objects";
+	ViewData["Title"] = "Объекты";
 }
 
-<h2>Realty Objects</h2>
+<h2>Объекты</h2>
 
 <p>
-	<a asp-action="Create2">Создать новый объект</a>
+	<a asp-action="Create">Создать новый объект</a>
 </p>
 
 <table class="table">
@@ -29,9 +29,9 @@
 			<td>@item.RealtyObjectKind</td>
 			<td>@item.Description</td>
 			<td>
-				<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-				<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-				<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+				<a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+				<a asp-action="Details" asp-route-id="@item.Id">Просмотр</a> |
+				<a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
 			</td>
 		</tr>
 	}

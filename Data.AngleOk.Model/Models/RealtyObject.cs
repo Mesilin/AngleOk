@@ -17,6 +17,7 @@ namespace Data.AngleOk.Model.Models
         /// </summary>
         public Guid Id {get; set;}
 
+        [Display(Name = "Тип")]
         public RealtyObjectKind RealtyObjectKind { get; set; }
 
         [Display(Name = "Кадастровый номер")]
@@ -34,6 +35,7 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Описание
         /// </summary>
+        [Display(Name = "Описание")]
         public string? Description { get; set; }
 
         /// <summary>

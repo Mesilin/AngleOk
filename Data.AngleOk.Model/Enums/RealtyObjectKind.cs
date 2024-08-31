@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Data.AngleOk.Model.Enums
 {
@@ -7,7 +8,7 @@ namespace Data.AngleOk.Model.Enums
     /// </summary>
     public enum RealtyObjectKind
     {
-        [Display(Name = "Квартира")] Квартира = 0,
+        [Display(Name = "Квартира")] flat = 0,
         [Display(Name = "Дом")] Дом = 1,
         [Display(Name = "Дача")] Дача = 2,
         [Display(Name = "Земельный участок")] Земля = 3,

@@ -1,0 +1,38 @@
+﻿@model System.Collections.Generic.List<Data.AngleOk.Model.Models.Advertisement>
+
+@{
+	ViewData["Title"] = "Объявления";
+	//Layout = "_Layout";
+}
+
+<h2>Объявления</h2>
+
+<p>
+	<a asp-action="Create" class="btn btn-primary">Создать</a>
+</p>
+
+<table class="table table-bordered table-striped">
+	<thead>
+	<tr>
+		<th>Объект</th>
+		<th>Адрес</th>
+		<th>Описание</th>
+		
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>@item.RealtyObject.RealtyObjectKind.ToString()</td>
+			<td>@item.RealtyObject.Address</td>
+			<td>@item.ShortDescription</td>
+			<td>
+				<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Редактировать</a>
+				<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Просмотр</a>
+				<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Удалить</a>
+			</td>
+		</tr>
+	}
+	</tbody>
+</table>

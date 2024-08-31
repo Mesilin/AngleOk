@@ -19,8 +19,8 @@ namespace AngleOk.Web.Controllers.Mvc
         [HttpGet]
         public IActionResult Index()
         {
-            return RedirectToAction("Index", "Home", new { Area = "Admin" });
-			//return View(dataManager.TextFields.GetTextFieldByCodeWord("PageIndex"));
+            //return RedirectToAction("Index", "Home", new { Area = "Admin" });
+			return View(dataManager.TextFields.GetTextFieldByCodeWord("PageIndex"));
 		}
 
         [HttpGet]
@@ -29,24 +29,10 @@ namespace AngleOk.Web.Controllers.Mvc
             return View(dataManager.TextFields.GetTextFieldByCodeWord("PageContacts"));
         }
 
-        //public async Task<IActionResult> Index()
-        //{
-        //    var p = await db.Clients.ToListAsync();
-        //    p = p.Where(q => q.PhoneNumber.Contains("-")).ToList();
-        //    return View(p);
-        //}
-
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> Create(Client user)
-        //{
-        //    db.Clients.Add(user);
-        //    await db.SaveChangesAsync();
-        //    return RedirectToAction("Index");
-        //}
-    }
+        [HttpGet]
+        public IActionResult Advertisements()
+        {
+	        return View(dataManager.TextFields.GetTextFieldByCodeWord("PageAdvertisements"));
+        }
+	}
 }

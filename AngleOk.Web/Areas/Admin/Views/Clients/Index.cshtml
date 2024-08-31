@@ -1,0 +1,38 @@
+﻿@model System.Collections.Generic.List<Data.AngleOk.Model.Models.Client>
+
+@{
+	ViewData["Title"] = "Клиенты"; 
+	//Layout = "_Layout";
+}
+
+<h2>Клиенты</h2>
+
+<p>
+	<a asp-action="Create" class="btn btn-primary">Создать</a>
+</p>
+
+<table class="table table-bordered table-striped">
+	<thead>
+	<tr>
+		<th>ФИО</th>
+		<th>Телефон</th>
+		<th>Email</th>
+		<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>@item.FirstName @item.LastName</td>
+			<td>@item.PhoneNumber</td>
+			<td>@item.Email</td>
+			<td>
+				<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Редактировать</a>
+				<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Просмотр</a>
+				<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Удалить</a>
+			</td>
+		</tr>
+	}
+	</tbody>
+</table>

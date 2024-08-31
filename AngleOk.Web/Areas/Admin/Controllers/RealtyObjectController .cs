@@ -56,15 +56,15 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 		/// GET: RealtyObject/Create
 		/// </summary>
 		/// <returns></returns>
-    [HttpGet("Create2")]
-		public IActionResult Create2()
+    [HttpGet("Create")]
+		public IActionResult Create()
 		{
 			return View();
 		}
 
 		[ValidateAntiForgeryToken]
-    [HttpPost("Create2")]
-		public async Task<IActionResult> Create2(RealtyObject realtyObject, List<IFormFile> MediaFiles)
+    [HttpPost("Create")]
+		public async Task<IActionResult> Create(RealtyObject realtyObject, List<IFormFile> MediaFiles)
 		{
 			if (ModelState.IsValid)
 			{
@@ -88,7 +88,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 									Data = memoryStream.ToArray(),
 									FileName = Path.GetFileName(file.FileName),
 									Extension = Path.GetExtension(file.FileName),
-									Description = "Uploaded file", // Можно добавить форму для описания, если нужно
+									Description = "Uploaded file"
 								};
 								realtyObject.MediaMaterials.Add(media);
 							}
@@ -142,7 +142,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 
 
 					// Загрузка новых медиафайлов, если они были переданы
-					
+
 					if (MediaFiles != null && MediaFiles.Count > 0)
 					{
 						foreach (var file in MediaFiles)
@@ -181,6 +181,10 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 					{
 						throw;
 					}
+				}
+				catch (Exception e)
+				{
+					return BadRequest("Произошла ошибка:"+e.Message);
 				}
 				return RedirectToAction(nameof(Index));
 			}

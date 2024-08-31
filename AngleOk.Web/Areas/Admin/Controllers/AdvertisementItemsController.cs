@@ -3,6 +3,7 @@ using AngleOk.Web.Services;
 using Data.AngleOk.Model.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AngleOk.Web.Areas.Admin.Controllers
 {
@@ -11,18 +12,23 @@ namespace AngleOk.Web.Areas.Admin.Controllers
     [Route("{area}/{controller}")]
     public class AdvertisementItemsController : Controller
     {
-        private AngleOkContext db;
+		private readonly AngleOkContext _context;
         private readonly DataManager dataManager;
         private readonly IWebHostEnvironment hostingEnvironment;
-        public AdvertisementItemsController(DataManager dataManager, IWebHostEnvironment hostingEnvironment, AngleOkContext db)
+        public AdvertisementItemsController(DataManager dataManager, IWebHostEnvironment hostingEnvironment, AngleOkContext context)
         {
-            this.db = db;
             this.dataManager = dataManager;
+        _context = context;
             this.hostingEnvironment = hostingEnvironment;
         }
 
-        [HttpGet]
-        [Route("Edit")]
+        [HttpGet("Index")]
+		public async Task<IActionResult> Index()
+		{
+			return View(await _context.Advertisements.ToListAsync());
+		}
+
+        [HttpGet("Edit")]
         public IActionResult Edit(Guid id)
         {
             var entity = id == default ? new Advertisement(){Manager = GetDefaultManager(), Client = EmptyClient()} : dataManager.Advertisements.GetAdvertisementById(id);
@@ -56,7 +62,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             newMedia.Extension = "png";
             newMedia.FileName = "asdasdfas";
 
-            var adv = db.Advertisements.Find(model.Id);
+            var adv = _context.Advertisements.Find(model.Id);
             adv.ShortDescription = "asdas";//model.ShortDescription;
             dataManager.Advertisements.SaveAdvertisement(adv);
             return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).CutController());
@@ -114,5 +120,6 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             dataManager.Advertisements.DeleteAdvertisement(id);
             return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).CutController());
         }
+
     }
 }

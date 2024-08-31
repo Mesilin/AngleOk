@@ -1,8 +1,12 @@
 ﻿using Data.AngleOk.Model.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 namespace AngleOk.Web.Areas.Admin.Controllers;
 
+[Area("Admin")]
+[Authorize]
+[Route("{area}/Clients")]
 public class ClientsController : Controller
 {
     private readonly AngleOkContext _context;
@@ -16,12 +20,14 @@ public class ClientsController : Controller
     /// GET: Clients
     /// </summary>
     /// <returns></returns>
+    [HttpGet("Index")]
     public async Task<IActionResult> Index()
     {
         return View(await _context.Clients.ToListAsync());
     }
 
     // GET: Clients/Details/5
+    [HttpGet("Details")]
     public async Task<IActionResult> Details(Guid? id)
     {
         if (id == null)
@@ -40,14 +46,15 @@ public class ClientsController : Controller
     }
 
     // GET: Clients/Create
+    [HttpGet("Create")]
     public IActionResult Create()
     {
         return View();
     }
 
     // POST: Clients/Create
-    [HttpPost]
     [ValidateAntiForgeryToken]
+    [HttpPost("Create")]
     public async Task<IActionResult> Create([Bind("Id,FirstName,Patronymic,LastName,Email,PhoneNumber")] Client client)
     {
         if (ModelState.IsValid)
@@ -62,6 +69,7 @@ public class ClientsController : Controller
     }
 
 	// GET: Clients/Edit/5
+    [HttpGet("Edit")]
 	public async Task<IActionResult> Edit(Guid? id)
 	{
 		if (id == null)
@@ -79,7 +87,7 @@ public class ClientsController : Controller
 	}
 
 	// POST: Clients/Edit/5
-	[HttpPost]
+    [HttpPost("Edit")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id,
         [Bind("Id,FirstName,Patronymic,LastName,Email,PhoneNumber")] Client client)
@@ -115,6 +123,7 @@ public class ClientsController : Controller
     }
 
     // GET: Clients/Delete/5
+    [HttpGet("Delete")]
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null)
@@ -133,7 +142,7 @@ public class ClientsController : Controller
     }
 
     // POST: Clients/Delete/5
-    [HttpPost, ActionName("Delete")]
+    [HttpPost("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {

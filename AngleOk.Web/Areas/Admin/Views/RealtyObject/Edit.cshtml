@@ -2,10 +2,10 @@
 @model Data.AngleOk.Model.Models.RealtyObject
 
 @{
-    ViewData["Title"] = "Edit Realty Object";
+    ViewData["Title"] = "Редактирование объекта";
 }
 
-<h2>Edit Realty Object</h2>
+<h2>Редактирование объекта</h2>
 
 <form asp-action="Edit" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
@@ -22,10 +22,25 @@
     <div class="form-group">
         <label asp-for="RealtyObjectKind" class="control-label"></label>
 	    <select asp-for="RealtyObjectKind" class="form-control">
-		    @foreach (var kind in Enum.GetValues(typeof(RealtyObjectKind)))
+		    @* @foreach (var kind in Enum.GetValues(typeof(RealtyObjectKind)))
 		    {
 			    var isSelected = kind.Equals(Model.RealtyObjectKind) ? "selected" : "";
 			    <option value="@kind" selected="@isSelected">@kind</option>
+		    } *@
+		    @foreach (RealtyObjectKind kind in Enum.GetValues(typeof(RealtyObjectKind)))
+            {
+	            if (kind.Equals(Model.RealtyObjectKind))
+	            {
+		            <option value="selected">
+			            @Html.DisplayFor(m => kind)
+		            </option>
+	            }
+	            else
+	            {
+		            <option value="">
+			            @Html.DisplayFor(m => kind)
+		            </option>
+	            }
 		    }
 	    </select>
         <span asp-validation-for="RealtyObjectKind" class="text-danger"></span>
@@ -38,7 +53,7 @@
 
     <!-- Отображение текущих медиафайлов -->
     <div class="form-group">
-        <label class="control-label">Existing Media Files</label>
+        <label class="control-label">Фото</label>
         <div class="row">
             @if (Model.MediaMaterials != null && Model.MediaMaterials.Any())
             {
@@ -52,23 +67,23 @@
             }
             else
             {
-                <p>No media files available.</p>
+                <p>Нет фото</p>
             }
         </div>
     </div>
 
     <!-- Добавление новых медиафайлов -->
     <div class="form-group">
-        <label for="MediaFiles" class="control-label">Add New Media Files</label>
+        <label for="MediaFiles" class="control-label">Добавить фото</label>
         <input type="file" name="MediaFiles" class="form-control" multiple />
-        <small class="form-text text-muted">You can upload multiple files.</small>
+        <small class="form-text text-muted">Можно выбрать для загрузки несколько файлов</small>
     </div>
 
     <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
+        <input type="submit" value="Сохранить" class="btn btn-primary" />
     </div>
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад</a>
 </div>
