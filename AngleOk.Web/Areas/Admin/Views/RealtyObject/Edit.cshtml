@@ -1,0 +1,74 @@
+﻿@using Data.AngleOk.Model.Enums
+@model Data.AngleOk.Model.Models.RealtyObject
+
+@{
+    ViewData["Title"] = "Edit Realty Object";
+}
+
+<h2>Edit Realty Object</h2>
+
+<form asp-action="Edit" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="CadastralNumber" class="control-label"></label>
+        <input asp-for="CadastralNumber" class="form-control" />
+        <span asp-validation-for="CadastralNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address" class="control-label"></label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="RealtyObjectKind" class="control-label"></label>
+	    <select asp-for="RealtyObjectKind" class="form-control">
+		    @foreach (var kind in Enum.GetValues(typeof(RealtyObjectKind)))
+		    {
+			    var isSelected = kind.Equals(Model.RealtyObjectKind) ? "selected" : "";
+			    <option value="@kind" selected="@isSelected">@kind</option>
+		    }
+	    </select>
+        <span asp-validation-for="RealtyObjectKind" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <!-- Отображение текущих медиафайлов -->
+    <div class="form-group">
+        <label class="control-label">Existing Media Files</label>
+        <div class="row">
+            @if (Model.MediaMaterials != null && Model.MediaMaterials.Any())
+            {
+                foreach (var media in Model.MediaMaterials)
+                {
+                    <div class="col-md-3">
+                        <img src="data:image/@media.Extension;base64,@(Convert.ToBase64String(media.Data))" class="img-thumbnail" alt="@media.FileName" />
+                        <p>@media.FileName</p>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No media files available.</p>
+            }
+        </div>
+    </div>
+
+    <!-- Добавление новых медиафайлов -->
+    <div class="form-group">
+        <label for="MediaFiles" class="control-label">Add New Media Files</label>
+        <input type="file" name="MediaFiles" class="form-control" multiple />
+        <small class="form-text text-muted">You can upload multiple files.</small>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

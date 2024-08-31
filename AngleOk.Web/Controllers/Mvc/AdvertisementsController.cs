@@ -72,7 +72,7 @@ namespace AngleOk.Web.Controllers.Mvc
                         Latitude = viewModel.Latitude,
                         Longitude = viewModel.Longitude,
                         Description = viewModel.Description,
-                        RealtyObjectOwners = new EditableList<RealtyObjectOwner>(){}
+                        //RealtyObjectOwners = new EditableList<RealtyObjectOwner>(){}
 
                     };
 

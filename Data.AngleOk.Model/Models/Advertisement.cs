@@ -57,6 +57,7 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Статус объявления
         /// </summary>
+        [DefaultValue(true)]
         public bool IsActive {  get; set; } = true;
 
 		/// <summary>

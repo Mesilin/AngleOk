@@ -48,9 +48,9 @@ namespace Data.AngleOk.Model.Models
         /// </summary>
         public virtual List<Media>? MediaMaterials { get; set; }
 
-        /// <summary>
-        /// Владельцы объектов недвижимости
-        /// </summary>
-        public virtual required List<RealtyObjectOwner> RealtyObjectOwners { get; set; }
+        ///// <summary>
+        ///// Владельцы объектов недвижимости
+        ///// </summary>
+        //public virtual required List<RealtyObjectOwner> RealtyObjectOwners { get; set; }
     }
 }
