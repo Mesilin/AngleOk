@@ -20,8 +20,9 @@ namespace AngleOk.Web.Models
         public int MaxPrice { get; set; }
         [Display(Name = "Контакт")]
         public Guid ManagerId { get; set; }
-        [Display(Name = "Объявление активно?")]
-        public bool IsActive { get; set; }
+
+        [Display(Name = "Объявление активно")]
+        public bool IsActive { get; set; } = true;
         [Display(Name = "Описание")]
         public string Description { get; set; } = string.Empty;
 

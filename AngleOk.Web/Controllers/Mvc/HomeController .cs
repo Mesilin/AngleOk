@@ -19,8 +19,9 @@ namespace AngleOk.Web.Controllers.Mvc
         [HttpGet]
         public IActionResult Index()
         {
-            return View(dataManager.TextFields.GetTextFieldByCodeWord("PageIndex"));
-        }
+            return RedirectToAction("Index", "Home", new { Area = "Admin" });
+			//return View(dataManager.TextFields.GetTextFieldByCodeWord("PageIndex"));
+		}
 
         [HttpGet]
         public IActionResult Contacts()

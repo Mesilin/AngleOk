@@ -1,0 +1,59 @@
+﻿@model Employee
+
+@{
+	ViewData["Title"] = "Новый сотрудник"; Layout = "_Layout";
+}
+
+<h2>Новый клиент</h2>
+
+<form asp-action="Create">
+	<div class="form-group">
+		<label asp-for="FirstName" class="control-label"></label>
+		<input asp-for="FirstName" class="form-control" />
+		<span asp-validation-for="FirstName" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="Patronymic" class="control-label"></label>
+		<input asp-for="Patronymic" class="form-control" />
+		<span asp-validation-for="Patronymic" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="LastName" class="control-label"></label>
+		<input asp-for="LastName" class="form-control" />
+		<span asp-validation-for="LastName" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="Position" class="control-label"></label>
+		<input asp-for="Position" class="form-control" />
+		<span asp-validation-for="Position" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="Email" class="control-label"></label>
+		<input asp-for="Email" class="form-control" />
+		<span asp-validation-for="Email" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="PhoneNumber" class="control-label"></label>
+		<input asp-for="PhoneNumber" class="form-control" />
+		<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="PublicPhone" class="control-label"></label>
+		<input asp-for="PublicPhone" class="form-control"/>
+		<span asp-validation-for="PublicPhone" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="IsActive" class="control-label"></label>
+		<input asp-for="IsActive" type="checkbox" />
+		<span asp-validation-for="IsActive" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<input type="submit" value="Создать" class="btn btn-primary" />
+	</div>
+</form>

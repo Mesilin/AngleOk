@@ -2,9 +2,5 @@
     {
         "outputFile": "wwwroot/css/main.css",
         "inputFile": "wwwroot/sass/main.scss"
-    },
-    {
-        "outputFile": "wwwroot/css/bootstrap/bootstrap.css",
-        "inputFile": "wwwroot/sass/main.scss"
     }
 ]

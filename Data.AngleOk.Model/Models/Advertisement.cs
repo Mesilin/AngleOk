@@ -57,12 +57,12 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Статус объявления
         /// </summary>
-        public bool IsActive {  get; set; }
+        public bool IsActive {  get; set; } = true;
 
-        /// <summary>
-        /// Описание
-        /// </summary>
-        public string Description { get; set; } = string.Empty;
+		/// <summary>
+		/// Описание
+		/// </summary>
+		public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Краткое описание

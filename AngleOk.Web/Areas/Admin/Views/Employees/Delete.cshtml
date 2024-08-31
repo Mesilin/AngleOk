@@ -1,0 +1,23 @@
+﻿@model Data.AngleOk.Model.Models.Employee
+
+@{
+	ViewData["Title"] = "Удаление сотрудника";
+}
+
+<h2>Удаление сотрудника</h2>
+
+<div>
+	<h4>Вы действительно хотите запись о сотруднике?</h4>
+	
+	<div>
+		<h3>@Model.FirstName @Model.Patronymic @Model.LastName (@Model.Position)</h3>
+	</div>
+
+	<form asp-action="Delete">
+		<input type="hidden" asp-for="Id" />
+		<div class="form-group">
+			<input type="submit" value="Удалить" class="btn btn-danger" />
+			<a asp-action="Index" class="btn btn-secondary">Отмена</a>
+		</div>
+	</form>
+</div>

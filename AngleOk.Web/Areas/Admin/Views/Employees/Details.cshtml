@@ -1,0 +1,38 @@
+﻿@model Employee
+@{
+	ViewData["Title"] = "Карточка сотрудника";
+}
+<h4>Просмотр карточки сотрудника</h4>
+
+<div>
+	<dl class="row">
+		<dt class="col-sm-2">Имя</dt>
+		<dd class="col-sm-10">@Model.FirstName</dd>
+
+		<dt class="col-sm-2">Отчество</dt>
+		<dd class="col-sm-10">@Model.Patronymic</dd>
+
+		<dt class="col-sm-2">Фамилия</dt>
+		<dd class="col-sm-10">@Model.LastName</dd>
+		
+		<dt class="col-sm-2">Должность</dt>
+		<dd class="col-sm-10">@Model.Position</dd>
+
+		<dt class="col-sm-2">Email</dt>
+		<dd class="col-sm-10">@Model.Email</dd>
+		
+		<dt class="col-sm-2">Телефон личный</dt>
+		<dd class="col-sm-10">@Model.PhoneNumber</dd>
+		
+		<dt class="col-sm-2">Телефон рабочий</dt>
+		<dd class="col-sm-10">@Model.PublicPhone</dd>
+		
+		<dt class="col-sm-2">Профиль активен</dt>
+		<dd class="col-sm-10">@Model.IsActive</dd>
+	</dl>
+</div>
+
+<p>
+	<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редактировать</a>
+	<a asp-action="Index" class="btn btn-secondary">Назад</a>
+</p>

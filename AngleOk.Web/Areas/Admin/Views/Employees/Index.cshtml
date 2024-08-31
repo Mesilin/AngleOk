@@ -1,31 +1,38 @@
-﻿@* Employees *@
-@model IQueryable<Employee>
+﻿@model System.Collections.Generic.List<Data.AngleOk.Model.Models.Employee>
 @{
-    string title = "Сотрудники";
-    ViewBag.Title = title;
+    ViewData["Title"] = "Сотрудники";
+	Layout = "_Layout";
 }
-<div>
-    <div class="div-box">
-        <a asp-controller="Account" asp-action="Register" asp-route-id="" asp-route-returnUrl="/Admin/Employees">Добавить сотрудника</a>
-    </div>
-    <h2>Список сотрудников</h2>
-    @if (Model.Any())
-    {
-        <div>
-            @foreach (Employee item in Model)
-            {
-                <div>
-                    <a asp-area="Admin" asp-controller="Employees" asp-action="Edit" asp-route-id="@item.Id">редактировать</a>
-                    <form style="display: inline-block;" id="form-@item.Id" asp-area="Admin" asp-controller="Employees" asp-action="Delete" method="post">
-                        <input type="hidden" name="Id" value="@item.Id">
-                        <a href="#" onclick="document.getElementById('form-@item.Id').submit();">удалить</a>
-                    </form>
-                    @* <a asp-area="Admin" asp-controller="Employees" asp-action="Index" asp-route-id="@item.Id">
-                        @($"{item.FirstName} {item.LastName}")
-                    </a> *@
-                    <b>@($"{item.FirstName} {item.LastName[0]}." + (string.IsNullOrEmpty(item.Patronymic) ? "" : (item.Patronymic[0]+".")))</b>
-                </div>
-            }
-        </div>
-    }
-</div>
+<h2>Сотрудники</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Создать</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+	        <th>ФИО</th>
+	        <th>Должность</th>
+            <th>Телефон</th>
+	        <th>Email</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@($"{item.FirstName} {item.LastName[0]}." + (string.IsNullOrEmpty(item.Patronymic) ? "" : (item.Patronymic[0] + ".")))</td>
+	            <td>@item.Position</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Email</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Редактировать</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Просмотр</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

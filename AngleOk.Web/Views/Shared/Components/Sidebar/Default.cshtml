@@ -3,7 +3,7 @@
     <ul class="small-image-list">
         @if (Model?.Any() == true)
         {
-            @foreach (Advertisement entity in Model)
+            @foreach (Advertisement entity in Model.Take(5))
             {
                 <h2>Спецпредложения</h2>
                 <li>
@@ -17,8 +17,9 @@
                         @entity.Description
                     </p>
                 </li>
-            }   }
-        <li>
+            }
+        }
+        @* <li>
             <p>Объявления на карте</p>
         </li>
         <li>
@@ -26,6 +27,6 @@
         </li>
         <li>
             <p>Подать объявление</p>
-        </li>
+        </li> *@
     </ul>
 </section>

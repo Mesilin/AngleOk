@@ -61,25 +61,25 @@ public class ClientsController : Controller
         return View(client);
     }
 
-    // GET: Clients/Edit/5
-    public async Task<IActionResult> Edit(Guid? id)
-    {
-        if (id == null)
-        {
-            return NotFound();
-        }
+	// GET: Clients/Edit/5
+	public async Task<IActionResult> Edit(Guid? id)
+	{
+		if (id == null)
+		{
+			return NotFound();
+		}
 
-        var client = await _context.Clients.FindAsync(id);
-        if (client == null)
-        {
-            return NotFound();
-        }
+		var client = await _context.Clients.FindAsync(id);
+		if (client == null)
+		{
+			return NotFound();
+		}
 
-        return View(client);
-    }
+		return View(client);
+	}
 
-    // POST: Clients/Edit/5
-    [HttpPost]
+	// POST: Clients/Edit/5
+	[HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id,
         [Bind("Id,FirstName,Patronymic,LastName,Email,PhoneNumber")] Client client)
