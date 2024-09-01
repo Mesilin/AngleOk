@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Data.AngleOk.Model.Enums;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -48,5 +49,9 @@ namespace Data.AngleOk.Model.Models
         public DbSet<RealtyObjectOwner> RealtyObjectOwners { get; set; }
         public DbSet<Stead> Steads { get; set; }
         public DbSet<TextField> TextFields { get; set; }
+        public DbSet<RealtyObjectKind> RealtyObjectKinds { get; set; }
+        public DbSet<ClientType> ClientTypes { get; set; }
+        public DbSet<DealType> DealTypes { get; set; }
+        public DbSet<SteadUseKind> SteadUseKinds { get; set; }
     }
 }

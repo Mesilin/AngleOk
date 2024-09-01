@@ -27,21 +27,6 @@
 			    var isSelected = kind.Equals(Model.RealtyObjectKind) ? "selected" : "";
 			    <option value="@kind" selected="@isSelected">@kind</option>
 		    } *@
-		    @foreach (RealtyObjectKind kind in Enum.GetValues(typeof(RealtyObjectKind)))
-            {
-	            if (kind.Equals(Model.RealtyObjectKind))
-	            {
-		            <option value="selected">
-			            @Html.DisplayFor(m => kind)
-		            </option>
-	            }
-	            else
-	            {
-		            <option value="">
-			            @Html.DisplayFor(m => kind)
-		            </option>
-	            }
-		    }
 	    </select>
         <span asp-validation-for="RealtyObjectKind" class="text-danger"></span>
     </div>

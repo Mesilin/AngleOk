@@ -16,10 +16,10 @@
     <div class="form-group">
         <label asp-for="DealType"></label>
         <select asp-for="DealType" class="form-control">
-            @foreach (var dealType in Enum.GetValues(typeof(DealType)))
+            @* @foreach (var dealType in Enum.GetValues(typeof(DealType)))
             {
                 <option value="@dealType">@dealType</option>
-            }
+            } *@
         </select>
     </div>
 
@@ -70,10 +70,10 @@
         <div class="form-group">
             <label asp-for="RealtyObjectKind"></label>
             <select asp-for="RealtyObjectKind" class="form-control">
-                @foreach (var kind in Enum.GetValues(typeof(RealtyObjectKind)))
+                @* @foreach (var kind in Enum.GetValues(typeof(RealtyObjectKind)))
                 {
                     <option value="@kind">@kind</option>
-                }
+                } *@
             </select>
         </div>
 

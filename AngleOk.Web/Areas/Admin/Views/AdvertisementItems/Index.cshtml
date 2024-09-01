@@ -24,7 +24,7 @@
 	@foreach (var item in Model)
 	{
 		<tr>
-			<td>@item.RealtyObject.RealtyObjectKind.ToString()</td>
+			<td>@item.RealtyObject.RealtyObjectKind.RealtyObjectKindName</td>
 			<td>@item.RealtyObject.Address</td>
 			<td>@item.ShortDescription</td>
 			<td>

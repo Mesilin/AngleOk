@@ -1,5 +1,6 @@
 ﻿using AngleOk.Web.Repositories.Abstract;
 using AngleOk.Web.Services;
+using Data.AngleOk.Model.Enums;
 using Data.AngleOk.Model.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,9 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         [HttpGet("Edit")]
         public IActionResult Edit(Guid id)
         {
-            var entity = id == default ? new Advertisement(){Manager = GetDefaultManager(), Client = EmptyClient()} : dataManager.Advertisements.GetAdvertisementById(id);
+            var entity = id == default
+                ? new Advertisement() { Manager = GetDefaultManager(), Client = EmptyClient(), DealType = EmptyDeal() }
+                : dataManager.Advertisements.GetAdvertisementById(id);
             return View(entity);
         }
 
@@ -45,7 +48,14 @@ namespace AngleOk.Web.Areas.Admin.Controllers
                 PhoneNumber = "+7"
             };
         }
-
+        private DealType EmptyDeal()
+        {
+            return new DealType()
+            {
+                Id = Guid.NewGuid(),
+                DealTypeName = "Продажа"
+            };
+        }
         private Employee GetDefaultManager()
         {
             return dataManager.Employee.GetEmployeeByName(User.Identity.Name);

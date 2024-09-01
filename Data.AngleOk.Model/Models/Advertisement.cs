@@ -27,7 +27,7 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Тип(аренда, продажа, покупка)
         /// </summary>
-        public DealType DealType { get; set; }
+        public Guid DealTypeId { get; set; }
 
         /// <summary>
         /// Идентификатор объекта недвижимости
@@ -71,13 +71,18 @@ namespace Data.AngleOk.Model.Models
         [MaxLength(50)]
         public string ShortDescription { get; set; } = string.Empty;
 
+
+
         public virtual RealtyObject RealtyObject { get; set; } = null!;
 
         [ForeignKey("ManagerId")]
         public virtual required Employee Manager { get; set; }
 
-        [ForeignKey("Id")]
+        [ForeignKey("ClientId")]
         public virtual required Client Client{ get; set; }
+
+        [ForeignKey("DealTypeId")]
+        public virtual required DealType DealType { get; set; }
 
         public virtual List<Media>? MediaCollection { get; set; }
     }

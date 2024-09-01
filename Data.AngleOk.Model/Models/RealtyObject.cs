@@ -17,9 +17,6 @@ namespace Data.AngleOk.Model.Models
         /// </summary>
         public Guid Id {get; set;}
 
-        [Display(Name = "Тип")]
-        public RealtyObjectKind RealtyObjectKind { get; set; }
-
         [Display(Name = "Кадастровый номер")]
         public string CadastralNumber { get; set;} = null!;
 
@@ -44,6 +41,13 @@ namespace Data.AngleOk.Model.Models
         public Guid? TitleImageId { get; set; }
         [ForeignKey("TitleImageId")]
         public virtual Media? TitleImage { get; set; }
+
+        /// <summary>
+        /// Тип
+        /// </summary>
+        public Guid RealtyObjectKindId { get; set; }
+        [ForeignKey("RealtyObjectKindId")]
+        public virtual RealtyObjectKind RealtyObjectKind { get; set; }
 
         /// <summary>
         /// Список фотографий и пр медиаматериалов

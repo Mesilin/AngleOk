@@ -27,7 +27,9 @@ namespace Data.AngleOk.Model.Models
         
         public virtual RealtyObject RealtyObject { get; set; } = null!;
 
-        public SteadUseKind SteadUseKind { get; set; }
+        public Guid SteadUseKindId { get; set; }
+        [ForeignKey("SteadUseKindId")]
+        public virtual SteadUseKind SteadUseKind { get; set; }
 
-     }
+    }
 }
