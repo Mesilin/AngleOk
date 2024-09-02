@@ -1,5 +1,4 @@
-﻿@using Data.AngleOk.Model.Enums
-@model Data.AngleOk.Model.Models.RealtyObject
+﻿@model Data.AngleOk.Model.Models.RealtyObject
 
 @{
     ViewData["Title"] = "Редактирование объекта";
@@ -20,15 +19,19 @@
         <span asp-validation-for="Address" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="RealtyObjectKind" class="control-label"></label>
-	    <select asp-for="RealtyObjectKind" class="form-control">
-		    @* @foreach (var kind in Enum.GetValues(typeof(RealtyObjectKind)))
-		    {
-			    var isSelected = kind.Equals(Model.RealtyObjectKind) ? "selected" : "";
-			    <option value="@kind" selected="@isSelected">@kind</option>
-		    } *@
-	    </select>
-        <span asp-validation-for="RealtyObjectKind" class="text-danger"></span>
+	    <label asp-for="RealtyObjectKindId" class="control-label">Тип объекта недвижимости</label>
+	    <select asp-for="RealtyObjectKindId" class="form-control" asp-items="ViewBag.RealtyObjectKindId"></select>
+	    <span asp-validation-for="RealtyObjectKindId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+	    <label asp-for="Latitude" class="control-label"></label>
+	    <input asp-for="Latitude" class="form-control" />
+	    <span asp-validation-for="Latitude" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+	    <label asp-for="Longitude" class="control-label"></label>
+	    <input asp-for="Longitude" class="form-control" />
+	    <span asp-validation-for="Longitude" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Description" class="control-label"></label>
@@ -63,9 +66,9 @@
         <input type="file" name="MediaFiles" class="form-control" multiple />
         <small class="form-text text-muted">Можно выбрать для загрузки несколько файлов</small>
     </div>
-
     <div class="form-group">
         <input type="submit" value="Сохранить" class="btn btn-primary" />
+	    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
     </div>
 </form>
 

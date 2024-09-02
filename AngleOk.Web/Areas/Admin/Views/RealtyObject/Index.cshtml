@@ -5,9 +5,8 @@
 }
 
 <h2>Объекты</h2>
-
 <p>
-	<a asp-action="Create">Создать новый объект</a>
+	<a asp-action="Create" class="btn btn-primary">Создать новый объект</a>
 </p>
 
 <table class="table">
@@ -29,9 +28,9 @@
 			<td>@item.RealtyObjectKind.RealtyObjectKindName</td>
 			<td>@item.Description</td>
 			<td>
-				<a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
-				<a asp-action="Details" asp-route-id="@item.Id">Просмотр</a> |
-				<a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+				<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Редактировать</a>
+				<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Просмотр</a>
+				<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Удалить</a>
 			</td>
 		</tr>
 	}

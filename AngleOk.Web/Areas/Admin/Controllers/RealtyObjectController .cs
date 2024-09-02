@@ -1,6 +1,7 @@
 ﻿using Data.AngleOk.Model.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace AngleOk.Web.Areas.Admin.Controllers
@@ -22,7 +23,10 @@ namespace AngleOk.Web.Areas.Admin.Controllers
     [HttpGet("Index")]
 		public async Task<IActionResult> Index()
 		{
-			var realtyObjects = await _context.RealtyObjects.Include(r => r.TitleImage).ToListAsync();
+			var realtyObjects = await _context.RealtyObjects
+				.Include(r => r.TitleImage)
+				.Include(i=>i.RealtyObjectKind)
+				.ToListAsync();
 			return View(realtyObjects);
 		}
 
@@ -40,6 +44,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 			}
 
 			var realtyObject = await _context.RealtyObjects
+				.Include(i => i.RealtyObjectKind)
 				.Include(r => r.TitleImage)
 				.Include(r => r.MediaMaterials)
 				.FirstOrDefaultAsync(m => m.Id == id);
@@ -56,25 +61,28 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 		/// GET: RealtyObject/Create
 		/// </summary>
 		/// <returns></returns>
-    [HttpGet("Create")]
+		[HttpGet("Create")]
 		public IActionResult Create()
 		{
+			ViewData["RealtyObjectKindId"] = new SelectList(_context.RealtyObjectKinds, "Id", "RealtyObjectKindName");
 			return View();
 		}
 
 		[ValidateAntiForgeryToken]
-    [HttpPost("Create")]
-		public async Task<IActionResult> Create(RealtyObject realtyObject, List<IFormFile> MediaFiles)
+		[HttpPost("Create")]
+		//public async Task<IActionResult> Create(RealtyObject realtyObject, List<IFormFile> MediaFiles)
+		public async Task<IActionResult> Create(
+			[Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")] 
+			RealtyObject realtyObject, 
+			List<IFormFile> MediaFiles)
 		{
-			if (ModelState.IsValid)
+			//if (ModelState.IsValid)
 			{
 				realtyObject.Id = Guid.NewGuid(); // Создание нового ID для объекта недвижимости
 
 				// Если есть загруженные файлы
 				if (MediaFiles != null && MediaFiles.Count > 0)
 				{
-					realtyObject.MediaMaterials = new List<Media>();
-
 					foreach (var file in MediaFiles)
 					{
 						if (file.Length > 0)
@@ -88,12 +96,14 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 									Data = memoryStream.ToArray(),
 									FileName = Path.GetFileName(file.FileName),
 									Extension = Path.GetExtension(file.FileName),
-									Description = "Uploaded file"
+									Description = "Uploaded file",
+									RealtyObjectId = realtyObject.Id
 								};
-								realtyObject.MediaMaterials.Add(media);
+								_context.Add(media);
 							}
 						}
 					}
+					//realtyObject.TitleImageId = medias.First().Id;
 				}
 
 				_context.Add(realtyObject);
@@ -121,14 +131,16 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 			{
 				return NotFound();
 			}
-			return View(realtyObject);
+            ViewData["RealtyObjectKindId"] = new SelectList(_context.RealtyObjectKinds, "Id", "RealtyObjectKindName", realtyObject.RealtyObjectKindId);
+
+            return View(realtyObject);
 		}
 
 		[HttpPost("Edit")]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(Guid id, RealtyObject realtyObject, List<IFormFile> MediaFiles)
+		public async Task<IActionResult> Edit(Guid id, [Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")] RealtyObject realtyObject, List<IFormFile> MediaFiles)
 		{
-			if (id != realtyObject.Id)
+            if (id != realtyObject.Id)
 			{
 				return NotFound();
 			}

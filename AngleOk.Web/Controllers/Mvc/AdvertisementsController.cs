@@ -2,11 +2,15 @@
 using AngleOk.Web.Repositories.Abstract;
 using Castle.Components.DictionaryAdapter;
 using Data.AngleOk.Model.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 namespace AngleOk.Web.Controllers.Mvc
 {
-    public class AdvertisementsController:Controller
+	//[Area("Admin")]
+	//[Authorize]
+	//[Route("{area}/Advertisements")]
+	public class AdvertisementsController:Controller
     {
         private readonly AngleOkContext _context;
         private readonly DataManager _dataManager;

@@ -19,7 +19,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         public AdvertisementItemsController(DataManager dataManager, IWebHostEnvironment hostingEnvironment, AngleOkContext context)
         {
             this.dataManager = dataManager;
-        _context = context;
+			_context = context;
             this.hostingEnvironment = hostingEnvironment;
         }
 
