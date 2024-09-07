@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Data.AngleOk.Model.Models
 {
     /// <summary>
-    /// Фото и видео
+    /// Фото
     /// </summary>
     [Table("Media")]
     public class Media

@@ -19,7 +19,8 @@ namespace AngleOk.Web.Models.ViewComonents
             if (isAdminArea)
                 return Task.FromResult((IViewComponentResult)View("AdminSidebar"));
 
-            return Task.FromResult((IViewComponentResult)View("Default", dataManager.Advertisements.GetAll()));
+            return Task.FromResult((IViewComponentResult)View("Default", 
+                dataManager.Advertisements.GetAll()));
         }
     }
 }

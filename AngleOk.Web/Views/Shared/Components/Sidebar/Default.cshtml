@@ -3,18 +3,16 @@
     <ul class="small-image-list">
         @if (Model?.Any() == true)
         {
-            @foreach (Advertisement entity in Model.Take(5))
+	        var list = Model.Count() > 5 ? Model.Take(5) : Model;
+            @foreach (Advertisement entity in list)
             {
                 <h2>Спецпредложения</h2>
                 <li>
-                    <a asp-area="" asp-controller="Advertisements" asp-action="Index" asp-route-id="@entity.Id">
-                        <img src="~/images/@entity.RealtyObject.TitleImage.Path" alt="" class="left" />
-                    </a>
-                    <h4>
-                        @entity.ShortDescription
-                    </h4>
+	                <a asp-area="Admin" asp-controller="Advertisements" asp-action="Details" asp-route-id="@entity.Id">
+                        <img src="@Url.Action("GetImage", "Media",  new { id = entity.RealtyObject.TitleImageId.ToString() })" alt="Нет фото" class="left" />
+	                </a>
                     <p>
-                        @entity.Description
+                        @entity.ShortDescription
                     </p>
                 </li>
             }

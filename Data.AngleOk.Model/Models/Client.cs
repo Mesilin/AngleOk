@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 
 namespace Data.AngleOk.Model.Models
 {
@@ -44,5 +45,8 @@ namespace Data.AngleOk.Model.Models
         /// </summary>
         [DisplayName("Номер телефона")]
         public string PhoneNumber { get; set; }
+
+        [NotMapped]
+        public string Fullname => $"{FirstName} {LastName}";
     }
 }

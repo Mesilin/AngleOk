@@ -6,96 +6,109 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AngleOk.Web.Areas.Admin.Controllers
 {
-	[Area("Admin")]
-	[Authorize]
-	[Route("{area}/RealtyObject")]
-	public class RealtyObjectController : Controller
-	{
-		private readonly AngleOkContext _context;
-		public RealtyObjectController(AngleOkContext context)
-		{
-			_context = context;
-		}
-		/// <summary>
-		/// GET: RealtyObject
-		/// </summary>
-		/// <returns></returns>
-    [HttpGet("Index")]
-		public async Task<IActionResult> Index()
-		{
-			var realtyObjects = await _context.RealtyObjects
-				.Include(r => r.TitleImage)
-				.Include(i=>i.RealtyObjectKind)
-				.ToListAsync();
-			return View(realtyObjects);
-		}
+    [Area("Admin")]
+    [Authorize]
+    [Route("{area}/RealtyObject")]
+    public class RealtyObjectController : Controller
+    {
+        private readonly AngleOkContext _context;
 
-		/// <summary>
-		/// GET: RealtyObject/Details/5
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-    [HttpGet("Details")]
-		public async Task<IActionResult> Details(Guid? id)
-		{
-			if (id == null)
-			{
-				return NotFound();
-			}
+        public RealtyObjectController(AngleOkContext context)
+        {
+            _context = context;
+        }
 
-			var realtyObject = await _context.RealtyObjects
-				.Include(i => i.RealtyObjectKind)
-				.Include(r => r.TitleImage)
-				.Include(r => r.MediaMaterials)
-				.FirstOrDefaultAsync(m => m.Id == id);
+        /// <summary>
+        /// GET: RealtyObject
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Index")]
+        public async Task<IActionResult> Index()
+        {
+            var realtyObjects = await _context.RealtyObjects
+                .Include(r => r.TitleImage)
+                .Include(i => i.RealtyObjectKind)
+                .ToListAsync();
+            return View(realtyObjects);
+        }
 
-			if (realtyObject == null)
-			{
-				return NotFound();
-			}
+        /// <summary>
+        /// GET: RealtyObject/Details/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("Details")]
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-			return View(realtyObject);
-		}
+            var realtyObject = await _context.RealtyObjects
+                .Include(i => i.RealtyObjectKind)
+                .Include(r => r.TitleImage)
+                .Include(r => r.MediaMaterials)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-		/// <summary>
-		/// GET: RealtyObject/Create
-		/// </summary>
-		/// <returns></returns>
-		[HttpGet("Create")]
-		public IActionResult Create()
-		{
-			ViewData["RealtyObjectKindId"] = new SelectList(_context.RealtyObjectKinds, "Id", "RealtyObjectKindName");
-			return View();
-		}
+            if (realtyObject == null)
+            {
+                return NotFound();
+            }
 
-		[ValidateAntiForgeryToken]
+            return View(realtyObject);
+        }
+
+        /// <summary>
+        /// GET: RealtyObject/Create
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Create")]
+        public IActionResult Create()
+        {
+            ViewData["RealtyObjectKindId"] = new SelectList(_context.RealtyObjectKinds, "Id", "RealtyObjectKindName");
+            return View();
+        }
+
+        private readonly List<string> _allowedMediaFiles = new() { "png", "jpg", "jpeg" };
+
+        [ValidateAntiForgeryToken]
 		[HttpPost("Create")]
-		//public async Task<IActionResult> Create(RealtyObject realtyObject, List<IFormFile> MediaFiles)
 		public async Task<IActionResult> Create(
 			[Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")] 
 			RealtyObject realtyObject, 
 			List<IFormFile> MediaFiles)
 		{
-			//if (ModelState.IsValid)
 			{
-				realtyObject.Id = Guid.NewGuid(); // Создание нового ID для объекта недвижимости
+				realtyObject.Id = Guid.NewGuid();
 
 				// Если есть загруженные файлы
 				if (MediaFiles != null && MediaFiles.Count > 0)
-				{
-					foreach (var file in MediaFiles)
-					{
-						if (file.Length > 0)
+                {
+                    Guid id=default;
+                    realtyObject.TitleImageId = null;
+
+                    foreach (var file in MediaFiles)
+                    {
+                        var ext = Path.GetExtension(file.FileName);
+                        var name = Path.GetFileName(file.FileName);
+
+                        if (file.Length is > 0 and <= 20000000 && _allowedMediaFiles.Contains(ext.ToLower()))
 						{
+							id= Guid.NewGuid();
+                            if (name.ToLower().Contains("title"))
+                            {
+                                realtyObject.TitleImageId = id;
+                            }
 							using (var memoryStream = new MemoryStream())
 							{
 								await file.CopyToAsync(memoryStream);
 								var media = new Media
 								{
-									Id = Guid.NewGuid(),
+									Id = id,
 									Data = memoryStream.ToArray(),
-									FileName = Path.GetFileName(file.FileName),
-									Extension = Path.GetExtension(file.FileName),
+									FileName = name,
+									Extension = ext,
 									Description = "Uploaded file",
 									RealtyObjectId = realtyObject.Id
 								};
@@ -103,8 +116,12 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 							}
 						}
 					}
-					//realtyObject.TitleImageId = medias.First().Id;
-				}
+
+					if(realtyObject.TitleImageId==null && id!=default)
+                        realtyObject.TitleImageId=id;
+
+                    //realtyObject.TitleImageId = medias.First().Id;
+                }
 
 				_context.Add(realtyObject);
 				await _context.SaveChangesAsync();
@@ -207,50 +224,14 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 		{
 			return await _context.Medias.Where(w=>w.RealtyObjectId==objectId).ToListAsync();
 		}
-		///// <summary>
-		///// POST: RealtyObject/Edit/5
-		///// </summary>
-		///// <param name="id"></param>
-		///// <param name="realtyObject"></param>
-		///// <returns></returns>
-		//[ValidateAntiForgeryToken]
-		//  [HttpPost("Edit")]
-		//public async Task<IActionResult> Edit(Guid id, [Bind("Id,RealtyObjectKind,CadastralNumber,Address,Latitude,Longitude,Description,TitleImageId")] RealtyObject realtyObject)
-		//{
-		//	if (id != realtyObject.Id)
-		//	{
-		//		return NotFound();
-		//	}
 
-		//	if (ModelState.IsValid)
-		//	{
-		//		try
-		//		{
-		//			_context.Update(realtyObject);
-		//			await _context.SaveChangesAsync();
-		//		}
-		//		catch (DbUpdateConcurrencyException)
-		//		{
-		//			if (!RealtyObjectExists(realtyObject.Id))
-		//			{
-		//				return NotFound();
-		//			}
-		//			else
-		//			{
-		//				throw;
-		//			}
-		//		}
-		//		return RedirectToAction(nameof(Index));
-		//	}
-		//	return View(realtyObject);
-		//}
 
-		/// <summary>
-		/// GET: RealtyObject/Delete/5
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-		[HttpGet("Delete")]
+        /// <summary>
+        /// GET: RealtyObject/Delete/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("Delete")]
 		public async Task<IActionResult> Delete(Guid? id)
 		{
 			if (id == null)
@@ -275,7 +256,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 		/// <returns></returns>
 		//[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
-    [HttpPost("Delete")]
+		[HttpPost("Delete")]
 		public async Task<IActionResult> DeleteConfirmed(Guid id)
 		{
 			var realtyObject = await _context.RealtyObjects.FindAsync(id);

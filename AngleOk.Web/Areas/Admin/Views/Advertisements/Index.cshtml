@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Advertisement>
+@{
+	ViewData["Title"] = "Объявления";
+}
+
+<h2>Объекты</h2>
+<p>
+	<a asp-action="Create" class="btn btn-primary">Создать новое объявление</a>
+</p>
+
+<table class="table">
+	<thead>
+	<tr>
+		<th>Тип</th>
+		<th>Объект</th>
+		<th>Адрес</th>
+		<th>Краткое описание</th>
+		<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>@item.DealType.DealTypeName</td>
+			<td>@item.RealtyObject.RealtyObjectKind.RealtyObjectKindName</td>
+			<td>@item.RealtyObject.Address</td>
+			<td>@item.ShortDescription</td>
+			<td>
+				<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Редактировать</a>
+				<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Просмотр</a>
+				<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Удалить</a>
+			</td>
+		</tr>
+	}
+	</tbody>
+</table>

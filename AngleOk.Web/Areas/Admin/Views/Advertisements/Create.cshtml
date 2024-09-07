@@ -1,0 +1,84 @@
+﻿@model AdvertisementCreateViewModel
+
+@{
+	ViewData["Title"] = "Новое объявление";
+}
+
+<h2>Новое объявление</h2>
+
+<form asp-action="Create" method="post">
+	
+	<h4>Клиент</h4>
+	<div class="form-group">
+		<select asp-for="SelectedClientId" class="form-control">
+			<option value="">-- Выберите --</option>
+			@foreach (var client in Model.Clients)
+			{
+				<option value="@client.Id">@client.FirstName @client.LastName</option>
+			}
+		</select>
+	</div>
+
+	<h4>Тип объявления</h4>
+	<div class="form-group">
+		<select asp-for="SelectedDealTypeId" class="form-control">
+			<option value="">-- Выберите --</option>
+			@foreach (var dealType in Model.DealTypes)
+			{
+				<option value="@dealType.Id">@dealType.DealTypeName</option>
+			}
+		</select>
+	</div>
+	<h4>Объект</h4>
+
+	<div class="form-group">
+		<select asp-for="SelectedRealtyObjectId" class="form-control">
+			<option value="">-- Выберите объект недвижимости--</option>
+			@foreach (var realtyObject in Model.RealtyObjects)
+			{
+				<option value="@realtyObject.Id">@realtyObject.Address</option>
+			}
+		</select>
+	</div>
+	<h4>Менеджер</h4>
+	<div class="form-group">
+		<select asp-for="SelectedManagerId" class="form-control">
+			<option value="">-- Выберите --</option>
+			@foreach (var employee in Model.Managers)
+			{
+				<option value="@employee.Id">@employee.FirstName @employee.LastName</option>
+			}
+		</select>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="Description"></label>
+		<textarea asp-for="Description" class="form-control"></textarea>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="ShortDescription"></label>
+		<input asp-for="ShortDescription" class="form-control"/>
+	</div>
+
+	
+	<div class="form-group">
+		<label asp-for="TargetPrice"></label>
+		<input asp-for="TargetPrice" class="form-control" />
+	</div>
+
+	<div class="form-group">
+		<label asp-for="MinPrice"></label>
+		<input asp-for="MinPrice" class="form-control" />
+	</div>
+
+	<div class="form-group">
+		<label asp-for="MaxPrice"></label>
+		<input asp-for="MaxPrice" class="form-control" />
+	</div>
+	<div class="form-group">
+		<label asp-for="IsActive"></label>
+		<input asp-for="IsActive" type="checkbox" />
+	</div>
+	<button type="submit" class="btn btn-primary">Создать</button>
+</form>

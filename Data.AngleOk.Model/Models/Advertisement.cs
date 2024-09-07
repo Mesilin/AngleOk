@@ -22,67 +22,75 @@ namespace Data.AngleOk.Model.Models
         /// <summary>
         /// Идентификатор клиента
         /// </summary>
+        [Display(Name = "Клиент")]
         public Guid ClientId { get; set; }
 
         /// <summary>
         /// Тип(аренда, продажа, покупка)
         /// </summary>
+        [Display(Name = "Тип сделки")]
         public Guid DealTypeId { get; set; }
 
         /// <summary>
         /// Идентификатор объекта недвижимости
         /// </summary>
+        [Display(Name = "Объект")]
         public Guid? RealtyObjectId { get; set; }
 
         /// <summary>
         /// Целевая цена
         /// </summary>
+        [Display(Name = "Целевая цена")]
         public int TargetPrice { get; set; }
 
         /// <summary>
         /// Минимальная цена
         /// </summary>
+        [Display(Name = "Минимальная цена")]
         public int MinPrice { get; set; }
 
         /// <summary>
         /// Максимальная цена
         /// </summary>
+        [Display(Name = "Максимальная цена")]
         public int MaxPrice { get; set; }
 
         /// <summary>
         /// Идентификатор контактного лица от агентства
         /// </summary>
+        [Display(Name = "Менеджер")]
         public Guid ManagerId { get; set; }
 
         /// <summary>
         /// Статус объявления
         /// </summary>
         [DefaultValue(true)]
+        [Display(Name = "Активно?")]
         public bool IsActive {  get; set; } = true;
 
-		/// <summary>
-		/// Описание
-		/// </summary>
-		public string Description { get; set; } = string.Empty;
+        /// <summary>
+        /// Описание
+        /// </summary>
+        [Display(Name = "Описание")]
+        public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Краткое описание
         /// </summary>
         [MaxLength(50)]
+        [Display(Name = "Краткое описание")]
         public string ShortDescription { get; set; } = string.Empty;
 
-
-
-        public virtual RealtyObject RealtyObject { get; set; } = null!;
+        public virtual RealtyObject? RealtyObject { get; set; } = null!;
 
         [ForeignKey("ManagerId")]
-        public virtual required Employee Manager { get; set; }
+        public virtual Employee? Manager { get; set; }
 
         [ForeignKey("ClientId")]
-        public virtual required Client Client{ get; set; }
+        public virtual Client? Client{ get; set; }
 
         [ForeignKey("DealTypeId")]
-        public virtual required DealType DealType { get; set; }
+        public virtual DealType? DealType { get; set; }
 
         public virtual List<Media>? MediaCollection { get; set; }
     }
