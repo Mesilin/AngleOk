@@ -19,7 +19,7 @@ namespace Data.AngleOk.Model.Models
         /// Имя
         /// </summary>
         [DisplayName("Имя")]
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = null!;
 
         /// <summary>
         /// Отчество
@@ -31,7 +31,7 @@ namespace Data.AngleOk.Model.Models
         /// Фамилия
         /// </summary>
         [DisplayName("Фамилия")]
-        public string LastName { get; set; }
+        public string LastName { get; set; } = null!;
 
         /// <summary>
         /// Адрес электронной почты
@@ -43,8 +43,8 @@ namespace Data.AngleOk.Model.Models
         /// Номер телефона
         /// </summary>
         [DisplayName("телефон личный")]
-        public string PhoneNumber { get; set; }
-        
+        public string PhoneNumber { get; set; } = null!;
+
         /// <summary>
         /// Публичный номер телефона
         /// </summary>

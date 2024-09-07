@@ -12,43 +12,55 @@
 	<div class="form-group">
 		<select asp-for="SelectedClientId" class="form-control">
 			<option value="">-- Выберите --</option>
-			@foreach (var client in Model.Clients)
-			{
-				<option value="@client.Id">@client.FirstName @client.LastName</option>
-			}
-		</select>
+            @if (Model.Clients != null)
+            {
+                foreach (var client in Model.Clients)
+                {
+                    <option value="@client.Id">@client.FirstName @client.LastName</option>
+                }
+            }
+        </select>
 	</div>
 
 	<h4>Тип объявления</h4>
 	<div class="form-group">
 		<select asp-for="SelectedDealTypeId" class="form-control">
 			<option value="">-- Выберите --</option>
-			@foreach (var dealType in Model.DealTypes)
-			{
-				<option value="@dealType.Id">@dealType.DealTypeName</option>
-			}
-		</select>
+            @if (Model.DealTypes != null)
+            {
+                foreach (var dealType in Model.DealTypes)
+                {
+                    <option value="@dealType.Id">@dealType.DealTypeName</option>
+                }
+            }
+        </select>
 	</div>
 	<h4>Объект</h4>
 
 	<div class="form-group">
 		<select asp-for="SelectedRealtyObjectId" class="form-control">
 			<option value="">-- Выберите объект недвижимости--</option>
-			@foreach (var realtyObject in Model.RealtyObjects)
-			{
-				<option value="@realtyObject.Id">@realtyObject.Address</option>
-			}
-		</select>
+            @if (Model.RealtyObjects != null)
+            {
+                foreach (var realtyObject in Model.RealtyObjects)
+                {
+                    <option value="@realtyObject.Id">@realtyObject.Address</option>
+                }
+            }
+        </select>
 	</div>
 	<h4>Менеджер</h4>
 	<div class="form-group">
 		<select asp-for="SelectedManagerId" class="form-control">
 			<option value="">-- Выберите --</option>
-			@foreach (var employee in Model.Managers)
-			{
-				<option value="@employee.Id">@employee.FirstName @employee.LastName</option>
-			}
-		</select>
+            @if (Model.Managers != null)
+            {
+                foreach (var employee in Model.Managers)
+                {
+                    <option value="@employee.Id">@employee.FirstName @employee.LastName</option>
+                }
+            }
+        </select>
 	</div>
 
 	<div class="form-group">

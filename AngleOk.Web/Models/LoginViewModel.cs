@@ -6,13 +6,13 @@ namespace AngleOk.Web.Models
     {
         [Required]
         [Display(Name = "Логин")]
-        public string UserName { get; set; }
+        public string UserName { get; set; } = null!;
 
         [Required]
         //[UIHint("password")]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
-        public string Password { get; set; }
+        public string Password { get; set; } = null!;
 
         [Display(Name ="Запомнить?")]
         public bool RememberMe { get; set; }

@@ -25,12 +25,10 @@ namespace Data.AngleOk.Model.Models
         }
     }
 
-    public class AngleOkContext : IdentityDbContext
+    public class AngleOkContext(DbContextOptions<AngleOkContext> options) : IdentityDbContext(options)
     {
-        public AngleOkContext(DbContextOptions<AngleOkContext> options) : base(options)
-        {
-            //Database.EnsureCreated();
-        }
+        //Database.EnsureCreated();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

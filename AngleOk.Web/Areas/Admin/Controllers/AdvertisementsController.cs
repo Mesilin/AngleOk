@@ -11,17 +11,9 @@ namespace AngleOk.Web.Areas.Admin.Controllers
     [Area("Admin")]
     [Authorize]
     [Route("{area}/Advertisements")]
-    public class AdvertisementsController:Controller
+    public class AdvertisementsController(AngleOkContext context, DataManager dataManager) : Controller
     {
-        private readonly AngleOkContext _context;
-        private readonly DataManager _dataManager;
-        public AdvertisementsController(AngleOkContext context, DataManager dataManager)
-        {
-            _context = context;
-            _dataManager = dataManager;
-        }
-
-		/// <summary>
+        /// <summary>
 		/// GET: Advertisement by id
 		/// </summary>
 		/// <param name="id"></param>
@@ -31,11 +23,11 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         {
             if (id != default)
             {
-                return View("Show", _dataManager.Advertisements.GetAdvertisementById(id));
+                return View("Show", dataManager.Advertisements.GetAdvertisementById(id));
             }
 
-            ViewBag.TextField = _dataManager.TextFields.GetTextFieldByCodeWord("PageAdvertisements");
-            return View(_dataManager.Advertisements.GetAll());
+            ViewBag.TextField = dataManager.TextFields.GetTextFieldByCodeWord("PageAdvertisements");
+            return View(dataManager.Advertisements.GetAll());
         }
 
 		/// <summary>
@@ -48,10 +40,10 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             // Подготовка данных для выбора существующих объектов недвижимости
             var viewModel = new AdvertisementCreateViewModel
             {
-                RealtyObjects = _context.RealtyObjects.ToList(), 
-                Clients = _context.Clients.ToList(),
-                Managers = _context.Employees.ToList(),
-                DealTypes = _context.DealTypes.ToList()
+                RealtyObjects = context.RealtyObjects.ToList(), 
+                Clients = context.Clients.ToList(),
+                Managers = context.Employees.ToList(),
+                DealTypes = context.DealTypes.ToList()
             };
 
             return View(viewModel);
@@ -68,7 +60,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-	            var realtyObject = _context.RealtyObjects.FirstOrDefault(r => r.Id == viewModel.SelectedRealtyObjectId);
+	            var realtyObject = context.RealtyObjects.FirstOrDefault(r => r.Id == viewModel.SelectedRealtyObjectId);
 
                 if (realtyObject != null)
                 {
@@ -87,18 +79,18 @@ namespace AngleOk.Web.Areas.Admin.Controllers
                         ClientId = viewModel.SelectedClientId,
                     };
 
-                    _context.Advertisements.Add(advertisement);
-                    _context.SaveChanges();
+                    context.Advertisements.Add(advertisement);
+                    context.SaveChanges();
 
                     return RedirectToAction(nameof(Index));
                 }
             }
 
             // Перезагрузка данных в случае ошибки
-            viewModel.RealtyObjects = _context.RealtyObjects.ToList();
-            viewModel.Clients = _context.Clients.ToList();
-            viewModel.Managers = _context.Employees.ToList();
-            viewModel.DealTypes = _context.DealTypes.ToList();
+            viewModel.RealtyObjects = context.RealtyObjects.ToList();
+            viewModel.Clients = context.Clients.ToList();
+            viewModel.Managers = context.Employees.ToList();
+            viewModel.DealTypes = context.DealTypes.ToList();
 
 			return View(viewModel);
         }
@@ -110,13 +102,13 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         [HttpGet("Index")]
         public async Task<IActionResult> Index()
         {
-	        var ads = await _context.Advertisements
+	        var ads = await context.Advertisements
 				.Include(a => a.RealtyObject)
-					.ThenInclude(i=>i.RealtyObjectKind)
+					.ThenInclude(i=>i!.RealtyObjectKind)
 				.Include(a => a.Manager)
 				.Include(a => a.Client)
 				.Include(a => a.DealType)
-				.OrderBy(o=>o.DealType.DealTypeName)
+				.OrderBy(o=>o.DealType!.DealTypeName)
 				.ToListAsync();
 	        return View(ads);
         }
@@ -134,8 +126,8 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 				return NotFound();
 			}
 
-			var adv = await _context.Advertisements
-				.Include(i => i.RealtyObject).ThenInclude(i=>i.RealtyObjectKind)
+			var adv = await context.Advertisements
+				.Include(i => i.RealtyObject).ThenInclude(i=>i!.RealtyObjectKind)
 				.Include(i => i.RealtyObject)
 				.Include(i => i.Client)
 				.Include(i => i.DealType)
@@ -162,24 +154,24 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var adv = await _context.Advertisements.FirstOrDefaultAsync(m => m.Id == id);
+            var adv = await context.Advertisements.FirstOrDefaultAsync(m => m.Id == id);
 
             if (adv == null)
             {
                 return NotFound();
             }
 
-            ViewData["RealtyObjectId"] = new SelectList(_context.RealtyObjects, "Id", "Address", adv.RealtyObjectId);
+            ViewData["RealtyObjectId"] = new SelectList(context.RealtyObjects, "Id", "Address", adv.RealtyObjectId);
 
-            var clientList = _context.Clients.Select(x => new
+            var clientList = context.Clients.Select(x => new
             {
                 x.Id,
                 FullName = x.FirstName + " " + x.LastName
             });
 
             ViewData["ClientId"] = new SelectList(clientList, "Id", "FullName", adv.ClientId);
-            ViewData["DealTypeId"] = new SelectList(_context.DealTypes, "Id", "DealTypeName", adv.DealTypeId);
-            var managerList = _context.Employees.Select(x => new
+            ViewData["DealTypeId"] = new SelectList(context.DealTypes, "Id", "DealTypeName", adv.DealTypeId);
+            var managerList = context.Employees.Select(x => new
             {
                 x.Id,
                 FullName = x.FirstName + " " + x.LastName
@@ -203,8 +195,8 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(adv);
-                    await _context.SaveChangesAsync();
+                    context.Update(adv);
+                    await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -232,7 +224,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 
         private bool AdvExists(Guid id)
         {
-            return _context.Advertisements.Any(e => e.Id == id);
+            return context.Advertisements.Any(e => e.Id == id);
         }
 
 
@@ -256,7 +248,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var ad = await _context.Advertisements
+            var ad = await context.Advertisements
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ad == null)
             {
@@ -276,10 +268,10 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         [HttpPost("Delete")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var adv = await _context.Advertisements.FindAsync(id);
+            var adv = await context.Advertisements.FindAsync(id);
             if (adv != null) 
-	            _context.Advertisements.Remove(adv);
-            await _context.SaveChangesAsync();
+	            context.Advertisements.Remove(adv);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }

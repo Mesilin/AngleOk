@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Linq;
 
 namespace Data.AngleOk.Model.Models
 {
@@ -21,8 +20,8 @@ namespace Data.AngleOk.Model.Models
         /// Имя
         /// </summary>
         [DisplayName("Имя")]
-        public string FirstName { get; set; }
-        
+        public string FirstName { get; set; } = null!;
+
         /// <summary>
         /// Отчество
         /// </summary>
@@ -33,7 +32,7 @@ namespace Data.AngleOk.Model.Models
         /// Фамилия
         /// </summary>
         [DisplayName("Фамилия")]
-        public string LastName { get; set; }
+        public string LastName { get; set; } = null!;
 
         /// <summary>
         /// Адрес электронной почты
@@ -44,7 +43,7 @@ namespace Data.AngleOk.Model.Models
         /// Номер телефона
         /// </summary>
         [DisplayName("Номер телефона")]
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = null!;
 
         [NotMapped]
         public string Fullname => $"{FirstName} {LastName}";

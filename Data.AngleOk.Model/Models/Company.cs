@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.AngleOk.Model.Models
 {
@@ -11,7 +7,7 @@ namespace Data.AngleOk.Model.Models
     public class Company
     {
         public Guid Id { get; set; }
-        public string CompanyName { get; set;}
+        public string CompanyName { get; set;} = null!;
         public Guid ContactPerson { get; set; }
     }
 }

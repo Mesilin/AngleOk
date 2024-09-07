@@ -5,21 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AngleOk.Web.Controllers.Mvc
+namespace AngleOk.Web.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,
+            DataManager dataManager)
+        : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly DataManager _dataManager;
-
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, DataManager dataManager)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _dataManager = dataManager;
-        }
-
         /// <summary>
         /// Форма для авторизации
         /// </summary>
@@ -45,11 +36,11 @@ namespace AngleOk.Web.Controllers.Mvc
         {
             if (ModelState.IsValid)
             {
-                IdentityUser user = await _userManager.FindByNameAsync(model.UserName);
+                IdentityUser? user = await userManager.FindByNameAsync(model.UserName);
                 if (user != null)
                 {
-                    await _signInManager.SignOutAsync();
-                    var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+                    await signInManager.SignOutAsync();
+                    var result = await signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
                     if (result.Succeeded)
                     {
                         return Redirect(returnUrl ?? "/");
@@ -70,7 +61,7 @@ namespace AngleOk.Web.Controllers.Mvc
         {
             return View(new AccountViewModel());
         }
-        
+
         /// <summary>
         /// Регистрация нового пользователя
         /// </summary>
@@ -87,21 +78,21 @@ namespace AngleOk.Web.Controllers.Mvc
                     Email = model.Email,
                     UserName = model.UserName
                 };
-                var response = await _userManager.CreateAsync(identityUser, model.Password);
+                var response = await userManager.CreateAsync(identityUser, model.Password);
 
                 if (response.Succeeded)
                 {
                     var empl = new Employee();
-                    empl.LastName=model.LastName;
-                    empl.FirstName=model.FirstName;
-                    empl.Patronymic=model.Patronymic;
-                    empl.Email=model.Email;
-                    empl.IsActive=model.IsActive;
+                    empl.LastName = model.LastName;
+                    empl.FirstName = model.FirstName;
+                    empl.Patronymic = model.Patronymic;
+                    empl.Email = model.Email;
+                    empl.IsActive = model.IsActive;
                     empl.PhoneNumber = model.PhoneNumber;
-                    empl.PublicPhone=model.PublicPhone;
-                    empl.Position=model.Position;
+                    empl.PublicPhone = model.PublicPhone;
+                    empl.Position = model.Position;
 
-                    _dataManager.Employee.SaveEmployee(empl);
+                    dataManager.Employee.SaveEmployee(empl);
                     return Redirect("/Admin/Employees");
                 }
 
@@ -118,7 +109,7 @@ namespace AngleOk.Web.Controllers.Mvc
         [Authorize]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
     }

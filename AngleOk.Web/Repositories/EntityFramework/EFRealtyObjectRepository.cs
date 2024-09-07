@@ -3,10 +3,8 @@ using Data.AngleOk.Model.Models;
 
 namespace AngleOk.Web.Repositories.EntityFramework
 {
-    public class EFRealtyObjectRepository: IRealtyObjectsRepository
+    public class EfRealtyObjectRepository(AngleOkContext context) : IRealtyObjectsRepository
     {
-        private readonly AngleOkContext context;
-        public EFRealtyObjectRepository(AngleOkContext context) { this.context = context; }
         public IQueryable<RealtyObject> GetAll() { return context.RealtyObjects; }
 
         public RealtyObject? GetRealtyObjectByCadastralNumber(string cadastralNumber)
@@ -20,7 +18,7 @@ namespace AngleOk.Web.Repositories.EntityFramework
         }
         public void SaveRealtyObject(RealtyObject realtyObject)
         {
-            if (realtyObject.Id == null)
+            if (realtyObject.Id == default)
             {
                 realtyObject.Id = Guid.NewGuid();
                 context.Entry(realtyObject).State = Microsoft.EntityFrameworkCore.EntityState.Added;
@@ -29,9 +27,13 @@ namespace AngleOk.Web.Repositories.EntityFramework
                 context.Entry(realtyObject).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             context.SaveChanges();
         }
-        public void DeleteRealtyObject(Guid clientId)
+        public void DeleteRealtyObject(Guid id)
         {
-            context.RealtyObjects.Remove(GetRealtyObjectById(clientId));
+            var realtyObject = GetRealtyObjectById(id);
+            if (realtyObject != null)
+            {
+                context.RealtyObjects.Remove(realtyObject);
+            }
         }
     }
 }

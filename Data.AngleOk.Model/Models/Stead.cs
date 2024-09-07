@@ -29,7 +29,7 @@ namespace Data.AngleOk.Model.Models
 
         public Guid SteadUseKindId { get; set; }
         [ForeignKey("SteadUseKindId")]
-        public virtual SteadUseKind SteadUseKind { get; set; }
+        public virtual SteadUseKind? SteadUseKind { get; set; }
 
     }
 }

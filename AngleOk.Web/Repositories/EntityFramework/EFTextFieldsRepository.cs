@@ -1,29 +1,22 @@
 ﻿using AngleOk.Web.Repositories.Abstract;
 using Data.AngleOk.Model.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace AngleOk.Web.Repositories.EntityFramework
 {
-    public class EFTextFieldsRepository : ITextFieldsRepository
+    public class EfTextFieldsRepository(AngleOkContext context) : ITextFieldsRepository
     {
-        private readonly AngleOkContext context;
-        public EFTextFieldsRepository(AngleOkContext context)
-        {
-            this.context = context;
-        }
-
         public IQueryable<TextField> GetTextFields()
         {
             return context.TextFields;
         }
 
-        public TextField GetTextFieldById(Guid id)
+        public TextField? GetTextFieldById(Guid id)
         {
             return context.TextFields.FirstOrDefault(x => x.Id == id);
         }
 
-        public TextField GetTextFieldByCodeWord(string codeWord)
+        public TextField? GetTextFieldByCodeWord(string codeWord)
         {
             return context.TextFields.FirstOrDefault(x => x.CodeWord == codeWord);
         }
@@ -31,17 +24,18 @@ namespace AngleOk.Web.Repositories.EntityFramework
         public void SaveTextField(TextField entity)
         {
             entity.DateAdded = DateTime.UtcNow;
-            if (entity.Id == default)
-                context.Entry(entity).State = EntityState.Added;
-            else
-                context.Entry(entity).State = EntityState.Modified;
+            context.Entry(entity).State = entity.Id == default ? EntityState.Added : EntityState.Modified;
             context.SaveChanges();
         }
 
         public void DeleteTextField(Guid id)
         {
-            context.TextFields.Remove(GetTextFieldById(id));
-            context.SaveChanges();
+            var field = GetTextFieldById(id);
+            if (field != null)
+            {
+                context.TextFields.Remove(field);
+                context.SaveChanges();
+            }
         }
     }
 }

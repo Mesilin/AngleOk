@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.AngleOk.Model.Models
@@ -14,6 +13,6 @@ namespace Data.AngleOk.Model.Models
         public override string Title { get; set; } = "Информационная страница";
 
         [Display(Name = "Cодержание страницы")]
-        public override string Text { get; set; } = "Содержание заполняется администратором";
+        public override string? Text { get; set; } = "Содержание заполняется администратором";
     }
 }

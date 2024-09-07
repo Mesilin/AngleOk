@@ -21,7 +21,7 @@ namespace AngleOk.Web.Models
 
         [Required]
         [Display(Name = "Личный номер телефона")]
-        public string? PhoneNumber { get; set; } = null!;
+        public string PhoneNumber { get; set; } = null!;
 
         [Required]
         [Display(Name = "Рабочий номер телефона")]

@@ -12,25 +12,25 @@
 			Клиент
 		</dt>
 		<dd class="col-sm-10">
-			@Model.Client.FirstName @Model.Client.LastName
+			@Model.Client?.FirstName @Model.Client?.LastName
 		</dd>
 		<dt class="col-sm-2">
 			Тип объявления
 		</dt>
 		<dd class="col-sm-10">
-			@Model.DealType.DealTypeName
+			@Model.DealType?.DealTypeName
 		</dd>
 		<dt class="col-sm-2">
 			Объект
 		</dt>
 		<dd class="col-sm-10">
-			@Model.RealtyObject.RealtyObjectKind.RealtyObjectKindName
+			@Model.RealtyObject?.RealtyObjectKind.RealtyObjectKindName
 		</dd>
 		<dt class="col-sm-2">
 			Менеджер
 		</dt>
 		<dd class="col-sm-10">
-			@Model.Manager.FirstName @Model.Manager.LastName
+			@Model.Manager?.FirstName @Model.Manager?.LastName
 		</dd>
 		<dt class="col-sm-2">
 			Описание

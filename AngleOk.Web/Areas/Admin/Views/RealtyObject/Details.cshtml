@@ -55,10 +55,21 @@
 		{
 			foreach (var media in Model.MediaMaterials)
 			{
-				<div class="col-md-3">
-					<img src="data:image/@media.Extension;base64,@(Convert.ToBase64String(media.Data))" class="img-thumbnail" alt="@media.FileName" />
-					<p>@media.FileName</p>
-				</div>
+			    if (media.Data != null)
+			    {
+
+			        <div class="col-md-3">
+                        <img src="data:image/@media.Extension;base64,@(Convert.ToBase64String(media.Data))" class="img-thumbnail" alt="@media.FileName"/>
+                        <p>@media.FileName</p>
+                    </div>
+			    }
+			    else if (!string.IsNullOrEmpty(media.Path))
+			    {
+			        <div class="col-md-3">
+                        <img src="@media.Path" class="img-thumbnail" alt="@media.FileName"/>
+                        <p>@media.FileName</p>
+                    </div>
+			    }
 			}
 		}
 		else

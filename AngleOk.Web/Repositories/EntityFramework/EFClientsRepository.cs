@@ -3,10 +3,8 @@ using Data.AngleOk.Model.Models;
 
 namespace AngleOk.Web.Repositories.EntityFramework
 {
-    public class EFClientsRepository: IClientsRepository
+    public class EfClientsRepository(AngleOkContext context) : IClientsRepository
     {
-        private readonly AngleOkContext context;
-        public EFClientsRepository(AngleOkContext context) { this.context = context; }
         public IQueryable<Client> GetAll() {return context.Clients; }
         
         public Client? GetClientByName(string name)
@@ -20,7 +18,7 @@ namespace AngleOk.Web.Repositories.EntityFramework
         }
         public void SaveClient(Client client)
         {
-            if(client.Id == null)
+            if(client.Id == default)
             {
                 client.Id = Guid.NewGuid();
                 context.Entry(client).State = Microsoft.EntityFrameworkCore.EntityState.Added;
@@ -31,7 +29,11 @@ namespace AngleOk.Web.Repositories.EntityFramework
         }
         public void DeleteClient(Guid clientId)
         {
-            context.Clients.Remove(GetClientById(clientId));
+            var client = GetClientById(clientId);
+            if (client != null)
+            {
+                context.Clients.Remove(client);
+            }
         }
     }
 }

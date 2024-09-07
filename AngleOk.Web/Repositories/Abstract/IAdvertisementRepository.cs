@@ -7,6 +7,6 @@ namespace AngleOk.Web.Repositories.Abstract
         IQueryable<Advertisement> GetAll();
         Advertisement? GetAdvertisementById(Guid advertisementId);
         void SaveAdvertisement(Advertisement advertisement);
-        void DeleteAdvertisement(Guid AdvertisementId);
+        void DeleteAdvertisement(Guid advertisementId);
     }
 }

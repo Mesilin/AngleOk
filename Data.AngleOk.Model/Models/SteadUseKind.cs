@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.AngleOk.Model.Enums
@@ -15,7 +14,7 @@ namespace Data.AngleOk.Model.Enums
         public Guid Id { get; set; }
 
         [DisplayName("Виды разрешенного использования земли")]
-        public string SteadUseKindName { get; set; }
+        public string SteadUseKindName { get; set; } = null!;
 
         //[Display(Name = "ИЖС (индивидуальное жилищное строительство)")]
         //PersonalHomeBuilding=0,

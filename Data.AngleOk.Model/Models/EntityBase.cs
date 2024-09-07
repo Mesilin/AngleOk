@@ -9,7 +9,7 @@ namespace Data.AngleOk.Model.Models
         public Guid Id { get;set; }
 
         [Display(Name = "Название (заголовок)")]
-        public virtual string Title { get; set; }
+        public virtual string Title { get; set; } = null!;
 
         [Display(Name = "Краткое описание")]
         public virtual string? Subtitle { get; set; }

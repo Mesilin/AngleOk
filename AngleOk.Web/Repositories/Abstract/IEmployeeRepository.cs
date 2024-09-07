@@ -5,9 +5,9 @@ namespace AngleOk.Web.Repositories.Abstract
     public interface IEmployeeRepository
     {
         IQueryable<Employee> GetAll();
-        Employee? GetEmployeeById(Guid EmployeeId);
+        Employee? GetEmployeeById(Guid employeeId);
         void SaveEmployee(Employee employee);
-        void DeleteEmployee(Guid EmployeeId);
+        void DeleteEmployee(Guid employeeId);
         Employee? GetEmployeeByName(string? name);
     }
 }

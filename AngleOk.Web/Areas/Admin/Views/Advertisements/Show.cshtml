@@ -12,7 +12,7 @@
         @Model.Description
     </h2>
     <h2>
-        Контакт: @Model.Manager.FirstName - @Model.Manager.PublicPhone \ @Model.Manager.Email
+        Контакт: @Model.Manager?.FirstName - @Model.Manager?.PublicPhone \ @Model.Manager?.Email
     </h2>
     @* <div>
         <img class="img-block" src="~/images/@Model.TitleImagePath" />

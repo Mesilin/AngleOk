@@ -14,6 +14,6 @@ namespace Data.AngleOk.Model.Enums
         public Guid Id { get; set; }
 
         [DisplayName("Тип объекта невижимости")]
-        public string RealtyObjectKindName { get; set; }
+        public string RealtyObjectKindName { get; set; } = null!;
     }
 }

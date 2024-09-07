@@ -3,19 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AngleOk.Web.Controllers
 {
-    public class MediaController : Controller
+    public class MediaController(AngleOkContext context) : Controller
     {
-        private AngleOkContext _context;
-        public MediaController(AngleOkContext context)
-        {
-            _context = context;
-        }
-        
         // Метод для получения изображения
         [HttpGet("GetImage")]
         public IActionResult GetImage(Guid id)
         {
-            var media = _context.Medias.Find(id);
+            var media = context.Medias.Find(id);
             if (media == null || media.Data == null)
             {
                 return NotFound();

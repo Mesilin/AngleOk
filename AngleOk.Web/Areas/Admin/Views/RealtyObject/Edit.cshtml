@@ -47,10 +47,20 @@
             {
                 foreach (var media in Model.MediaMaterials)
                 {
-                    <div class="col-md-3">
-                        <img src="data:image/@media.Extension;base64,@(Convert.ToBase64String(media.Data))" class="img-thumbnail" alt="@media.FileName" />
-                        <p>@media.FileName</p>
-                    </div>
+                    if (media.Data != null)
+                    {
+                        <div class="col-md-3">
+                            <img src="data:image/@media.Extension;base64,@(Convert.ToBase64String(media.Data))" class="img-thumbnail" alt="@media.FileName"/>
+                            <p>@media.FileName</p>
+                        </div>
+                    }
+                    else if (!string.IsNullOrEmpty(media.Path))
+                    {
+                        <div class="col-md-3">
+                            <img src="@media.Path" class="img-thumbnail" alt="@media.FileName"/>
+                            <p>@media.FileName</p>
+                        </div>
+                    }
                 }
             }
             else
@@ -62,7 +72,7 @@
 
     <!-- Добавление новых медиафайлов -->
     <div class="form-group">
-        <label for="MediaFiles" class="control-label">Добавить фото</label>
+        <label class="control-label">Добавить фото</label>
         <input type="file" name="MediaFiles" class="form-control" multiple />
         <small class="form-text text-muted">Можно выбрать для загрузки несколько файлов</small>
     </div>

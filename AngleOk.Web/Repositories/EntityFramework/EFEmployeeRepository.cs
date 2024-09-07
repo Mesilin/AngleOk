@@ -3,13 +3,11 @@ using Data.AngleOk.Model.Models;
 
 namespace AngleOk.Web.Repositories.EntityFramework
 {
-    public class EFEmployeeRepository:IEmployeeRepository
+    public class EfEmployeeRepository(AngleOkContext context) : IEmployeeRepository
     {
-        private readonly AngleOkContext context;
-        public EFEmployeeRepository(AngleOkContext context) { this.context = context; }
         public IQueryable<Employee> GetAll() { return context.Employees; }
 
-        public Employee? GetEmployeeByName(string name)
+        public Employee? GetEmployeeByName(string? name)
         {
             return context.Employees.FirstOrDefault(x => x.Email == name);
         }
@@ -20,7 +18,7 @@ namespace AngleOk.Web.Repositories.EntityFramework
         }
         public void SaveEmployee(Employee employee)
         {
-            if (employee.Id == null|| employee.Id == default)
+            if (employee.Id == default)
             {
                 employee.Id = Guid.NewGuid();
                 context.Entry(employee).State = Microsoft.EntityFrameworkCore.EntityState.Added;
@@ -31,7 +29,11 @@ namespace AngleOk.Web.Repositories.EntityFramework
         }
         public void DeleteEmployee(Guid employeeId)
         {
-            context.Employees.Remove(GetEmployeeById(employeeId));
+            var empl = GetEmployeeById(employeeId);
+            if (empl != null)
+            {
+                context.Employees.Remove(empl);
+            }
         }
     }
 }

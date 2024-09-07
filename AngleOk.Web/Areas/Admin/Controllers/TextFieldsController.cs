@@ -10,14 +10,8 @@ namespace AngleOk.Web.Areas.Admin.Controllers
     [Area("Admin")]
     //[Route("{area}/{controller}")]
     [Route("{area}/TextFields")]
-    public class TextFieldsController : Controller
+    public class TextFieldsController(DataManager dataManager) : Controller
     {
-        private readonly DataManager dataManager;
-        public TextFieldsController(DataManager dataManager)
-        {
-            this.dataManager = dataManager;
-        }
-
         [HttpGet]
         public IActionResult Edit(string codeWord)
         {

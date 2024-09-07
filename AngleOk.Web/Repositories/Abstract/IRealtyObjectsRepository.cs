@@ -7,6 +7,6 @@ namespace AngleOk.Web.Repositories.Abstract
         IQueryable<RealtyObject> GetAll();
         RealtyObject? GetRealtyObjectById(Guid realtyObjectId);
         void SaveRealtyObject(RealtyObject realtyObject);
-        void DeleteRealtyObject(Guid realtyObjectId);
+        void DeleteRealtyObject(Guid id);
     }
 }

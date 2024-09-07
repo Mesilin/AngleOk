@@ -3,15 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AngleOk.Web.Models.ViewComonents
 {
-    public class SidebarViewComponent : ViewComponent
+    public class SidebarViewComponent(DataManager dataManager) : ViewComponent
     {
-        private readonly DataManager dataManager;
-
-        public SidebarViewComponent(DataManager dataManager)
-        {
-            this.dataManager = dataManager;
-        }
-
         public Task<IViewComponentResult> InvokeAsync()
         {
             var isAdminArea = ViewContext.RouteData.Values["area"]?.ToString() == "Admin";

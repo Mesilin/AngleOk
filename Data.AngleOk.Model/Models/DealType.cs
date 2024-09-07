@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.AngleOk.Model.Enums
@@ -14,15 +13,6 @@ namespace Data.AngleOk.Model.Enums
         public Guid Id { get; set; }
 
         [DisplayName("Тип сделки")]
-        public string DealTypeName { get; set; }
-
-        //[Display(Name = "Покупка")]
-        //Покупка = 0,
-        
-        //[Display(Name = "Продажа")]
-        //Продажа = 1,
-        
-        //[Display(Name = "Аренда")]
-        //Аренда = 2
+        public string DealTypeName { get; set; } = null!;
     }
 }

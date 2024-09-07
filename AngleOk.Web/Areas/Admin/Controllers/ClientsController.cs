@@ -7,15 +7,8 @@ namespace AngleOk.Web.Areas.Admin.Controllers;
 [Area("Admin")]
 [Authorize]
 [Route("{area}/Clients")]
-public class ClientsController : Controller
+public class ClientsController(AngleOkContext context) : Controller
 {
-    private readonly AngleOkContext _context;
-
-    public ClientsController(AngleOkContext context)
-    {
-        _context = context;
-    }
-
     /// <summary>
     /// GET: Clients
     /// </summary>
@@ -23,7 +16,7 @@ public class ClientsController : Controller
     [HttpGet("Index")]
     public async Task<IActionResult> Index()
     {
-        return View(await _context.Clients.ToListAsync());
+        return View(await context.Clients.ToListAsync());
     }
 
     // GET: Clients/Details/5
@@ -35,7 +28,7 @@ public class ClientsController : Controller
             return NotFound();
         }
 
-        var client = await _context.Clients
+        var client = await context.Clients
             .FirstOrDefaultAsync(m => m.Id == id);
         if (client == null)
         {
@@ -60,8 +53,8 @@ public class ClientsController : Controller
         if (ModelState.IsValid)
         {
             client.Id = Guid.NewGuid();
-            _context.Add(client);
-            await _context.SaveChangesAsync();
+            context.Add(client);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -77,7 +70,7 @@ public class ClientsController : Controller
 			return NotFound();
 		}
 
-		var client = await _context.Clients.FindAsync(id);
+		var client = await context.Clients.FindAsync(id);
 		if (client == null)
 		{
 			return NotFound();
@@ -101,8 +94,8 @@ public class ClientsController : Controller
         {
             try
             {
-                _context.Update(client);
-                await _context.SaveChangesAsync();
+                context.Update(client);
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -131,7 +124,7 @@ public class ClientsController : Controller
             return NotFound();
         }
 
-        var client = await _context.Clients
+        var client = await context.Clients
             .FirstOrDefaultAsync(m => m.Id == id);
         if (client == null)
         {
@@ -146,11 +139,11 @@ public class ClientsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        var client = await _context.Clients.FindAsync(id);
+        var client = await context.Clients.FindAsync(id);
         if (client != null)
         {
-            _context.Clients.Remove(client);
-            await _context.SaveChangesAsync();
+            context.Clients.Remove(client);
+            await context.SaveChangesAsync();
         }
 
         return RedirectToAction(nameof(Index));
@@ -158,6 +151,6 @@ public class ClientsController : Controller
 
     private bool ClientExists(Guid id)
     {
-        return _context.Clients.Any(e => e.Id == id);
+        return context.Clients.Any(e => e.Id == id);
     }
 }

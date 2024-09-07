@@ -9,14 +9,9 @@ namespace AngleOk.Web.Areas.Admin.Controllers;
 [Area("Admin")]
 [Authorize]
 [Route("{area}/Employees")]
-public class EmployeesController : Controller
+public class EmployeesController(AngleOkContext context, DataManager dataManager) : Controller
 {
-    private readonly AngleOkContext _context;
-    private readonly DataManager _dataManager;
-    public EmployeesController(AngleOkContext context)
-    {
-        _context = context;
-    }
+    private readonly DataManager _dataManager = dataManager;
 
     /// <summary>
     /// GET: Employees
@@ -25,7 +20,7 @@ public class EmployeesController : Controller
     [HttpGet("Index")]
     public async Task<IActionResult> Index()
     {
-        return View(await _context.Employees.ToListAsync());
+        return View(await context.Employees.ToListAsync());
     }
 
     /// <summary>
@@ -41,7 +36,7 @@ public class EmployeesController : Controller
             return NotFound();
         }
 
-        var employee = await _context.Employees
+        var employee = await context.Employees
             .FirstOrDefaultAsync(m => m.Id == id);
         if (employee == null)
         {
@@ -73,8 +68,8 @@ public class EmployeesController : Controller
         if (ModelState.IsValid)
         {
             employee.Id = Guid.NewGuid();
-            _context.Add(employee);
-            await _context.SaveChangesAsync();
+            context.Add(employee);
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -94,7 +89,7 @@ public class EmployeesController : Controller
             return NotFound();
         }
 
-        var employee = await _context.Employees.FindAsync(id);
+        var employee = await context.Employees.FindAsync(id);
         if (employee == null)
         {
             return NotFound();
@@ -123,8 +118,8 @@ public class EmployeesController : Controller
         {
             try
             {
-                _context.Update(employee);
-                await _context.SaveChangesAsync();
+                context.Update(employee);
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -157,7 +152,7 @@ public class EmployeesController : Controller
             return NotFound();
         }
 
-        var employee = await _context.Employees
+        var employee = await context.Employees
             .FirstOrDefaultAsync(m => m.Id == id);
         if (employee == null)
         {
@@ -176,11 +171,11 @@ public class EmployeesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        var employee = await _context.Employees.FindAsync(id);
+        var employee = await context.Employees.FindAsync(id);
         if (employee != null)
         {
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
+            context.Employees.Remove(employee);
+            await context.SaveChangesAsync();
         }
 
         return RedirectToAction(nameof(Index));
@@ -188,6 +183,6 @@ public class EmployeesController : Controller
 
     private bool EmployeeExists(Guid id)
     {
-        return _context.Employees.Any(e => e.Id == id);
+        return context.Employees.Any(e => e.Id == id);
     }
 }

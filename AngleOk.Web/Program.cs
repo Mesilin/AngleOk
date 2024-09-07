@@ -5,7 +5,6 @@ using Data.AngleOk.Model.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Globalization;
 
@@ -48,11 +47,11 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 AngleOkContext context = new AngleOkContext(ob.Options);
 context.Database.Migrate();
 
-builder.Services.AddTransient<ITextFieldsRepository, EFTextFieldsRepository>();
-builder.Services.AddTransient<IAdvertisementRepository, EFAdvertisementRepository>();
-builder.Services.AddTransient<IClientsRepository, EFClientsRepository>();
-builder.Services.AddTransient<IEmployeeRepository, EFEmployeeRepository>();
-builder.Services.AddTransient<IRealtyObjectsRepository, EFRealtyObjectRepository>();
+builder.Services.AddTransient<ITextFieldsRepository, EfTextFieldsRepository>();
+builder.Services.AddTransient<IAdvertisementRepository, EfAdvertisementRepository>();
+builder.Services.AddTransient<IClientsRepository, EfClientsRepository>();
+builder.Services.AddTransient<IEmployeeRepository, EfEmployeeRepository>();
+builder.Services.AddTransient<IRealtyObjectsRepository, EfRealtyObjectRepository>();
 builder.Services.AddTransient<DataManager>();
 
 builder.Services.AddControllersWithViews();
