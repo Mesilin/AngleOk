@@ -17,7 +17,7 @@ public class EmployeesController(AngleOkContext context) : Controller
     [HttpGet("Index")]
     public async Task<IActionResult> Index()
     {
-        return View(await context.Employees.ToListAsync());
+        return View(await context.Employees.OrderBy(o=>o.LastName).ToListAsync());
     }
 
     /// <summary>
@@ -50,28 +50,29 @@ public class EmployeesController(AngleOkContext context) : Controller
     [HttpGet("Create")]
     public IActionResult Create()
     {
-        return View();
+        //return View();
+        return RedirectToAction("Register", "Account");
     }
 
-    /// <summary>
-    /// POST: Employees/Create
-    /// </summary>
-    /// <param name="employee"></param>
-    /// <returns></returns>
-    [HttpPost("Create")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,FirstName,Patronymic,LastName,Position,Email,PhoneNumber,PublicPhone,IsActive")] Employee employee)
-    {
-        if (ModelState.IsValid)
-        {
-            employee.Id = Guid.NewGuid();
-            context.Add(employee);
-            await context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+    ///// <summary>
+    ///// POST: Employees/Create
+    ///// </summary>
+    ///// <param name="employee"></param>
+    ///// <returns></returns>
+    //[HttpPost("Create")]
+    //[ValidateAntiForgeryToken]
+    //public async Task<IActionResult> Create([Bind("Id,FirstName,Patronymic,LastName,Position,Email,PhoneNumber,PublicPhone,IsActive")] Employee employee)
+    //{
+    //    if (ModelState.IsValid)
+    //    {
+    //        employee.Id = Guid.NewGuid();
+    //        context.Add(employee);
+    //        await context.SaveChangesAsync();
+    //        return RedirectToAction(nameof(Index));
+    //    }
 
-        return View(employee);
-    }
+    //    return View(employee);
+    //}
 
     /// <summary>
     /// GET: Employees/Edit/5

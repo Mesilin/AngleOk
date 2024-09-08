@@ -47,7 +47,7 @@ namespace Data.AngleOk.Model.Models
         /// </summary>
         public Guid RealtyObjectKindId { get; set; }
         [ForeignKey("RealtyObjectKindId")]
-        public virtual RealtyObjectKind RealtyObjectKind { get; set; } = null!;
+        public virtual RealtyObjectKind? RealtyObjectKind { get; set; } = null!;
 
         /// <summary>
         /// Список фотографий и пр медиаматериалов

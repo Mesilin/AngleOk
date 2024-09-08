@@ -4,9 +4,9 @@
         @if (Model?.Any() == true)
         {
 	        var list = Model.Count() > 5 ? Model.Take(5) : Model;
+            <h2>Спецпредложения</h2>
             @foreach (Advertisement entity in list)
             {
-                <h2>Спецпредложения</h2>
                 <li>
 	                <a asp-area="Admin" asp-controller="Advertisements" asp-action="Details" asp-route-id="@entity.Id">
                         <img src="@Url.Action("GetImage", "Media",  new { id = entity.RealtyObject?.TitleImageId.ToString() })" alt="Нет фото" class="left" />

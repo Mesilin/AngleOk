@@ -408,7 +408,6 @@ namespace Data.AngleOk.Model.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Text")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Title")

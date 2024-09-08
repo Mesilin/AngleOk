@@ -63,25 +63,25 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             return View();
         }
 
-        private readonly List<string> _allowedMediaFiles = new() { "png", "jpg", "jpeg" };
+        private readonly List<string> _allowedMediaFiles = new() { ".png", ".jpg", ".jpeg" };
 
         [ValidateAntiForgeryToken]
         [HttpPost("Create")]
         public async Task<IActionResult> Create(
             [Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")]
             RealtyObject realtyObject,
-            List<IFormFile> mediaFiles)
+            List<IFormFile> MediaFiles)
         {
             {
                 realtyObject.Id = Guid.NewGuid();
 
                 // Если есть загруженные файлы
-                if (mediaFiles != null && mediaFiles.Count > 0)
+                if (MediaFiles.Count > 0)
                 {
                     Guid id = default;
                     realtyObject.TitleImageId = null;
 
-                    foreach (var file in mediaFiles)
+                    foreach (var file in MediaFiles)
                     {
                         var ext = Path.GetExtension(file.FileName);
                         var name = Path.GetFileName(file.FileName);
@@ -145,47 +145,61 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 
         [HttpPost("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")] RealtyObject realtyObject, List<IFormFile> mediaFiles)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")] RealtyObject realtyObject, List<IFormFile> MediaFiles)
         {
             if (id != realtyObject.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+			if (ModelState.IsValid)
             {
                 try
                 {
-                    var existingMedia = await GetMediaByObjectId(realtyObject.Id);
-                    context.Medias.RemoveRange(existingMedia);
+					var existingMedia = await GetMediaByObjectId(realtyObject.Id);
+					realtyObject.TitleImageId = null;
 
-                    if (mediaFiles.Count > 0)
+					if (MediaFiles.Count > 0)
                     {
-                        foreach (var file in mediaFiles)
+	                    Guid mediaId = default;
+
+						foreach (var file in MediaFiles)
                         {
-                            if (file.Length > 0)
-                            {
-                                using (var memoryStream = new MemoryStream())
-                                {
-                                    await file.CopyToAsync(memoryStream);
-                                    var media = new Media
-                                    {
-                                        Id = Guid.NewGuid(),
-                                        Data = memoryStream.ToArray(),
-                                        FileName = Path.GetFileName(file.FileName),
-                                        Extension = Path.GetExtension(file.FileName),
-                                        Description = "Uploaded file",
-                                        RealtyObjectId = realtyObject.Id
-                                    };
-                                    context.Medias.Add(media);
-                                }
-                            }
+	                        var ext = Path.GetExtension(file.FileName);
+	                        var name = Path.GetFileName(file.FileName);
+	                        if (file.Length is > 0 and <= 20000000 && _allowedMediaFiles.Contains(ext.ToLower()))
+	                        {
+		                        mediaId = Guid.NewGuid();
+		                        if (name.ToLower().Contains("title"))
+		                        {
+			                        realtyObject.TitleImageId = mediaId;
+		                        }
+		                        using (var memoryStream = new MemoryStream())
+		                        {
+			                        await file.CopyToAsync(memoryStream);
+			                        var media = new Media
+			                        {
+				                        Id = mediaId,
+				                        Data = memoryStream.ToArray(),
+				                        FileName = name,
+				                        Extension = ext,
+				                        Description = "Uploaded file",
+				                        RealtyObjectId = realtyObject.Id
+			                        };
+			                        context.Add(media);
+		                        }
+	                        }
                         }
+
+                        if (realtyObject.TitleImageId == null && mediaId != default)
+	                        realtyObject.TitleImageId = mediaId;
                     }
 
-                    context.Update(realtyObject);
+					context.Update(realtyObject);
                     await context.SaveChangesAsync();
-                }
+                    context.Medias.RemoveRange(existingMedia);
+                    await context.SaveChangesAsync();
+				}
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!RealtyObjectExists(realtyObject.Id))
@@ -203,7 +217,9 @@ namespace AngleOk.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(realtyObject);
+	        
+	        ViewData["RealtyObjectKindId"] = new SelectList(context.RealtyObjectKinds, "Id", "RealtyObjectKindName", realtyObject.RealtyObjectKindId);
+			return View(realtyObject);
         }
 
         private async Task<List<Media>> GetMediaByObjectId(Guid objectId)

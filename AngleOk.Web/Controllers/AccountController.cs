@@ -93,7 +93,8 @@ namespace AngleOk.Web.Controllers
                     employee.Position = model.Position;
 
                     dataManager.Employee.SaveEmployee(employee);
-                    return Redirect("/Admin/Employees");
+                    return RedirectToAction("Index", "Employees", new { area = "Admin" });
+                    //return Redirect("/Admin/Employees");
                 }
 
                 var messages = "При попытке регистрации нового пользователя возникла ошибка: " + string.Join(',', response.Errors.Select(s => s.Description));

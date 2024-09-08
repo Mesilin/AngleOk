@@ -23,7 +23,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             {
                 RealtyObjects = context.RealtyObjects.ToList(), 
                 Clients = context.Clients.ToList(),
-                Managers = context.Employees.ToList(),
+                Managers = context.Employees.Where(w => w.Position == "Менеджер").ToList(),
                 DealTypes = context.DealTypes.ToList()
             };
 
@@ -70,7 +70,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             // Перезагрузка данных в случае ошибки
             viewModel.RealtyObjects = context.RealtyObjects.ToList();
             viewModel.Clients = context.Clients.ToList();
-            viewModel.Managers = context.Employees.ToList();
+            viewModel.Managers = context.Employees.Where(w=>w.Position=="Менеджер").ToList();
             viewModel.DealTypes = context.DealTypes.ToList();
 
 			return View(viewModel);
@@ -152,7 +152,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 
             ViewData["ClientId"] = new SelectList(clientList, "Id", "FullName", adv.ClientId);
             ViewData["DealTypeId"] = new SelectList(context.DealTypes, "Id", "DealTypeName", adv.DealTypeId);
-            var managerList = context.Employees.Select(x => new
+            var managerList = context.Employees.Where(w=>w.Position=="Менеджер").Select(x => new
             {
                 x.Id,
                 FullName = x.FirstName + " " + x.LastName
