@@ -1,7 +1,6 @@
 ﻿@model System.Collections.Generic.List<Data.AngleOk.Model.Models.Employee>
 @{
     ViewData["Title"] = "Сотрудники";
-	//Layout = "_Layout";
 }
 <h2>Сотрудники</h2>
 
@@ -23,7 +22,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@($"{item.FirstName} {item.LastName[0]}." + (string.IsNullOrEmpty(item.Patronymic) ? "" : (item.Patronymic[0] + ".")))</td>
+                <td>@($"{item.LastName} {item.FirstName[0]}." + (string.IsNullOrEmpty(item.Patronymic) ? "" : (item.Patronymic[0] + ".")))</td>
 	            <td>@item.Position</td>
                 <td>@item.PhoneNumber</td>
                 <td>@item.Email</td>

@@ -82,22 +82,22 @@ namespace AngleOk.Web.Controllers
 
                 if (response.Succeeded)
                 {
-                    var empl = new Employee();
-                    empl.LastName = model.LastName;
-                    empl.FirstName = model.FirstName;
-                    empl.Patronymic = model.Patronymic;
-                    empl.Email = model.Email;
-                    empl.IsActive = model.IsActive;
-                    empl.PhoneNumber = model.PhoneNumber;
-                    empl.PublicPhone = model.PublicPhone;
-                    empl.Position = model.Position;
+                    var employee = new Employee();
+                    employee.LastName = model.LastName;
+                    employee.FirstName = model.FirstName;
+                    employee.Patronymic = model.Patronymic;
+                    employee.Email = model.Email;
+                    employee.IsActive = model.IsActive;
+                    employee.PhoneNumber = model.PhoneNumber;
+                    employee.PublicPhone = model.PublicPhone;
+                    employee.Position = model.Position;
 
-                    dataManager.Employee.SaveEmployee(empl);
+                    dataManager.Employee.SaveEmployee(employee);
                     return Redirect("/Admin/Employees");
                 }
 
-                var errs = "При попытке регистрации нового пользователя возникла ошибка: " + string.Join(',', response.Errors.Select(s => s.Description));
-                ModelState.AddModelError("All", errs);
+                var messages = "При попытке регистрации нового пользователя возникла ошибка: " + string.Join(',', response.Errors.Select(s => s.Description));
+                ModelState.AddModelError("All", messages);
             }
             return View(model);
         }

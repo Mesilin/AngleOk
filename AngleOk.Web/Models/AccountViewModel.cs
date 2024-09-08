@@ -35,7 +35,6 @@ namespace AngleOk.Web.Models
         public string UserName { get; set; } = null!;
 
         [Required]
-        //[UIHint("password")]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; } = null!;

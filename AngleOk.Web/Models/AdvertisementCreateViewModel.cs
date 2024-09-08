@@ -6,8 +6,6 @@ namespace AngleOk.Web.Models
 {
     public class AdvertisementCreateViewModel
     {
-        // Параметры объявления
-        
         [Display(Name = "Цена")]
         public int TargetPrice { get; set; }
         [Display(Name = "Минимальная цена")]
@@ -24,7 +22,6 @@ namespace AngleOk.Web.Models
         [Display(Name = "Краткое описание")]
         public string ShortDescription { get; set; } = string.Empty;
 
-        // Объекты недвижимости
         [Display(Name = "Объект")]
         public List<RealtyObject>? RealtyObjects { get; set; }
 

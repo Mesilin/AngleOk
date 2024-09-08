@@ -159,10 +159,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
                     var existingMedia = await GetMediaByObjectId(realtyObject.Id);
                     context.Medias.RemoveRange(existingMedia);
 
-
-                    // Загрузка новых медиафайлов, если они были переданы
-
-                    if (mediaFiles != null && mediaFiles.Count > 0)
+                    if (mediaFiles.Count > 0)
                     {
                         foreach (var file in mediaFiles)
                         {
@@ -181,7 +178,6 @@ namespace AngleOk.Web.Areas.Admin.Controllers
                                         RealtyObjectId = realtyObject.Id
                                     };
                                     context.Medias.Add(media);
-                                    //realtyObject.MediaMaterials.Add(media);
                                 }
                             }
                         }
@@ -244,7 +240,6 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        //[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [HttpPost("Delete")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)

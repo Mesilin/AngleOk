@@ -8,7 +8,6 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 {
     [Authorize]
     [Area("Admin")]
-    //[Route("{area}/{controller}")]
     [Route("{area}/TextFields")]
     public class TextFieldsController(DataManager dataManager) : Controller
     {

@@ -1,5 +1,4 @@
-﻿using AngleOk.Web.Repositories.Abstract;
-using Data.AngleOk.Model.Models;
+﻿using Data.AngleOk.Model.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,10 +8,8 @@ namespace AngleOk.Web.Areas.Admin.Controllers;
 [Area("Admin")]
 [Authorize]
 [Route("{area}/Employees")]
-public class EmployeesController(AngleOkContext context, DataManager dataManager) : Controller
+public class EmployeesController(AngleOkContext context) : Controller
 {
-    private readonly DataManager _dataManager = dataManager;
-
     /// <summary>
     /// GET: Employees
     /// </summary>

@@ -1,5 +1,4 @@
 ﻿using AngleOk.Web.Models;
-using AngleOk.Web.Repositories.Abstract;
 using Data.AngleOk.Model.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,25 +10,8 @@ namespace AngleOk.Web.Areas.Admin.Controllers
     [Area("Admin")]
     [Authorize]
     [Route("{area}/Advertisements")]
-    public class AdvertisementsController(AngleOkContext context, DataManager dataManager) : Controller
+    public class AdvertisementsController(AngleOkContext context) : Controller
     {
-        /// <summary>
-		/// GET: Advertisement by id
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-		[HttpGet]
-        public IActionResult Index(Guid id)
-        {
-            if (id != default)
-            {
-                return View("Show", dataManager.Advertisements.GetAdvertisementById(id));
-            }
-
-            ViewBag.TextField = dataManager.TextFields.GetTextFieldByCodeWord("PageAdvertisements");
-            return View(dataManager.Advertisements.GetAll());
-        }
-
 		/// <summary>
 		/// GET: Advertisements/Create
 		/// </summary>
@@ -37,7 +19,6 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 		[HttpGet("Create")]
 		public IActionResult Create()
         {
-            // Подготовка данных для выбора существующих объектов недвижимости
             var viewModel = new AdvertisementCreateViewModel
             {
                 RealtyObjects = context.RealtyObjects.ToList(), 
@@ -228,13 +209,6 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         }
 
 
-
-
-
-
-
-
-
         /// <summary>
         /// GET: Advertisements/Delete/5
         /// </summary>
@@ -263,7 +237,6 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		//[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
         [HttpPost("Delete")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -275,5 +248,4 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
     }
-
 }
