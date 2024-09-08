@@ -19,7 +19,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var realtyObjects = await context.RealtyObjects
-                .Include(r => r.TitleImage)
+                //.Include(r => r.TitleImage)
                 .Include(i => i.RealtyObjectKind)
                 .ToListAsync();
             return View(realtyObjects);
@@ -40,7 +40,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 
             var realtyObject = await context.RealtyObjects
                 .Include(i => i.RealtyObjectKind)
-                .Include(r => r.TitleImage)
+                //.Include(r => r.TitleImage)
                 .Include(r => r.MediaMaterials)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -78,9 +78,6 @@ namespace AngleOk.Web.Areas.Admin.Controllers
                 // Если есть загруженные файлы
                 if (MediaFiles.Count > 0)
                 {
-                    Guid id = default;
-                    realtyObject.TitleImageId = null;
-
                     foreach (var file in MediaFiles)
                     {
                         var ext = Path.GetExtension(file.FileName);
@@ -88,30 +85,23 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 
                         if (file.Length is > 0 and <= 20000000 && _allowedMediaFiles.Contains(ext.ToLower()))
                         {
-                            id = Guid.NewGuid();
-                            if (name.ToLower().Contains("title"))
-                            {
-                                realtyObject.TitleImageId = id;
-                            }
                             using (var memoryStream = new MemoryStream())
                             {
                                 await file.CopyToAsync(memoryStream);
                                 var media = new Media
                                 {
-                                    Id = id,
+                                    Id = Guid.NewGuid(),
                                     Data = memoryStream.ToArray(),
                                     FileName = name,
                                     Extension = ext,
-                                    Description = "Uploaded file",
-                                    RealtyObjectId = realtyObject.Id
-                                };
+                                    //Description = "Uploaded file",
+                                    RealtyObjectId = realtyObject.Id,
+                                    IsTitle = name.ToLower().Contains("title")
+								};
                                 context.Add(media);
                             }
                         }
                     }
-
-                    if (realtyObject.TitleImageId == null && id != default)
-                        realtyObject.TitleImageId = id;
                 }
 
                 context.Add(realtyObject);
@@ -157,42 +147,32 @@ namespace AngleOk.Web.Areas.Admin.Controllers
                 try
                 {
 					var existingMedia = await GetMediaByObjectId(realtyObject.Id);
-					realtyObject.TitleImageId = null;
 
 					if (MediaFiles.Count > 0)
                     {
-	                    Guid mediaId = default;
-
 						foreach (var file in MediaFiles)
                         {
 	                        var ext = Path.GetExtension(file.FileName);
 	                        var name = Path.GetFileName(file.FileName);
 	                        if (file.Length is > 0 and <= 20000000 && _allowedMediaFiles.Contains(ext.ToLower()))
 	                        {
-		                        mediaId = Guid.NewGuid();
-		                        if (name.ToLower().Contains("title"))
-		                        {
-			                        realtyObject.TitleImageId = mediaId;
-		                        }
 		                        using (var memoryStream = new MemoryStream())
 		                        {
 			                        await file.CopyToAsync(memoryStream);
 			                        var media = new Media
 			                        {
-				                        Id = mediaId,
+				                        Id = Guid.NewGuid(),
 				                        Data = memoryStream.ToArray(),
 				                        FileName = name,
 				                        Extension = ext,
-				                        Description = "Uploaded file",
-				                        RealtyObjectId = realtyObject.Id
-			                        };
+				                        RealtyObjectId = realtyObject.Id,
+                                        IsTitle = name.ToLower().Contains("title")
+									};
 			                        context.Add(media);
 		                        }
 	                        }
                         }
 
-                        if (realtyObject.TitleImageId == null && mediaId != default)
-	                        realtyObject.TitleImageId = mediaId;
                     }
 
 					context.Update(realtyObject);
@@ -241,8 +221,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var realtyObject = await context.RealtyObjects
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var realtyObject = await context.RealtyObjects.Include(i=>i.RealtyObjectKind).FirstOrDefaultAsync(m => m.Id == id);
             if (realtyObject == null)
             {
                 return NotFound();
@@ -260,10 +239,14 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         [HttpPost("Delete")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var realtyObject = await context.RealtyObjects.FindAsync(id);
+	        var realtyObject = await context.RealtyObjects.Include(i => i.MediaMaterials).FirstOrDefaultAsync(m => m.Id == id);
+
             if (realtyObject == null) 
                 return RedirectToAction(nameof(Index));
-            context.RealtyObjects.Remove(realtyObject);
+            
+            var existingMedia = await GetMediaByObjectId(realtyObject.Id);
+            context.Medias.RemoveRange(existingMedia);
+			context.RealtyObjects.Remove(realtyObject);
             await context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

@@ -91,7 +91,5 @@ namespace Data.AngleOk.Model.Models
 
         [ForeignKey("DealTypeId")]
         public virtual DealType? DealType { get; set; }
-
-        public virtual List<Media>? MediaCollection { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace AngleOk.Web.Repositories.EntityFramework
     {
         public IQueryable<Advertisement> GetAll() 
         {
-            var ads= context.Advertisements.Include(i => i.RealtyObject).ThenInclude(i => i!.TitleImage);
+            var ads= context.Advertisements.Include(i => i.RealtyObject).ThenInclude(i => i!.MediaMaterials);
 			return ads; 
         }
         public Advertisement? GetAdvertisementById(Guid id)

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,17 +30,17 @@ namespace Data.AngleOk.Model.Models
         [Display(Name = "Имя файла")]
         public string FileName { get; set; } = null!;
         
-        [Display(Name = "Описание")]
-        public string? Description { get; set; }
-        
         /// <summary>
         /// Расширение файла
         /// </summary>
         public string Extension { get; set; } = null!;
-        
+
         /// <summary>
         /// Идентификатор объекта недвижимости
         /// </summary>
+        [ForeignKey("RealtyObjectId")]
         public Guid? RealtyObjectId { get; set; }
-    }
+
+        public bool IsTitle { get; set; }
+	}
 }

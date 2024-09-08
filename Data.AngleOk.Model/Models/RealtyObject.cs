@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Data.AngleOk.Model.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.AngleOk.Model.Models
 {
@@ -36,13 +37,6 @@ namespace Data.AngleOk.Model.Models
         public string? Description { get; set; }
 
         /// <summary>
-        /// Титульное фото
-        /// </summary>
-        public Guid? TitleImageId { get; set; }
-        [ForeignKey("TitleImageId")]
-        public virtual Media? TitleImage { get; set; }
-
-        /// <summary>
         /// Тип
         /// </summary>
         public Guid RealtyObjectKindId { get; set; }
@@ -53,10 +47,5 @@ namespace Data.AngleOk.Model.Models
         /// Список фотографий и пр медиаматериалов
         /// </summary>
         public virtual List<Media>? MediaMaterials { get; set; }
-
-        ///// <summary>
-        ///// Владельцы объектов недвижимости
-        ///// </summary>
-        //public virtual required List<RealtyObjectOwner> RealtyObjectOwners { get; set; }
     }
 }

@@ -9,7 +9,8 @@
             {
                 <li>
 	                <a asp-area="Admin" asp-controller="Advertisements" asp-action="Details" asp-route-id="@entity.Id">
-                        <img src="@Url.Action("GetImage", "Media",  new { id = entity.RealtyObject?.TitleImageId.ToString() })" alt="Нет фото" class="left" />
+                        @* <img src="@Url.Action("GetImage", "Media",  new { id = entity.RealtyObject?.TitleImageId.ToString() })" alt="Нет фото" class="left" /> *@
+                        <img src="@Url.Action("GetImage", "Media",  new { id = entity.RealtyObject?.MediaMaterials?.FirstOrDefault(w=>w.IsTitle)?.Id.ToString() })" alt="Нет фото" class="left" />
 	                </a>
                     @* <p>
                         @entity.ShortDescription
