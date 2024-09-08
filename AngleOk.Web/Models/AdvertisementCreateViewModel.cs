@@ -1,5 +1,4 @@
-﻿using Data.AngleOk.Model.Enums;
-using Data.AngleOk.Model.Models;
+﻿using Data.AngleOk.Model.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace AngleOk.Web.Models

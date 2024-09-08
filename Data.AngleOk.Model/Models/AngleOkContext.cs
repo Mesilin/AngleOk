@@ -1,5 +1,4 @@
-﻿using Data.AngleOk.Model.Enums;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -38,13 +37,13 @@ namespace Data.AngleOk.Model.Models
         ////public static IDatabaseInitializer<AngleOkContext> DatabaseInitializer = new MigrateDatabaseToLatestVersion<AngleOkContext, Configuration>(true);
 
         public DbSet<Advertisement> Advertisements { get; set; }
-        public DbSet<Company> Companies { get; set; }
+        //public DbSet<Company> Companies { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Flat> Flats { get; set; }
         public DbSet<Media> Medias { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<RealtyObject> RealtyObjects { get; set; }
-        public DbSet<RealtyObjectOwner> RealtyObjectOwners { get; set; }
+        //public DbSet<RealtyObjectOwner> RealtyObjectOwners { get; set; }
         public DbSet<Stead> Steads { get; set; }
         public DbSet<TextField> TextFields { get; set; }
         public DbSet<RealtyObjectKind> RealtyObjectKinds { get; set; }

@@ -1,6 +1,6 @@
-﻿using Data.AngleOk.Model.Enums;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.AngleOk.Model.Models
 {
@@ -8,28 +8,35 @@ namespace Data.AngleOk.Model.Models
     /// Земельные участки
     /// </summary>
     [Table("Stead")]
+    [Comment("Земельные участки")]
     public class Stead
     {
         /// <summary>
         /// Идентификатор
         /// </summary>
-        public Guid Id { get; set; }
+		[Comment("Идентификатор")]
+		public Guid Id { get; set; }
         
         /// <summary>
         /// Идентификатор объекта недвижимости
         /// </summary>
+		[Comment("Идентификатор объекта недвижимости")]
         public Guid RealtyObjectId { get; set; }
         
         /// <summary>
-        /// Площадь
+        /// Площадь, метров квадратных
         /// </summary>
+		[Comment("Площадь")]
         public decimal Area { get; set; }
         
-        public virtual RealtyObject RealtyObject { get; set; } = null!;
 
+		[Comment("Идентификатор вида разрешенного использования")]
         public Guid SteadUseKindId { get; set; }
+        
         [ForeignKey("SteadUseKindId")]
-        public virtual SteadUseKind? SteadUseKind { get; set; }
+		[Comment("вид разрешенного использования")]
+		public virtual SteadUseKind? SteadUseKind { get; set; }
+        public virtual RealtyObject RealtyObject { get; set; } = null!;
 
     }
 }
