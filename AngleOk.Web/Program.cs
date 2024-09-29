@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -37,6 +38,14 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+builder.Services.AddMvcCore().AddMvcOptions(options =>
+{
+	options.ModelBindingMessageProvider.SetValueIsInvalidAccessor(s=>"qwe");
+	options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(s=>"Не указано значение");
+	options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((s, s1) => $"Значение {s} некорректно для поля {s1}.");
+	options.ModelBindingMessageProvider.SetNonPropertyAttemptedValueIsInvalidAccessor(s => "Указано некорректное значение");
+});
+
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("ru-RU");
@@ -45,6 +54,15 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 
 AngleOkContext context = new AngleOkContext(ob.Options);
+
+if (!context.Database.CanConnect())
+{
+	Console.ForegroundColor=ConsoleColor.Red;
+	Console.WriteLine($"Не удалось выполнить подключение к СУБД. Продолжение работы невозможно.\nПроверьте настройки подключения в appsettings.json");
+	Console.ReadKey();
+	return;
+}
+
 context.Database.Migrate();
 
 builder.Services.AddTransient<ITextFieldsRepository, EfTextFieldsRepository>();

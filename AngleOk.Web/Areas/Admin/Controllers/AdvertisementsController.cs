@@ -13,7 +13,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
     public class AdvertisementsController(AngleOkContext context) : Controller
     {
 		/// <summary>
-		/// GET: Advertisements/Create
+		/// GET: Advertisements
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet("Create")]
@@ -31,7 +31,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         }
 
 		/// <summary>
-		/// POST: Advertisements/Create
+		/// POST: Advertisements
 		/// </summary>
 		/// <param name="viewModel"></param>
 		/// <returns></returns>
@@ -95,7 +95,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         }
 
 		/// <summary>
-		/// GET: Advertisements/Details/5
+		/// GET: Advertisements
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
@@ -124,7 +124,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 		}
 
         /// <summary>
-		/// GET: Advertisements/Edit/5
+		/// GET: Advertisements
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
@@ -210,7 +210,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 
 
         /// <summary>
-        /// GET: Advertisements/Delete/5
+        /// GET: Advertisements
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -233,7 +233,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         }
 
 		/// <summary>
-		/// POST: Advertisements/Delete/5
+		/// POST: Advertisements
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>

@@ -6,111 +6,121 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AngleOk.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Authorize]
-    [Route("{area}/RealtyObject")]
-    public class RealtyObjectController(AngleOkContext context) : Controller
-    {
-        /// <summary>
-        /// GET: RealtyObject
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("Index")]
-        public async Task<IActionResult> Index()
-        {
-            var realtyObjects = await context.RealtyObjects
-                //.Include(r => r.TitleImage)
-                .Include(i => i.RealtyObjectKind)
-                .ToListAsync();
-            return View(realtyObjects);
-        }
+	[Area("Admin")]
+	[Authorize]
+	[Route("{area}/RealtyObject")]
+	public class RealtyObjectController(AngleOkContext context) : Controller
+	{
+		/// <summary>
+		/// GET: RealtyObject
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet("Index")]
+		public async Task<IActionResult> Index()
+		{
+			var realtyObjects = await context.RealtyObjects
+				//.Include(r => r.TitleImage)
+				.Include(i => i.RealtyObjectKind)
+				.ToListAsync();
+			return View(realtyObjects);
+		}
 
-        /// <summary>
-        /// GET: RealtyObject/Details/5
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet("Details")]
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+		/// <summary>
+		/// GET: RealtyObject/Details/5
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[HttpGet("Details")]
+		public async Task<IActionResult> Details(Guid? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-            var realtyObject = await context.RealtyObjects
-                .Include(i => i.RealtyObjectKind)
-                //.Include(r => r.TitleImage)
-                .Include(r => r.MediaMaterials)
-                .FirstOrDefaultAsync(m => m.Id == id);
+			var realtyObject = await context.RealtyObjects
+				.Include(i => i.RealtyObjectKind)
+				//.Include(r => r.TitleImage)
+				.Include(r => r.MediaMaterials)
+				.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (realtyObject == null)
-            {
-                return NotFound();
-            }
+			if (realtyObject == null)
+			{
+				return NotFound();
+			}
 
-            return View(realtyObject);
-        }
+			return View(realtyObject);
+		}
 
-        /// <summary>
-        /// GET: RealtyObject/Create
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("Create")]
-        public IActionResult Create()
-        {
-            ViewData["RealtyObjectKindId"] = new SelectList(context.RealtyObjectKinds, "Id", "RealtyObjectKindName");
-            return View();
-        }
+		/// <summary>
+		/// GET: RealtyObject/Create
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet("Create")]
+		public IActionResult Create()
+		{
+			ViewData["RealtyObjectKindId"] = new SelectList(context.RealtyObjectKinds, "Id", "RealtyObjectKindName");
+			return View();
+		}
 
-        private readonly List<string> _allowedMediaFiles = new() { ".png", ".jpg", ".jpeg" };
+		private readonly List<string> _allowedMediaFiles = new() { ".png", ".jpg", ".jpeg" };
 
-        [ValidateAntiForgeryToken]
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create(
-            [Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")]
-            RealtyObject realtyObject,
-            List<IFormFile> MediaFiles)
-        {
-            {
-                realtyObject.Id = Guid.NewGuid();
+		[ValidateAntiForgeryToken]
+		[HttpPost("Create")]
+		public async Task<IActionResult> Create(
+			[Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")]
+			RealtyObject realtyObject,
+			List<IFormFile> MediaFiles)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					realtyObject.Id = Guid.NewGuid();
 
-                // Если есть загруженные файлы
-                if (MediaFiles.Count > 0)
-                {
-                    foreach (var file in MediaFiles)
-                    {
-                        var ext = Path.GetExtension(file.FileName);
-                        var name = Path.GetFileName(file.FileName);
+					// Если есть загруженные файлы
+					if (MediaFiles.Count > 0)
+					{
+						foreach (var file in MediaFiles)
+						{
+							var ext = Path.GetExtension(file.FileName);
+							var name = Path.GetFileName(file.FileName);
 
-                        if (file.Length is > 0 and <= 20000000 && _allowedMediaFiles.Contains(ext.ToLower()))
-                        {
-                            using (var memoryStream = new MemoryStream())
-                            {
-                                await file.CopyToAsync(memoryStream);
-                                var media = new Media
-                                {
-                                    Id = Guid.NewGuid(),
-                                    Data = memoryStream.ToArray(),
-                                    FileName = name,
-                                    Extension = ext,
-                                    //Description = "Uploaded file",
-                                    RealtyObjectId = realtyObject.Id,
-                                    IsTitle = name.ToLower().Contains("title")
-								};
-                                context.Add(media);
-                            }
-                        }
-                    }
-                }
+							if (file.Length is > 0 and <= 20000000 && _allowedMediaFiles.Contains(ext.ToLower()))
+							{
+								using (var memoryStream = new MemoryStream())
+								{
+									await file.CopyToAsync(memoryStream);
+									var media = new Media
+									{
+										Id = Guid.NewGuid(),
+										Data = memoryStream.ToArray(),
+										FileName = name,
+										Extension = ext,
+										//Description = "Uploaded file",
+										RealtyObjectId = realtyObject.Id,
+										IsTitle = name.ToLower().Contains("title")
+									};
+									context.Add(media);
+								}
+							}
+						}
+					}
 
-                context.Add(realtyObject);
-                await context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-        }
+					context.Add(realtyObject);
+					await context.SaveChangesAsync();
+				}
 
-        /// <summary>
+				catch (Exception e)
+				{
+					return BadRequest("Произошла ошибка:" + e.Message);
+				}
+
+			}
+			return View(realtyObject);
+		}
+
+		/// <summary>
         /// GET: RealtyObject/Edit/5
         /// </summary>
         /// <param name="id"></param>
