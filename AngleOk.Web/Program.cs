@@ -40,7 +40,6 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 
 builder.Services.AddMvcCore().AddMvcOptions(options =>
 {
-	options.ModelBindingMessageProvider.SetValueIsInvalidAccessor(s=>"qwe");
 	options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(s=>"Не указано значение");
 	options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((s, s1) => $"Значение {s} некорректно для поля {s1}.");
 	options.ModelBindingMessageProvider.SetNonPropertyAttemptedValueIsInvalidAccessor(s => "Указано некорректное значение");
@@ -57,8 +56,11 @@ AngleOkContext context = new AngleOkContext(ob.Options);
 
 if (!context.Database.CanConnect())
 {
+	var databaseName = context.Database.GetDbConnection().Database;
+	var host = context.Database.GetDbConnection().DataSource;
+
 	Console.ForegroundColor=ConsoleColor.Red;
-	Console.WriteLine($"Не удалось выполнить подключение к СУБД. Продолжение работы невозможно.\nПроверьте настройки подключения в appsettings.json");
+	Console.WriteLine($"Не удалось выполнить подключение к базе данных '{databaseName}' по адресу {host}.\nПродолжение работы невозможно.\nПроверьте настройки подключения в appsettings.json");
 	Console.ReadKey();
 	return;
 }
