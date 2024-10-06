@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore.Design;
 
 //Миграции
 //в коре 
-// cd .\Data.AngleOk.Model\
-// dotnet ef migrations add CreateTableTextField
+// cd "C:\TUSUR\Git\tusur\1 semestr\DB\AngleOk\Data.AngleOk.Model"
+// dotnet ef migrations add FillAddressData
 
 //dotnet ef database update
 //или
@@ -50,5 +50,9 @@ namespace Data.AngleOk.Model.Models
         public DbSet<ClientType> ClientTypes { get; set; }
         public DbSet<DealType> DealTypes { get; set; }
         public DbSet<SteadUseKind> SteadUseKinds { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Region> Regions { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Street> Streets { get; set; }
     }
 }

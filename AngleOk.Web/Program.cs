@@ -38,6 +38,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+//Перегрузка вывода валидатора ошибок свойств объектов на русский
 builder.Services.AddMvcCore().AddMvcOptions(options =>
 {
 	options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(s=>"Не указано значение");
