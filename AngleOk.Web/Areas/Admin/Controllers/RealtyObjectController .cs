@@ -68,7 +68,8 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		[HttpPost("Create")]
 		public async Task<IActionResult> Create(
-			[Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")]
+			//[Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")]
+			[Bind("Id,CadastralNumber,PostalCode,House,HouseLetter,Building,Apartment,Latitude,Longitude,Description,RealtyObjectKindId")]
 			RealtyObject realtyObject,
 			List<IFormFile> MediaFiles)
 		{
@@ -145,7 +146,10 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 
         [HttpPost("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")] RealtyObject realtyObject, List<IFormFile> MediaFiles)
+        public async Task<IActionResult> Edit(Guid id,
+			//[Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")] 
+			[Bind("Id,CadastralNumber,PostalCode,House,HouseLetter,Building,Apartment,Latitude,Longitude,Description,RealtyObjectKindId")]
+			RealtyObject realtyObject, List<IFormFile> MediaFiles)
         {
             if (id != realtyObject.Id)
             {

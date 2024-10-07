@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.AngleOk.Model.Models
@@ -25,12 +26,40 @@ namespace Data.AngleOk.Model.Models
         [RegularExpression(@"\d{2}:\d{2}:\d{6,7}:\d*", ErrorMessage = "Некорректный кадастровый номер")]
         public string CadastralNumber { get; set;} = null!;
 
-        [Display(Name = "Адрес")]
-		[Comment("Адрес")]
-        [Required(ErrorMessage = "Не указан адрес")]
-        public string Address { get; set; } = null!;
+        //      [Display(Name = "Адрес")]
+        //[Comment("Адрес")]
+        //      [Required(ErrorMessage = "Не указан адрес")]
+        //      public string Address { get; set; } = null!;
 
-        [Display(Name = "Широта")]
+        [Comment("Почтовый индекс")]
+        [Display(Name = "Почтовый индекс")]
+        [RegularExpression(@"\d{0,6}", ErrorMessage = "Некорректный индекс")]
+        public int? PostalCode { get; set; }
+
+        [Comment("Номер дома")]
+        [Display(Name = "Номер дома")]
+        [Range(1,Int32.MaxValue, ErrorMessage = "Некорректное значение")] 
+        public int? House { get; set; }
+
+        [Comment("Литера дома")]
+        [Display(Name = "Литера дома")]
+        [RegularExpression(@"^[а-яА-Я'\s]{1}$", ErrorMessage = "Некорректные символы в поле Литера дома. Длина должна быть 1 символ")]
+        [StringLength(1)]
+        [Length(1,1)]
+		public string? HouseLetter { get; set; }
+
+		[Comment("Корпус")]
+		[Display(Name = "Корпус")]
+        [Range(1,Int32.MaxValue, ErrorMessage = "Некорректное значение")] 
+		public int? Building { get; set; }
+
+		[Comment("Квартира")]
+		[Display(Name = "Квартира")]
+        [Range(1,Int32.MaxValue, ErrorMessage = "Некорректное значение")] 
+		public int? Apartment { get; set; }
+
+
+		[Display(Name = "Широта")]
 		[Comment("Широта")]
         //[LatitudeValidation]
         [Range(typeof(decimal),"-90", "90", ErrorMessage = "Значение широты должно быть в диапазоне от -90° до +90°")]
@@ -61,6 +90,30 @@ namespace Data.AngleOk.Model.Models
         /// Список фотографий и пр медиаматериалов
         /// </summary>
         public virtual List<Media>? MediaMaterials { get; set; }
+
+        [NotMapped]
+        public string FullAddress
+        {
+	        get
+	        {
+		        var ret = "";
+                
+		        if(PostalCode!=null)
+	                ret += PostalCode;
+				if (House != null)
+			        ret += ", д. " + House;
+				if (HouseLetter != null)
+					ret += ", лит. "+HouseLetter;
+				if (Building!=null)
+	                ret += ", корп. " + Building;
+                if (Apartment!=null)
+                {
+	                ret += ", кв. " + Apartment;
+                }
+
+				return ret;
+	        }
+        }
     }
 
     public class LatitudeValidationAttribute : ValidationAttribute

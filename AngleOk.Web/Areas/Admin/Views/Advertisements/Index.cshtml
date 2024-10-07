@@ -24,7 +24,7 @@
 		<tr>
 			<td>@item.DealType?.DealTypeName</td>
 			<td>@item.RealtyObject?.RealtyObjectKind.RealtyObjectKindName</td>
-			<td>@item.RealtyObject?.Address</td>
+				<td>@item.RealtyObject?.FullAddress</td>
 			<td>@item.ShortDescription</td>
 			<td>
 				<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Редактировать</a>

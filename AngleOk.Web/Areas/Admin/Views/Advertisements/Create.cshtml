@@ -44,7 +44,7 @@
             {
                 foreach (var realtyObject in Model.RealtyObjects)
                 {
-                    <option value="@realtyObject.Id">@realtyObject.Address</option>
+					<option value="@realtyObject.Id">@realtyObject.FullAddress</option>
                 }
             }
         </select>
