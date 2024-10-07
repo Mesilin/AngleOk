@@ -19,10 +19,21 @@
         <input asp-for="PostalCode" class="form-control" />
         <span asp-validation-for="PostalCode" class="text-danger"></span>
     </div>
+    
     <div class="form-group">
-        <label asp-for="CityId" class="control-label">Город</label>
-        <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId"></select>
+        <label asp-for="CityId">Город</label>
+        <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId" id="cityDropdown">
+            <option value="">-- Выберите город --</option>
+        </select>
         <span asp-validation-for="CityId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StreetId">Улица</label>
+        <select asp-for="StreetId" class="form-control" asp-items="ViewBag.StreetId" id="streetDropdown">
+            <option value="">-- Выберите улицу --</option>
+        </select>
+        <span asp-validation-for="StreetId" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="House" class="control-label"></label>
@@ -111,3 +122,35 @@
 <div>
     <a asp-action="Index">Назад</a>
 </div>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Подгрузка улиц при выборе города
+            $('#cityDropdown').change(function () {
+                var cityId = $(this).val();
+                if (cityId) {
+                    $.ajax({
+                        url: '@Url.Action("GetStreetsByCity", "RealtyObject")',
+                        type: 'GET',
+                        data: { cityId: cityId },
+                        success: function (streets) {
+                            $('#streetDropdown').empty();
+                            $('#streetDropdown').append('<option value="">-- Выберите улицу --</option>');
+                            $.each(streets, function (index, street) {
+                                $('#streetDropdown').append('<option value="' + street.id + '">' + street.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#cityDropdown').empty();
+                    $('#cityDropdown').append('<option value="">-- Выберите город --</option>');
+                    $('#streetDropdown').empty();
+                    $('#streetDropdown').append('<option value="">-- Выберите улицу --</option>');
+                }
+            });
+        });
+    </script>
+}

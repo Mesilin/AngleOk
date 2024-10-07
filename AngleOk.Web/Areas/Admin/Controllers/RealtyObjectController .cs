@@ -19,9 +19,9 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 		public async Task<IActionResult> Index()
 		{
 			var realtyObjects = await context.RealtyObjects
-				//.Include(r => r.TitleImage)
 				.Include(i => i.RealtyObjectKind)
-				.Include(i => i.City)
+				.Include(i => i.Street)
+				.ThenInclude(i => i!.City)
 				.ThenInclude(i => i!.Region)
 				.ThenInclude(i => i.Country)
 				.ToListAsync();
@@ -43,10 +43,10 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 
 			var realtyObject = await context.RealtyObjects
 				.Include(i => i.RealtyObjectKind)
-				.Include(i => i.City)
+				.Include(i => i.Street)
+				.ThenInclude(i => i.City)
 				.ThenInclude(i => i!.Region)
 				.ThenInclude(i => i.Country)
-				//.Include(r => r.TitleImage)
 				.Include(r => r.MediaMaterials)
 				.FirstOrDefaultAsync(m => m.Id == id);
 
@@ -68,14 +68,14 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 			ViewData["RealtyObjectKindId"] = new SelectList(context.RealtyObjectKinds, "Id", "RealtyObjectKindName");
 			ViewData["CityId"] = new SelectList(context.Cities, "Id", "Name");
 			return View();
-		}
+        }
 
 		private readonly List<string> _allowedMediaFiles = new() { ".png", ".jpg", ".jpeg" };
 
 		[ValidateAntiForgeryToken]
 		[HttpPost("Create")]
 		public async Task<IActionResult> Create(
-			[Bind("Id,CadastralNumber,CityId,PostalCode,House,HouseLetter,Building,Apartment,Latitude,Longitude,Description,RealtyObjectKindId")]
+			[Bind("Id,CadastralNumber,CityId,StreetId,PostalCode,House,HouseLetter,Building,Apartment,Latitude,Longitude,Description,RealtyObjectKindId")]
 			RealtyObject realtyObject,
 			List<IFormFile> MediaFiles)
 		{
@@ -142,7 +142,8 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 
             var realtyObject = await context.RealtyObjects
 	            .Include(r => r.MediaMaterials)
-	            .Include(i=>i.City)
+	            .Include(i=>i.Street)
+	            .ThenInclude(i=>i!.City)
 	            .ThenInclude(i=>i!.Region)
 	            .ThenInclude(i=>i.Country)
 	            .FirstOrDefaultAsync(m => m.Id == id);
@@ -150,8 +151,13 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            if (realtyObject.Street != null) 
+                realtyObject.CityId = realtyObject.Street.CityId;
+
             ViewData["RealtyObjectKindId"] = new SelectList(context.RealtyObjectKinds, "Id", "RealtyObjectKindName", realtyObject.RealtyObjectKindId);
             ViewData["CityId"] = new SelectList(context.Cities, "Id", "Name");
+            ViewData["StreetId"] = new SelectList(context.Streets.Where(w=>w.CityId== realtyObject.CityId), "Id", "Name");
 
 			return View(realtyObject);
         }
@@ -159,7 +165,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         [HttpPost("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id,
-			[Bind("Id,CadastralNumber,CityId,PostalCode,House,HouseLetter,Building,Apartment,Latitude,Longitude,Description,RealtyObjectKindId")]
+			[Bind("Id,CadastralNumber,CityId,StreetId,PostalCode,House,HouseLetter,Building,Apartment,Latitude,Longitude,Description,RealtyObjectKindId")]
 			RealtyObject realtyObject, List<IFormFile> MediaFiles)
         {
             if (id != realtyObject.Id)
@@ -225,6 +231,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 	        
 	        ViewData["RealtyObjectKindId"] = new SelectList(context.RealtyObjectKinds, "Id", "RealtyObjectKindName", realtyObject.RealtyObjectKindId);
 			ViewData["CityId"] = new SelectList(context.Cities, "Id", "Name");
+            ViewData["StreetId"] = new SelectList(context.Streets.Where(w=>w.CityId== realtyObject.CityId), "Id", "Name");
 			return View(realtyObject);
         }
 
@@ -280,9 +287,20 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public JsonResult GetStreetsByCity(Guid cityId)
+        {
+            var streets = context.Streets
+                .Where(r => r.CityId == cityId)
+                .Select(r => new { id = r.Id, name = r.Name })
+                .ToList();
+            return Json(streets);
+        }
+
         private bool RealtyObjectExists(Guid id)
         {
             return context.RealtyObjects.Any(e => e.Id == id);
         }
+
+
     }
 }

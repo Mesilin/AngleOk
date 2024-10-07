@@ -7,11 +7,11 @@
 <h2>Добавить новый объект</h2>
 
 <form asp-action="Create" enctype="multipart/form-data">
-	<div class="form-group">
-		<label asp-for="CadastralNumber" class="control-label"></label>
-		<input asp-for="CadastralNumber" class="form-control" />
-		<span asp-validation-for="CadastralNumber" class="text-danger"></span>
-	</div>
+    <div class="form-group">
+        <label asp-for="CadastralNumber" class="control-label"></label>
+        <input asp-for="CadastralNumber" class="form-control" />
+        <span asp-validation-for="CadastralNumber" class="text-danger"></span>
+    </div>
     
     <div class="form-group">
         <label asp-for="PostalCode" class="control-label"></label>
@@ -20,25 +20,35 @@
     </div>
 	
     <div class="form-group">
-        <label asp-for="CityId" class="control-label">Город</label>
-		<select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId"></select>
-		<span asp-validation-for="CityId" class="text-danger"></span>
+        <label asp-for="CityId">Город</label>
+        <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId" id="cityDropdown">
+            <option value="">-- Выберите город --</option>
+        </select>
+        <span asp-validation-for="CityId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StreetId">Улица</label>
+        <select asp-for="StreetId" class="form-control" asp-items="ViewBag.StreetId" id="streetDropdown">
+            <option value="">-- Выберите улицу --</option>
+        </select>
+        <span asp-validation-for="StreetId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="House" class="control-label"></label>
-		<input asp-for="House" class="form-control" />
-		<span asp-validation-for="House" class="text-danger"></span>
+        <input asp-for="House" class="form-control" />
+        <span asp-validation-for="House" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="HouseLetter" class="control-label"></label>
-		<input asp-for="HouseLetter" class="form-control" />
-		<span asp-validation-for="HouseLetter" class="text-danger"></span>
+        <input asp-for="HouseLetter" class="form-control" />
+        <span asp-validation-for="HouseLetter" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Building" class="control-label"></label>
-		<input asp-for="Building" class="form-control" />
-		<span asp-validation-for="Building" class="text-danger"></span>
+        <input asp-for="Building" class="form-control" />
+        <span asp-validation-for="Building" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Apartment" class="control-label"></label>
@@ -47,34 +57,66 @@
     </div>
 
     <div class="form-group">
-		<label asp-for="RealtyObjectKindId" class="control-label">Тип объекта недвижимости</label>
-		<select asp-for="RealtyObjectKindId" class="form-control" asp-items="ViewBag.RealtyObjectKindId"></select>
-		<span asp-validation-for="RealtyObjectKindId" class="text-danger"></span>
-	</div>
+        <label asp-for="RealtyObjectKindId" class="control-label">Тип объекта недвижимости</label>
+        <select asp-for="RealtyObjectKindId" class="form-control" asp-items="ViewBag.RealtyObjectKindId"></select>
+        <span asp-validation-for="RealtyObjectKindId" class="text-danger"></span>
+    </div>
 
-	<div class="form-group">
-		<label asp-for="Description" class="control-label"></label>
-		<textarea asp-for="Description" class="form-control"></textarea>
-		<span asp-validation-for="Description" class="text-danger"></span>
-	</div>
-	<div class="form-group">
-		<label asp-for="Latitude" class="control-label"></label>
-		<input asp-for="Latitude" class="form-control" />
-		<span asp-validation-for="Latitude" class="text-danger"></span>
-	</div>
-	<div class="form-group">
-		<label asp-for="Longitude" class="control-label"></label>
-		<input asp-for="Longitude" class="form-control" />
-		<span asp-validation-for="Longitude" class="text-danger"></span>
-	</div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Latitude" class="control-label"></label>
+        <input asp-for="Latitude" class="form-control" />
+        <span asp-validation-for="Latitude" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Longitude" class="control-label"></label>
+        <input asp-for="Longitude" class="form-control" />
+        <span asp-validation-for="Longitude" class="text-danger"></span>
+    </div>
 
-	<div class="form-group">
-		<label for="MediaFiles" class="control-label">Фото</label>
-		<input type="file" name="MediaFiles" class="form-control" multiple />
-		<small class="form-text text-muted">Можно выбрать для загрузки несколько файлов</small>
-	</div>
-	<div class="form-group">
-		<input type="submit" value="Создать" class="btn btn-primary" />
-		<a asp-action="Index" class="btn btn-secondary">Отмена</a>
-	</div>
+    <div class="form-group">
+        <label for="MediaFiles" class="control-label">Фото</label>
+        <input type="file" name="MediaFiles" class="form-control" multiple />
+        <small class="form-text text-muted">Можно выбрать для загрузки несколько файлов</small>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Создать" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    </div>
 </form>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Подгрузка улиц при выборе города
+            $('#cityDropdown').change(function () {
+                var cityId = $(this).val();
+                if (cityId) {
+                    $.ajax({
+                        url: '@Url.Action("GetStreetsByCity", "RealtyObject")',
+                        type: 'GET',
+                        data: { cityId: cityId },
+                        success: function (streets) {
+                            $('#streetDropdown').empty();
+                            $('#streetDropdown').append('<option value="">-- Выберите улицу --</option>');
+                            $.each(streets, function (index, street) {
+                                $('#streetDropdown').append('<option value="' + street.id + '">' + street.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#cityDropdown').empty();
+                    $('#cityDropdown').append('<option value="">-- Выберите город --</option>');
+                    $('#streetDropdown').empty();
+                    $('#streetDropdown').append('<option value="">-- Выберите улицу --</option>');
+                }
+            });
+        });
+    </script>
+}

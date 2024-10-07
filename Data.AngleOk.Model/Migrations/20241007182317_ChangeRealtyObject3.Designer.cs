@@ -3,6 +3,7 @@ using System;
 using Data.AngleOk.Model.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.AngleOk.Model.Migrations
 {
     [DbContext(typeof(AngleOkContext))]
-    partial class AngleOkContextModelSnapshot : ModelSnapshot
+    [Migration("20241007182317_ChangeRealtyObject3")]
+    partial class ChangeRealtyObject3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -405,6 +408,9 @@ namespace Data.AngleOk.Model.Migrations
                         .HasColumnType("text")
                         .HasComment("Кадастровый номер");
 
+                    b.Property<Guid>("CityId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasComment("Описание");
@@ -437,6 +443,8 @@ namespace Data.AngleOk.Model.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
 
                     b.HasIndex("RealtyObjectKindId");
 
@@ -875,6 +883,12 @@ namespace Data.AngleOk.Model.Migrations
 
             modelBuilder.Entity("Data.AngleOk.Model.Models.RealtyObject", b =>
                 {
+                    b.HasOne("Data.AngleOk.Model.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Data.AngleOk.Model.Models.RealtyObjectKind", "RealtyObjectKind")
                         .WithMany()
                         .HasForeignKey("RealtyObjectKindId")
@@ -884,6 +898,8 @@ namespace Data.AngleOk.Model.Migrations
                     b.HasOne("Data.AngleOk.Model.Models.Street", "Street")
                         .WithMany()
                         .HasForeignKey("StreetId");
+
+                    b.Navigation("City");
 
                     b.Navigation("RealtyObjectKind");
 

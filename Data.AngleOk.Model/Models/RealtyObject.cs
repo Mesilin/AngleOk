@@ -25,17 +25,20 @@ namespace Data.AngleOk.Model.Models
 		[RegularExpression(@"\d{2}:\d{2}:\d{6,7}:\d*", ErrorMessage = "Некорректный кадастровый номер")]
 		public string CadastralNumber { get; set; } = null!;
 
-		public Guid CityId { get; set; }
-
-		[ForeignKey("CityId")]
-		[Display(Name = "Город")]
-		[Comment("Город")]
-		public virtual City? City { get; set; }
+		[NotMapped]
+        public Guid CityId { get; set; }
 
 		[Comment("Почтовый индекс")]
 		[Display(Name = "Почтовый индекс")]
 		[RegularExpression(@"\d{0,6}", ErrorMessage = "Некорректный индекс")]
 		public int? PostalCode { get; set; }
+
+		public Guid? StreetId { get; set; }
+
+		[ForeignKey("StreetId")]
+		[Display(Name = "Улица")]
+		[Comment("Улица")]
+		public virtual Street? Street { get; set; }
 
 		[Comment("Номер дома")]
 		[Display(Name = "Номер дома")]
@@ -103,8 +106,9 @@ namespace Data.AngleOk.Model.Models
 			var ret = "";
 			if (realtyObject.PostalCode != null)
 				ret += realtyObject.PostalCode+", ";
-			if(realtyObject.City!=null)
-				ret += realtyObject.City.Region.Country.Name+", "+realtyObject.City.Region.Name+", г. "+realtyObject.City.Name;
+            if (realtyObject.Street != null)
+                ret += realtyObject.Street.City.Region.Country.Name + ", " + realtyObject.Street.City.Region.Name +
+                       ", г. " + realtyObject.Street.City.Name + ", ул. " + realtyObject.Street.Name;
 
 			if (realtyObject.House != null)
 				ret += ", д. " + realtyObject.House;
