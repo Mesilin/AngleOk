@@ -21,6 +21,9 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 			var realtyObjects = await context.RealtyObjects
 				//.Include(r => r.TitleImage)
 				.Include(i => i.RealtyObjectKind)
+				.Include(i => i.City)
+				.ThenInclude(i => i!.Region)
+				.ThenInclude(i => i.Country)
 				.ToListAsync();
 			return View(realtyObjects);
 		}
@@ -40,6 +43,9 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 
 			var realtyObject = await context.RealtyObjects
 				.Include(i => i.RealtyObjectKind)
+				.Include(i => i.City)
+				.ThenInclude(i => i!.Region)
+				.ThenInclude(i => i.Country)
 				//.Include(r => r.TitleImage)
 				.Include(r => r.MediaMaterials)
 				.FirstOrDefaultAsync(m => m.Id == id);
@@ -60,6 +66,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 		public IActionResult Create()
 		{
 			ViewData["RealtyObjectKindId"] = new SelectList(context.RealtyObjectKinds, "Id", "RealtyObjectKindName");
+			ViewData["CityId"] = new SelectList(context.Cities, "Id", "Name");
 			return View();
 		}
 
@@ -68,8 +75,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		[HttpPost("Create")]
 		public async Task<IActionResult> Create(
-			//[Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")]
-			[Bind("Id,CadastralNumber,PostalCode,House,HouseLetter,Building,Apartment,Latitude,Longitude,Description,RealtyObjectKindId")]
+			[Bind("Id,CadastralNumber,CityId,PostalCode,House,HouseLetter,Building,Apartment,Latitude,Longitude,Description,RealtyObjectKindId")]
 			RealtyObject realtyObject,
 			List<IFormFile> MediaFiles)
 		{
@@ -134,21 +140,26 @@ namespace AngleOk.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var realtyObject = await context.RealtyObjects.Include(r => r.MediaMaterials).FirstOrDefaultAsync(m => m.Id == id);
+            var realtyObject = await context.RealtyObjects
+	            .Include(r => r.MediaMaterials)
+	            .Include(i=>i.City)
+	            .ThenInclude(i=>i!.Region)
+	            .ThenInclude(i=>i.Country)
+	            .FirstOrDefaultAsync(m => m.Id == id);
             if (realtyObject == null)
             {
                 return NotFound();
             }
             ViewData["RealtyObjectKindId"] = new SelectList(context.RealtyObjectKinds, "Id", "RealtyObjectKindName", realtyObject.RealtyObjectKindId);
+            ViewData["CityId"] = new SelectList(context.Cities, "Id", "Name");
 
-            return View(realtyObject);
+			return View(realtyObject);
         }
 
         [HttpPost("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id,
-			//[Bind("Id,CadastralNumber,Address,Latitude,Longitude,Description,RealtyObjectKindId")] 
-			[Bind("Id,CadastralNumber,PostalCode,House,HouseLetter,Building,Apartment,Latitude,Longitude,Description,RealtyObjectKindId")]
+			[Bind("Id,CadastralNumber,CityId,PostalCode,House,HouseLetter,Building,Apartment,Latitude,Longitude,Description,RealtyObjectKindId")]
 			RealtyObject realtyObject, List<IFormFile> MediaFiles)
         {
             if (id != realtyObject.Id)
@@ -213,6 +224,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             }
 	        
 	        ViewData["RealtyObjectKindId"] = new SelectList(context.RealtyObjectKinds, "Id", "RealtyObjectKindName", realtyObject.RealtyObjectKindId);
+			ViewData["CityId"] = new SelectList(context.Cities, "Id", "Name");
 			return View(realtyObject);
         }
 
@@ -235,7 +247,9 @@ namespace AngleOk.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var realtyObject = await context.RealtyObjects.Include(i=>i.RealtyObjectKind).FirstOrDefaultAsync(m => m.Id == id);
+            var realtyObject = await context.RealtyObjects
+	            .Include(i=>i.RealtyObjectKind)
+	            .FirstOrDefaultAsync(m => m.Id == id);
             if (realtyObject == null)
             {
                 return NotFound();

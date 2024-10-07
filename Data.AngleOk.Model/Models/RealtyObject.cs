@@ -2,121 +2,127 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.AngleOk.Model.Models
 {
-    /// <summary>
-    /// Объекты недвижимости
-    /// </summary>
-    [Table("RealtyObject")]
-    [Comment("Объекты недвижимости")]
-    public class RealtyObject
-    {
+	/// <summary>
+	/// Объекты недвижимости
+	/// </summary>
+	[Table("RealtyObject")]
+	[Comment("Объекты недвижимости")]
+	public class RealtyObject
+	{
 		/// <summary>
 		/// Идентификатор
 		/// </summary>
-		[Comment("Идентификатор")] 
-		public Guid Id {get; set;}
+		[Comment("Идентификатор")]
+		public Guid Id { get; set; }
 
-        [Display(Name = "Кадастровый номер")]
+		[Display(Name = "Кадастровый номер")]
 		[Comment("Кадастровый номер")]
-        [Required(ErrorMessage = "Не указан кадастровый номер")]
-        [RegularExpression(@"\d{2}:\d{2}:\d{6,7}:\d*", ErrorMessage = "Некорректный кадастровый номер")]
-        public string CadastralNumber { get; set;} = null!;
+		[Required(ErrorMessage = "Не указан кадастровый номер")]
+		[RegularExpression(@"\d{2}:\d{2}:\d{6,7}:\d*", ErrorMessage = "Некорректный кадастровый номер")]
+		public string CadastralNumber { get; set; } = null!;
 
-        //      [Display(Name = "Адрес")]
-        //[Comment("Адрес")]
-        //      [Required(ErrorMessage = "Не указан адрес")]
-        //      public string Address { get; set; } = null!;
+		public Guid CityId { get; set; }
 
-        [Comment("Почтовый индекс")]
-        [Display(Name = "Почтовый индекс")]
-        [RegularExpression(@"\d{0,6}", ErrorMessage = "Некорректный индекс")]
-        public int? PostalCode { get; set; }
+		[ForeignKey("CityId")]
+		[Display(Name = "Город")]
+		[Comment("Город")]
+		public virtual City? City { get; set; }
 
-        [Comment("Номер дома")]
-        [Display(Name = "Номер дома")]
-        [Range(1,Int32.MaxValue, ErrorMessage = "Некорректное значение")] 
-        public int? House { get; set; }
+		[Comment("Почтовый индекс")]
+		[Display(Name = "Почтовый индекс")]
+		[RegularExpression(@"\d{0,6}", ErrorMessage = "Некорректный индекс")]
+		public int? PostalCode { get; set; }
 
-        [Comment("Литера дома")]
-        [Display(Name = "Литера дома")]
-        [RegularExpression(@"^[а-яА-Я'\s]{1}$", ErrorMessage = "Некорректные символы в поле Литера дома. Длина должна быть 1 символ")]
-        [StringLength(1)]
-        [Length(1,1)]
+		[Comment("Номер дома")]
+		[Display(Name = "Номер дома")]
+		[Range(1, Int32.MaxValue, ErrorMessage = "Некорректное значение")]
+		public int? House { get; set; }
+
+		[Comment("Литера дома")]
+		[Display(Name = "Литера дома")]
+		[RegularExpression(@"^[а-яА-Я'\s]{1}$",
+			ErrorMessage = "Некорректные символы в поле Литера дома. Длина должна быть 1 символ")]
+		[StringLength(1)]
+		[Length(1, 1)]
 		public string? HouseLetter { get; set; }
 
 		[Comment("Корпус")]
 		[Display(Name = "Корпус")]
-        [Range(1,Int32.MaxValue, ErrorMessage = "Некорректное значение")] 
+		[Range(1, Int32.MaxValue, ErrorMessage = "Некорректное значение")]
 		public int? Building { get; set; }
 
 		[Comment("Квартира")]
 		[Display(Name = "Квартира")]
-        [Range(1,Int32.MaxValue, ErrorMessage = "Некорректное значение")] 
+		[Range(1, Int32.MaxValue, ErrorMessage = "Некорректное значение")]
 		public int? Apartment { get; set; }
 
 
 		[Display(Name = "Широта")]
 		[Comment("Широта")]
-        //[LatitudeValidation]
-        [Range(typeof(decimal),"-90", "90", ErrorMessage = "Значение широты должно быть в диапазоне от -90° до +90°")]
+		//[LatitudeValidation]
+		[Range(typeof(decimal), "-90", "90", ErrorMessage = "Значение широты должно быть в диапазоне от -90° до +90°")]
 		public decimal? Latitude { get; set; }
 
-        [Display(Name = "Долгота")]
-		[Comment("Долгота")] 
-        //[LongitudeValidation(true)]
-        [Range(typeof(decimal),"-180", "180", ErrorMessage = "Значение долготы должно быть в диапазоне от -180\u00b0 до +180°")]
+		[Display(Name = "Долгота")]
+		[Comment("Долгота")]
+		//[LongitudeValidation(true)]
+		[Range(typeof(decimal), "-180", "180",
+			ErrorMessage = "Значение долготы должно быть в диапазоне от -180\u00b0 до +180°")]
 		public decimal? Longitude { get; set; }
 
-        /// <summary>
-        /// Описание
-        /// </summary>
-        [Display(Name = "Описание")]
-		[Comment("Описание")] 
-        public string? Description { get; set; }
+		/// <summary>
+		/// Описание
+		/// </summary>
+		[Display(Name = "Описание")]
+		[Comment("Описание")]
+		public string? Description { get; set; }
 
-        /// <summary>
-        /// Тип
-        /// </summary>
-        public Guid RealtyObjectKindId { get; set; }
-        [ForeignKey("RealtyObjectKindId")]
-		[Comment("тип")] 
-        public virtual RealtyObjectKind? RealtyObjectKind { get; set; } = null!;
+		/// <summary>
+		/// Тип
+		/// </summary>
+		public Guid RealtyObjectKindId { get; set; }
 
-        /// <summary>
-        /// Список фотографий и пр медиаматериалов
-        /// </summary>
-        public virtual List<Media>? MediaMaterials { get; set; }
+		[ForeignKey("RealtyObjectKindId")]
+		[Comment("тип")]
+		public virtual RealtyObjectKind? RealtyObjectKind { get; set; } = null!;
 
-        [NotMapped]
-        public string FullAddress
-        {
-	        get
-	        {
-		        var ret = "";
-                
-		        if(PostalCode!=null)
-	                ret += PostalCode;
-				if (House != null)
-			        ret += ", д. " + House;
-				if (HouseLetter != null)
-					ret += ", лит. "+HouseLetter;
-				if (Building!=null)
-	                ret += ", корп. " + Building;
-                if (Apartment!=null)
-                {
-	                ret += ", кв. " + Apartment;
-                }
+		/// <summary>
+		/// Список фотографий и пр медиаматериалов
+		/// </summary>
+		public virtual List<Media>? MediaMaterials { get; set; }
 
-				return ret;
-	        }
-        }
-    }
 
-    public class LatitudeValidationAttribute : ValidationAttribute
+		[NotMapped] public string FullAddress => GetFullAddress(this);
+
+		private string GetFullAddress(RealtyObject realtyObject)
+		{
+			var ret = "";
+			if (realtyObject.PostalCode != null)
+				ret += realtyObject.PostalCode+", ";
+			if(realtyObject.City!=null)
+				ret += realtyObject.City.Region.Country.Name+", "+realtyObject.City.Region.Name+", г. "+realtyObject.City.Name;
+
+			if (realtyObject.House != null)
+				ret += ", д. " + realtyObject.House;
+			if (realtyObject.HouseLetter != null)
+				ret += ", лит. " + realtyObject.HouseLetter;
+			if (realtyObject.Building != null)
+				ret += ", корп. " + realtyObject.Building;
+			if (realtyObject.Apartment != null)
+			{
+				ret += ", кв. " + realtyObject.Apartment;
+			}
+
+			return ret;
+		}
+	}
+
+
+	public class LatitudeValidationAttribute : ValidationAttribute
     {
 	    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 	    {

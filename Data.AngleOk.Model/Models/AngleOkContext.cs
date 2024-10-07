@@ -11,6 +11,9 @@ using Microsoft.EntityFrameworkCore.Design;
 //или
 //    dotnet ef database update -c Data.AngleOk.Model.Models.AngleOkContext
 
+//Нормальный мануал по откату в EF Core
+//https://code-maze.com/efcore-how-to-revert-a-migration/https://code-maze.com/efcore-how-to-revert-a-migration/
+
 namespace Data.AngleOk.Model.Models
 {
     public class AngleOkContextFactory : IDesignTimeDbContextFactory<AngleOkContext>
