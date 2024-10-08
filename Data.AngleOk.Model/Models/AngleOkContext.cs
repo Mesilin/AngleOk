@@ -35,6 +35,14 @@ namespace Data.AngleOk.Model.Models
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("public");
+
+            modelBuilder.Entity<Country>().HasIndex(u => u.Name).IsUnique();
+            modelBuilder.Entity<Country>().HasIndex(u => u.EnglishName).IsUnique();
+            modelBuilder.Entity<Country>().HasIndex(u => u.Alpha2).IsUnique();
+            modelBuilder.Entity<Country>().HasIndex(u => u.Alpha3).IsUnique();
+            modelBuilder.Entity<Country>().HasIndex(u => u.Iso).IsUnique();
+            modelBuilder.Entity<Region>().HasIndex(u => new{u.Name, u.CountryId}).IsUnique();
+            modelBuilder.Entity<City>().HasIndex(u => new{u.Name, u.RegionId}).IsUnique();
         }
 
         ////public static IDatabaseInitializer<AngleOkContext> DatabaseInitializer = new MigrateDatabaseToLatestVersion<AngleOkContext, Configuration>(true);
