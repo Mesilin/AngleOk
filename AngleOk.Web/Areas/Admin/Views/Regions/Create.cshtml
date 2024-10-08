@@ -1,0 +1,32 @@
+﻿@model Data.AngleOk.Model.Models.Region
+
+@{
+    ViewData["Title"] = "Добавить новый регион";
+}
+<h2>Добавить новый регион</h2>
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EnglishName" class="control-label"></label>
+        <input asp-for="EnglishName" class="form-control" />
+        <span asp-validation-for="EnglishName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CountryId">Страна</label>
+        <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId">
+            <option value="">-- Выберите страну --</option>
+        </select>
+        <span asp-validation-for="CountryId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Создать" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>

@@ -1,0 +1,42 @@
+﻿@model System.Collections.Generic.List<Data.AngleOk.Model.Models.Country>
+
+@{
+    ViewData["Title"] = "Страны"; 
+}
+
+<h2>Страны</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Создать</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Наименование</th>
+        <th>Полное наименование</th>
+        <th>Наименование на англ. языке</th>
+        <th>Код Alpha2</th>
+        <th>Код Alpha3</th>
+        <th>Код ISO</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.FullName</td>
+            <td>@item.EnglishName</td>
+            <td>@item.Alpha2</td>
+            <td>@item.Alpha3</td>
+            <td>@item.Iso</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Редактировать</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Удалить</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

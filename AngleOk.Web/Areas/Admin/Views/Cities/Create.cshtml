@@ -1,0 +1,70 @@
+﻿@model Data.AngleOk.Model.Models.City
+
+@{
+    ViewData["Title"] = "Добавить новый город";
+}
+<h2>Добавить новый город</h2>
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Population" class="control-label"></label>
+        <input asp-for="Population" class="form-control" />
+        <span asp-validation-for="Population" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label>Страна</label>
+        <select class="form-control" asp-items="ViewBag.CountryId" id="countryDropdown">
+            <option value="">-- Выберите страну --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RegionId">Регион</label>
+        <select asp-for="RegionId" class="form-control" asp-items="ViewBag.RegionId" id="regionDropdown">
+            <option value="">-- Выберите регион --</option>
+        </select>
+        <span asp-validation-for="RegionId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Создать" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#countryDropdown').change(function () {
+                var countryId = $(this).val();
+                if (countryId) {
+                    $.ajax({
+                        url: '@Url.Action("GetRegionsByCountry", "Cities")',
+                        type: 'GET',
+                        data: { countryId: countryId },
+                        success: function (regions) {
+                            $('#regionDropdown').empty();
+                            $('#regionDropdown').append('<option value="">-- Выберите регион --</option>');
+                            $.each(regions, function (index, region) {
+                                $('#regionDropdown').append('<option value="' + region.id + '">' + region.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#countryDropdown').empty();
+                    $('#countryDropdown').append('<option value="">-- Выберите страну --</option>');
+                    $('#regionDropdown').empty();
+                    $('#regionDropdown').append('<option value="">-- Выберите регион --</option>');
+                }
+            });
+        });
+    </script>
+}

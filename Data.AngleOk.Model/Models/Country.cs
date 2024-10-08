@@ -40,7 +40,7 @@ namespace Data.AngleOk.Model.Models
 		[StringLength(3)]
 		public string Alpha3 { get; set; } = null!;
 
-		[DisplayName("Iso код по ISO 3166-1")]
+		[DisplayName("Код по ISO 3166-1")]
 		[Comment("Iso код по ISO 3166-1")]
 		public int Iso{ get; set; }
 	}
