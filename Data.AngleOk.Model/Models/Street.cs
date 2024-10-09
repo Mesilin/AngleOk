@@ -22,6 +22,6 @@ namespace Data.AngleOk.Model.Models
 		
 		[ForeignKey("CityId")]
 		[Comment("Город")]
-		public virtual City City { get; set; } = null!;
+		public virtual City? City { get; set; } = null!;
 	}
 }

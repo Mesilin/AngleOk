@@ -124,8 +124,9 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 				}
 
 			}
-			return View(realtyObject);
-		}
+            //return View(realtyObject);
+            return RedirectToAction(nameof(Index));
+        }
 
 		/// <summary>
         /// GET: RealtyObject/Edit/5

@@ -15,7 +15,7 @@ namespace Data.AngleOk.Model.Models
 		public Guid CountryId { get; set; }
 
 		[ForeignKey("CountryId")]
-		public virtual Country Country { get; set; }
+		public virtual Country? Country { get; set; }
 
 		[DisplayName("Наименование")]
 		[Comment("Наименование")]

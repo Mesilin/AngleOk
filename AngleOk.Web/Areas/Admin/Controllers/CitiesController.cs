@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 namespace AngleOk.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
@@ -26,25 +27,16 @@ public class CitiesController(AngleOkContext context) : Controller
 
     [ValidateAntiForgeryToken]
     [HttpPost("Create")]
-    public async Task<IActionResult> Create(
-        [Bind("Id,RegionId,Name,Population")]
-        City city)
+    public async Task<IActionResult> Create([Bind("Id,RegionId,Name,Population")] City city)
     {
         if (ModelState.IsValid)
         {
-            try
-            {
-                city.Id = Guid.NewGuid();
-                context.Add(city);
-                await context.SaveChangesAsync();
-            }
-
-            catch (Exception e)
-            {
-                return BadRequest("Произошла ошибка:" + e.Message);
-            }
-
+            city.Id = Guid.NewGuid();
+            context.Add(city);
+            await context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
+
         return View(city);
     }
 

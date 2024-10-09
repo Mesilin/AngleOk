@@ -21,7 +21,12 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         {
             var viewModel = new AdvertisementCreateViewModel
             {
-                RealtyObjects = context.RealtyObjects.ToList(), 
+                RealtyObjects = context.RealtyObjects
+                    .Include(i => i.RealtyObjectKind)
+                    .Include(i => i.Street)
+                    .ThenInclude(i => i.City)
+                    .ThenInclude(i => i!.Region)
+                    .ThenInclude(i => i.Country).ToList(), 
                 Clients = context.Clients.ToList(),
                 Managers = context.Employees.Where(w => w.Position == "Менеджер").ToList(),
                 DealTypes = context.DealTypes.ToList()
@@ -41,7 +46,12 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-	            var realtyObject = context.RealtyObjects.FirstOrDefault(r => r.Id == viewModel.SelectedRealtyObjectId);
+	            var realtyObject = context.RealtyObjects
+                    .Include(i => i.RealtyObjectKind)
+                    .Include(i => i.Street)
+                    .ThenInclude(i => i.City)
+                    .ThenInclude(i => i!.Region)
+                    .ThenInclude(i => i.Country).FirstOrDefault(r => r.Id == viewModel.SelectedRealtyObjectId);
 
                 if (realtyObject != null)
                 {
@@ -68,7 +78,12 @@ namespace AngleOk.Web.Areas.Admin.Controllers
             }
 
             // Перезагрузка данных в случае ошибки
-            viewModel.RealtyObjects = context.RealtyObjects.ToList();
+            viewModel.RealtyObjects = context.RealtyObjects
+                .Include(i => i.RealtyObjectKind)
+                .Include(i => i.Street)
+                .ThenInclude(i => i.City)
+                .ThenInclude(i => i!.Region)
+                .ThenInclude(i => i.Country).ToList();
             viewModel.Clients = context.Clients.ToList();
             viewModel.Managers = context.Employees.Where(w=>w.Position=="Менеджер").ToList();
             viewModel.DealTypes = context.DealTypes.ToList();
@@ -83,15 +98,18 @@ namespace AngleOk.Web.Areas.Admin.Controllers
         [HttpGet("Index")]
         public async Task<IActionResult> Index()
         {
-	        var ads = await context.Advertisements
-				.Include(a => a.RealtyObject)
-					.ThenInclude(i=>i!.RealtyObjectKind)
-				.Include(a => a.Manager)
-				.Include(a => a.Client)
-				.Include(a => a.DealType)
-				.OrderBy(o=>o.DealType!.DealTypeName)
-				.ToListAsync();
-	        return View(ads);
+            var ads = await context.Advertisements
+                .Include(a => a.RealtyObject)
+                    .ThenInclude(i => i!.RealtyObjectKind)
+                .Include(a => a.RealtyObject)
+                    .ThenInclude(i => i!.Street).ThenInclude(i => i.City).ThenInclude(i => i!.Region).ThenInclude(i => i.Country)
+                .Include(a => a.Manager)
+                .Include(a => a.Client)
+                .Include(a => a.DealType)
+                .OrderBy(o => o.DealType!.DealTypeName)
+                .ToListAsync();
+
+            return View(ads);
         }
 
 		/// <summary>

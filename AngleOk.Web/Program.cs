@@ -55,16 +55,16 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 AngleOkContext context = new AngleOkContext(ob.Options);
 
-if (!context.Database.CanConnect())
-{
-	var databaseName = context.Database.GetDbConnection().Database;
-	var host = context.Database.GetDbConnection().DataSource;
+//if (!context.Database.CanConnect())
+//{
+//	var databaseName = context.Database.GetDbConnection().Database;
+//	var host = context.Database.GetDbConnection().DataSource;
 
-	Console.ForegroundColor=ConsoleColor.Red;
-	Console.WriteLine($"Не удалось выполнить подключение к базе данных '{databaseName}' по адресу {host}.\nПродолжение работы невозможно.\nПроверьте настройки подключения в appsettings.json");
-	Console.ReadKey();
-	return;
-}
+//	Console.ForegroundColor=ConsoleColor.Red;
+//	Console.WriteLine($"Не удалось выполнить подключение к базе данных '{databaseName}' по адресу {host}.\nПродолжение работы невозможно.\nПроверьте настройки подключения в appsettings.json");
+//	Console.ReadKey();
+//	return;
+//}
 
 context.Database.Migrate();
 

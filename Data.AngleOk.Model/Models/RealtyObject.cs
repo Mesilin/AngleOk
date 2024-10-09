@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.AngleOk.Model.Models
@@ -129,14 +130,14 @@ namespace Data.AngleOk.Model.Models
 	public class LatitudeValidationAttribute : ValidationAttribute
     {
 	    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-	    {
-		    if (!decimal.TryParse((string)value, out _))
-			    return new ValidationResult("Введите корректное значение широты");
-
+        {
             if (value is null || value == "")
                 return new ValidationResult("Широта не может быть пустой");
+            //todo Обработать разные decimal separator 
+            var strVal = (string)value;
+            if (!decimal.TryParse(strVal, out var latitude))
+			    return new ValidationResult("Введите корректное значение широты");
 
-            var latitude = Convert.ToDecimal(value);
 		    if (latitude < -90m || latitude > 90m)
 			    return new ValidationResult("Значение широты должно быть в диапазоне от -90° до +90°");
 
@@ -156,8 +157,9 @@ namespace Data.AngleOk.Model.Models
 	    {
 		    if (!decimal.TryParse((string)value, out _))
 			    return new ValidationResult("Введите корректное значение долготы");
+            //todo Обработать разные decimal separator 
 
-		    if (!_mayBeEmpty && (value is null || value == ""))
+            if (!_mayBeEmpty && (value is null || value == ""))
 				return new ValidationResult("долгота не может быть пустой");
 
 		    var latitude = Convert.ToDecimal(value);

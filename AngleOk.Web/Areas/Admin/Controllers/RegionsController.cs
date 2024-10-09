@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 namespace AngleOk.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
@@ -29,19 +30,12 @@ public class RegionsController(AngleOkContext context) : Controller
     {
         if (ModelState.IsValid)
         {
-            try
-            {
-                region.Id = Guid.NewGuid();
-                context.Add(region);
-                await context.SaveChangesAsync();
-            }
-
-            catch (Exception e)
-            {
-                return BadRequest("Произошла ошибка:" + e.Message);
-            }
-
+            region.Id = Guid.NewGuid();
+            context.Add(region);
+            await context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
+
         return View(region);
     }
 
