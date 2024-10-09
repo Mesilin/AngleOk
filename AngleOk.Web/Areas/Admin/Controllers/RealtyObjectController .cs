@@ -67,6 +67,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 		{
 			ViewData["RealtyObjectKindId"] = new SelectList(context.RealtyObjectKinds, "Id", "RealtyObjectKindName");
 			ViewData["CityId"] = new SelectList(context.Cities, "Id", "Name");
+			ViewData["StreetId"] = new SelectList(context.Streets, "Id", "Name");
 			return View();
         }
 
@@ -116,7 +117,8 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 
 					context.Add(realtyObject);
 					await context.SaveChangesAsync();
-				}
+                    return RedirectToAction(nameof(Index));
+                }
 
 				catch (Exception e)
 				{
@@ -124,8 +126,11 @@ namespace AngleOk.Web.Areas.Admin.Controllers
 				}
 
 			}
-            //return View(realtyObject);
-            return RedirectToAction(nameof(Index));
+            ViewData["RealtyObjectKindId"] = new SelectList(context.RealtyObjectKinds, "Id", "RealtyObjectKindName");
+			ViewData["StreetId"] = new SelectList(context.Streets, "Id", "Name");
+            ViewData["CityId"] = new SelectList(context.Cities, "Id", "Name");
+            return View(realtyObject);
+            
         }
 
 		/// <summary>

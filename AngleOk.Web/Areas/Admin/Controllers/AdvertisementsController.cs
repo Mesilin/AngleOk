@@ -102,7 +102,7 @@ namespace AngleOk.Web.Areas.Admin.Controllers
                 .Include(a => a.RealtyObject)
                     .ThenInclude(i => i!.RealtyObjectKind)
                 .Include(a => a.RealtyObject)
-                    .ThenInclude(i => i!.Street).ThenInclude(i => i.City).ThenInclude(i => i!.Region).ThenInclude(i => i.Country)
+                    .ThenInclude(i => i!.Street).ThenInclude(i => i!.City).ThenInclude(i => i!.Region).ThenInclude(i => i!.Country)
                 .Include(a => a.Manager)
                 .Include(a => a.Client)
                 .Include(a => a.DealType)
