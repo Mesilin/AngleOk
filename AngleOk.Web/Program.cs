@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Globalization;
+using System.Net.Sockets;
 using System.Runtime.CompilerServices;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -54,6 +56,25 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 
 AngleOkContext context = new AngleOkContext(ob.Options);
+
+try
+{
+    context.Database.OpenConnection();
+}
+
+catch (Exception e)
+{
+    if (e.InnerException!=null && e.InnerException.Message.ToLower().Contains("failed to connect"))
+    {
+        var host = context.Database.GetDbConnection().DataSource;
+        throw new Exception(
+            $"Не удалось выполнить подключение к СУБД по адресу {host}. Продолжение работы невозможно. Проверьте настройки подключения в appsettings.json");
+    }
+}
+finally
+{
+    context.Database.CloseConnection();
+}
 
 //if (!context.Database.CanConnect())
 //{

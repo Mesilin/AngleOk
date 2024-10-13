@@ -31,7 +31,7 @@ namespace Data.AngleOk.Model.Models
 
 		[Comment("Почтовый индекс")]
 		[Display(Name = "Почтовый индекс")]
-		[RegularExpression(@"\d{0,6}", ErrorMessage = "Некорректный индекс")]
+		[RegularExpression(@"\d{6}", ErrorMessage = "Некорректный индекс")]
 		public int? PostalCode { get; set; }
 
 		public Guid? StreetId { get; set; }
